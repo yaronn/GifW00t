@@ -1,0 +1,26 @@
+{
+  "title": "anigif",
+  "name": "anigif",
+  "description": "",
+  "version": "0.0.1",
+  "author": {
+    "name":"Yaron Naveh (@YaronNaveh)"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "dependencies": {
+    "html2canvas": "git+https://github.com/yaronn/html2canvas.git"
+  },
+  "devDependencies":{
+    "grunt": ">=0.4.0",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-jshint": "*"
+  },
+  "homepage": "",
+  "licenses": [{
+    "type": "MIT"
+  }]
+
+}
