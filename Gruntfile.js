@@ -24,12 +24,21 @@ module.exports = function(grunt) {
     },
     
     concat: {
-      dist: {
+      anigif: {
         src: [
           'src/*.js',
-          './html2canvas/build/html2canvas.js'
+          'html2canvas/build/html2canvas.js',
+          'node_modules/async/lib/async.js'
         ],
         dest: 'build/<%= pkg.name %>.js'
+      },
+      gifgenerator: {
+        src: [
+          'jsgif/LZWEncoder.js',
+          'jsgif/NeuQuant.js',
+          'jsgif/GIFEncoder.js',
+        ],
+        dest: 'build/gif-generator.js'
       },
       options:{
         banner: meta.banner + meta.pre,
@@ -75,8 +84,8 @@ module.exports = function(grunt) {
     },
     
     watch: {
-      files: ['<%= concat.dist.src %>', 'test/*'],
-      tasks: ['clean', 'jshint', 'copy', 'concat',  'uglify']
+      files: ['<%= concat.anigif.src %>', 'test/*'],
+      tasks: ['default']
     }
   });
 
@@ -89,9 +98,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-shell');
 
-
-  grunt.registerTask('build', ['clean', 'shell', 'copy', 'concat', 'uglify']);
-  grunt.registerTask('default', ['clean', 'shell', 'jshint', 'copy', 'concat',  'uglify']);
+  grunt.registerTask('full', ['clean', 'shell', 'jshint', 'copy', 'concat', 'uglify']);
+  grunt.registerTask('default', ['copy', 'concat']);
   
   
 

@@ -9,7 +9,9 @@
   "engines": {
     "node": ">=0.8.0"
   },
-  "dependencies": {},
+  "dependencies": {
+      "async": ">=0.2.9"
+  },
   "devDependencies": {
     "grunt": ">=0.4.0",
     "grunt-contrib-concat": "*",

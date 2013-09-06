@@ -1,12 +1,17 @@
 <html>
     
 <head>
+    <script src="anigif.js"></script>
+    <script src="gif-generator.js"></script>
 </head>
 
 <body>
-    <h1>Hello Anigif!</h1>
-    <input type="text" />
-    <button>click me2!</button>
+    <div id="main">
+        <h1>Hello Anigif!</h1>
+        <input type="text" />
+        <button onclick="javascript:window.anigif.startRecord()">start</button>
+        <button onclick="javascript:window.anigif.stopRecord()">stop</button>
+    </div>
 </body>
 
 </html>

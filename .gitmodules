@@ -1,3 +1,6 @@
 [submodule "html2canvas"]
 	path = html2canvas
 	url = git@github.com:yaronn/html2canvas.git
+[submodule "jsgif"]
+	path = jsgif
+	url = git@github.com:antimatter15/jsgif.git
