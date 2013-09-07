@@ -86,6 +86,17 @@ module.exports = function(grunt) {
     watch: {
       files: ['<%= concat.anigif.src %>', 'test/*'],
       tasks: ['default']
+    },
+    simplemocha: {
+        options: {
+          globals: ['should'],
+          timeout: 30000,
+          ignoreLeaks: false,
+          ui: 'bdd',
+          reporter: 'tap'
+        },
+    
+        all: { src: ['test/**/*.js'] }
     }
   });
 
@@ -97,8 +108,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-simple-mocha');
 
-  grunt.registerTask('full', ['clean', 'shell', 'jshint', 'copy', 'concat', 'uglify']);
+  grunt.registerTask('full', ['clean', 'shell:buildHtml2canvas', 'jshint', 'copy', 'concat', 'uglify', 'simplemocha']);
+  grunt.registerTask('test', ['copy', 'concat', 'simplemocha']);
   grunt.registerTask('default', ['copy', 'concat']);
   
   

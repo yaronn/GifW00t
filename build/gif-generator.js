@@ -2,7 +2,7 @@
   anigif 0.0.1
   Copyright (c) 2013 Yaron Naveh (@YaronNaveh)
 
-  Released under MIT License
+  Released under GPL V3 License
 */
 (function(window, document){
 

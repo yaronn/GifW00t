@@ -2,7 +2,7 @@
   anigif 0.0.1
   Copyright (c) 2013 Yaron Naveh (@YaronNaveh)
 
-  Released under MIT License
+  Released under GPL V3 License
 */
 (function(window, document){
 
@@ -18,13 +18,19 @@
         init: function() {
             this.frames = [];
             this.images = [];
+            this._log = "";
+        },
+        
+        log: function(str) {
+            console.log(str);
+            this._log += str + "\r\n";
         },
         
         startRecord: function(opts) {
             
             var options = opts || {
                 maxFrames: 3,
-                frameInterval: 1700,
+                frameInterval: 1500,
                 el: document.getElementById("main")
             };
             
@@ -56,7 +62,7 @@
             window.html2canvas( [ this.frames[i] ], {
                 onrendered: function(canvas) {
                     var img = canvas.toDataURL("image/png");
-                    console.log(img);
+                    self.log(img);
                     self.images.push(canvas);
                     self.frames[i].parentElement.removeChild(self.frames[i]);
                     cbx();
@@ -65,7 +71,7 @@
         },
         
         composeAnimatedGif: function() {
-            var encoder = new GIFEncoder();
+            var encoder = new window.GIFEncoder();
             encoder.setRepeat(0); //auto-loop
             encoder.setDelay(1000);
             encoder.start();
@@ -74,8 +80,8 @@
                 encoder.addFrame(context);
             }
             encoder.finish();
-            console.log("final: ");
-            console.log('data:image/gif;base64,'+window.encode64(encoder.stream().getData()));
+            this.log("final: ");
+            this.log('data:image/gif;base64,'+window.encode64(encoder.stream().getData()));
         }
         
     };
