@@ -24,32 +24,25 @@ describe('Record site', function(){
     
     it('should create correct visual', function(done){
       browser.init({browserName:'chrome'}, function(err) {
-        browser.get("https://c9.io/yaronn01/anigif/workspace/build/simple.html", function(err) {
+        browser.get("https://c9.io/yaronn01/anigif/workspace/test/simple.html", function(err) {
             
             browser.elementById('txt', function(err, edit) {
                 browser.elementById('start', function(err, start) {
                     browser.clickElement(start, function() {
                         setTimeout(function() {
-                            
                             edit.sendKeys("1", function() {
                                 setTimeout(function() {
                                     browser.elementById('stop', function(err, end) {
                                         browser.clickElement(end, function() {
                                             browser.eval("window.anigif._log", function(err, str) {
-                                                //console.log(str);
                                                 var gif = /final:\s*data:image\/gif;base64,(.*)/g.exec(str)[1]
                                                 var expected = fs.readFileSync("test/simple.base64").toString().replace(/\s/g, "") ;
-                                                //console.log(gif)
-                                                //console.log(expected)
                                                 assert.equal(expected, gif, "actuall and expected images differ")
                                                 done()    
                                             })
                                         })
-                                        
                                     })
-                                    
                                 }, 2500);
-                                
                             })
                             
                         }, 2000)

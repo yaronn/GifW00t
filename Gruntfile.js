@@ -45,13 +45,6 @@ module.exports = function(grunt) {
         footer: meta.post
       }
     },
-    copy: {
-      main: {
-        files: [
-          {expand: true, flatten: true, src: ['test/*'], dest: 'build/', filter: 'isFile'}
-        ]
-      }
-    },
 
     uglify: {
       dist: {
@@ -84,7 +77,7 @@ module.exports = function(grunt) {
     },
     
     watch: {
-      files: ['<%= concat.anigif.src %>', 'test/*'],
+      files: ['src/*', 'test/*'],
       tasks: ['default']
     },
     simplemocha: {
@@ -110,10 +103,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-simple-mocha');
 
-  grunt.registerTask('full', ['clean', 'shell:buildHtml2canvas', 'jshint', 'copy', 'concat', 'uglify', 'simplemocha']);
-  grunt.registerTask('test', ['copy', 'concat', 'simplemocha']);
-  grunt.registerTask('default', ['copy', 'concat']);
-  
-  
-
+  grunt.registerTask('full', ['clean', 'shell:buildHtml2canvas', 'jshint',  'concat', 'uglify', 'simplemocha']);
+  grunt.registerTask('test', ['concat', 'simplemocha']);
+  grunt.registerTask('default', ['concat']);
 };
