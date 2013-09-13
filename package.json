@@ -24,7 +24,11 @@
     "grunt-simple-mocha": "~0.4.0",
     "wd": "~0.1.2",
     "grunt-targethtml": "~0.2.4",
-    "http-server": "0.5.5"
+    "http-server": "git+https://github.com/yaronn/http-server.git"
+  },
+  "scripts": {
+      "test": "grunt test",
+      "server": "./node_modules/http-server/bin/http-server ./ -p $PORT -a $IP"
   },
   "homepage": "",
   "licenses": [

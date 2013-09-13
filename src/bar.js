@@ -11,6 +11,7 @@ window.anigif_bar = {
                 div.style.position = "fixed";
                 div.style.right = "5%";
                 div.style.top="5%";
+                div.style.zIndex=99999
                 div.innerHTML = html;
                 document.body.appendChild(div)
                 self.init(div)
@@ -51,10 +52,25 @@ window.anigif_bar = {
         },
         
         record: function(el) {
+            var self = this;
             this.setEnabled({record: false, stop: true, play: false})
-            el.className = "blink"
-            this.status("recording...")
-            window.anigif.startRecord(this.recordOptions);
+            this.count(3, function() {
+                el.className = "blink"
+                self.status("recording...")
+                window.anigif.startRecord(self.recordOptions);    
+            })
+        },
+        
+        count: function(seconds, cba) {
+            var self = this;
+            if (seconds==0) cba();
+            else {
+                self.status(seconds);
+                window.setTimeout(function() {self.count(seconds-1, cba)}, 1000);
+            }
+            
+            
+            
         },
         
         stop: function(el) {
@@ -63,7 +79,9 @@ window.anigif_bar = {
             self.el.querySelectorAll("#record")[0].className = "";
             self.setEnabled({record: false, stop: false, play: false})
             document.body.style.cursor = "wait";
-            window.setTimeout(function() {self.stopInternal()}, 200);
+            
+            //timeout - give the browser a chance to update the cusror
+            window.setTimeout(function() {self.stopInternal()}, 100);
         },
         
         stopInternal: function() {
