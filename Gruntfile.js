@@ -117,7 +117,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-simple-mocha');
   grunt.loadNpmTasks('grunt-targethtml');
 
-  grunt.registerTask('default', ['clean', 'targethtml:prod', 'targethtml:dev', 'concat']);
+  grunt.registerTask('default', ['targethtml:dev']);
   grunt.registerTask('full', ['clean', 'shell:buildHtml2canvas', 'jshint',  'targethtml:prod', 'targethtml:dev', 'concat', 'uglify']);
   grunt.registerTask('test', ['simplemocha']);
 };

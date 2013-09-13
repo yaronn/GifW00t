@@ -18,13 +18,22 @@
             this._log += str + "\r\n";
         },
         
+        merge_options: function(obj1,obj2){
+            var obj3 = {};
+            for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
+            for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
+            return obj3;
+        },
+
         startRecord: function(opts) {
             
-            var options = opts || {
+            this.init();
+            
+            var options = this.merge_options({
                 maxFrames: 3,
                 frameInterval: 1500,
                 el: document.getElementById("main")
-            };
+            }, opts);
             
             this.recordFrame(options);
         },
@@ -40,10 +49,11 @@
             }
         },
         
-        stopRecord: function() {
+        stopRecord: function(cba) {
             var self = this;
             async.times(this.frames.length, self.renderImage.bind(self), function(err){
-                self.composeAnimatedGif();        
+                self.composeAnimatedGif();
+                cba();
             });
         },
         
@@ -73,7 +83,8 @@
             }
             encoder.finish();
             this.log("final: ");
-            this.log('data:image/gif;base64,'+window.encode64(encoder.stream().getData()));
+            this.img = 'data:image/gif;base64,' + window.encode64(encoder.stream().getData())
+            this.log(this.img);
         }
         
     };

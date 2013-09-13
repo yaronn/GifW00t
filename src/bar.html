@@ -1,0 +1,100 @@
+
+<style>
+    
+    #anigif_bar div {float: left; padding: 3px;}
+    #anigif_bar div img {width: 22px; cursor: hand;}
+
+    #anigif_bar div img.disabled {
+        opacity: 0.4;
+        filter: alpha(opacity=40); /* msie */
+        cursor: default;
+    }
+
+     #anigif_bar div img.blink {
+        -webkit-animation: blink 2s;
+        -webkit-animation-iteration-count: infinite;
+        -moz-animation: blink 2s;
+        -moz-animation-iteration-count: infinite;
+        -o-animation: blink 2s;
+        -o-animation-iteration-count: infinite;
+    }
+
+    #anigif_bar {
+        overflow:hidden; 
+        width: 210px; 
+        border:1px solid black; 
+        background-color: lightgray; 
+        font-size: small;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+    }
+    
+    @-webkit-keyframes blink {
+        0% {
+            opacity: 1;
+        }
+        49% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+        
+    @-moz-keyframes blink {
+        0% {
+            opacity: 1;
+        }
+        49% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+    @-o-keyframes blink {
+        0% {
+            opacity: 1;
+        }
+        49% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+
+    
+</style>
+
+<div id="anigif_bar">
+     <div>
+         <img id="record" src="https://c9.io/yaronn01/anigif/workspace/src/img/record.png" />
+     </div>
+     
+     <div>
+         <img id="stop" src="https://c9.io/yaronn01/anigif/workspace/src/img/stop.png" />
+     </div>
+     
+     <div>
+         <img id="play" src="https://c9.io/yaronn01/anigif/workspace/src/img/play.png" />
+     </div>
+     
+      <div id="status" style="margin-top: 3px; margin-left: 5px;">
+         text status here... this is 
+     </div>
+     
+</div>
+
+        
+</script>
