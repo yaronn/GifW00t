@@ -45,10 +45,23 @@ module.exports = function(grunt) {
         footer: meta.post
       }
     },
+    
+    targethtml: {
+      prod: {
+        files: {
+          'build/simple.html': 'test/simpleTemplate.html'
+        }
+      },
+       dev: {
+        files: {
+          'test/simple.html': 'test/simpleTemplate.html'
+        }
+      }
+    },
 
     uglify: {
       dist: {
-        src: ['<%= concat.dist.dest %>'],
+        src: ['<%= concat.anigif.dest %>'],
         dest: 'build/<%= pkg.name %>.min.js'
       },
       options: {
@@ -102,8 +115,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-simple-mocha');
+  grunt.loadNpmTasks('grunt-targethtml');
 
-  grunt.registerTask('full', ['clean', 'shell:buildHtml2canvas', 'jshint',  'concat', 'uglify', 'simplemocha']);
-  grunt.registerTask('test', ['concat', 'simplemocha']);
-  grunt.registerTask('default', ['concat']);
+  grunt.registerTask('default', ['clean', 'targethtml:prod', 'targethtml:dev', 'concat']);
+  grunt.registerTask('full', ['clean', 'shell:buildHtml2canvas', 'jshint',  'targethtml:prod', 'targethtml:dev', 'concat', 'uglify']);
+  grunt.registerTask('test', ['simplemocha']);
 };

@@ -22,7 +22,8 @@
     "grunt-contrib-watch": "~0.5.3",
     "grunt-shell": "~0.3.1",
     "grunt-simple-mocha": "~0.4.0",
-    "wd": "~0.1.2"
+    "wd": "~0.1.2",
+    "grunt-targethtml": "~0.2.4"
   },
   "homepage": "",
   "licenses": [

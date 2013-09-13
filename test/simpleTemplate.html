@@ -2,9 +2,17 @@
     
 <head>
     
-    
+    <!--(if target prod)>
         <script src="anigif.js"></script>
         <script src="gif-generator.js"></script>
+    <!(endif)-->
+    
+    <!--(if target dev)>
+        <script src="../src/anigif.js"></script>
+        <script src="../html2canvas/build/html2canvas.js"></script>
+        <script src="../build/gif-generator.js"></script>
+        <script src="../node_modules/async/lib/async.js"></script>
+    <!(endif)-->
     
 </head>
 
