@@ -2,7 +2,7 @@
 <style>
     
     #anigif_bar div {float: left; padding: 3px;}
-    #anigif_bar div img {width: 22px; cursor: pointer;}
+    #anigif_bar div img {width: 17px; cursor: pointer;}
 
     #anigif_bar div img.disabled {
         opacity: 0.4;
@@ -21,9 +21,12 @@
 
     #anigif_bar {
         overflow:hidden; 
-        width: 210px; 
-        border:1px solid black; 
-        background-color: lightgray; 
+        width: 180px; 
+        border:1px dashed rgba(0, 0, 0, .9); 
+        -webkit-background-clip: padding-box; //for safari
+        background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+        background: rgb(232, 232, 232); /* Fall-back for browsers that don't support rgba */
+        background: rgba(232, 232, 232, .5);
         font-size: small;
         -webkit-border-radius: 10px;
         -moz-border-radius: 10px;
@@ -90,7 +93,7 @@
          <img id="play" src="https://c9.io/yaronn01/anigif/workspace/src/img/play.png" />
      </div>
      
-      <div id="status" style="margin-top: 3px; margin-left: 5px;">
+      <div id="status" style="margin-top: 0px; margin-left: 5px;">
          text status here... this is 
      </div>
      

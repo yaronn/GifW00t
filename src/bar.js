@@ -6,6 +6,8 @@ window.anigif_bar = {
         install: function() {
             var self = this;
             
+            //document.querySelectorAll("[koo=zoo]")[0].src
+            
             this.downloadHtml("http://anigif.yaronn01.c9.io/src/bar.html", function(err, html) {
                 var div = document.createElement("div");
                 div.style.position = "fixed";
@@ -81,13 +83,19 @@ window.anigif_bar = {
             document.body.style.cursor = "wait";
             
             //timeout - give the browser a chance to update the cusror
-            window.setTimeout(function() {self.stopInternal()}, 100);
+            window.setTimeout(function() {self.stopInternal()}, 10);
         },
         
         stopInternal: function() {
+            var start = new Date().getTime();
             var self = this;
             window.anigif.stopRecord(function() {
                 self.status("done");
+                
+                var end = new Date().getTime();
+            	var time = end - start;
+            	console.log("duration: " + time)
+            	
                 document.body.style.cursor = "default";
                 self.setEnabled({record: true, stop: false, play: true})
             })
@@ -113,12 +121,16 @@ function install() {
    window.anigif_bar.install(); 
 }
 
-if(window.addEventListener){
-    window.addEventListener('load',install,false); //W3C
+if (document.readyState === 'complete') {
+   install()
 }
-else{
-    window.attachEvent('onload',install); //IE
+else {
+    if(window.addEventListener){
+        window.addEventListener('load',install,false); //W3C
+    }
+    else{
+        window.attachEvent('onload',install); //IE
+    }
 }
-
 
 })(window,document);

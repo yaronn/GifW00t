@@ -11,6 +11,7 @@
             this.frames = [];
             this.images = [];
             this._log = "";
+            this.continue = true;
         },
         
         log: function(str) {
@@ -30,8 +31,8 @@
             this.init();
             
             var options = this.merge_options({
-                maxFrames: 3,
-                frameInterval: 1500,
+                maxFrames: 30,
+                frameInterval: 1000,
                 el: document.getElementById("main")
             }, opts);
             
@@ -40,6 +41,7 @@
         
         recordFrame: function(options) {
             var self = this;
+            if (!this.continue) return;
             this.frames.push(options.el.cloneNode(true));
             console.log("took snapshot");
             if (this.frames.length<options.maxFrames) {
@@ -51,7 +53,8 @@
         
         stopRecord: function(cba) {
             var self = this;
-            async.times(this.frames.length, self.renderImage.bind(self), function(err){
+            this.continue = false;
+            async.timesSeries(this.frames.length, self.renderImage.bind(self), function(err){
                 self.composeAnimatedGif();
                 cba();
             });
@@ -75,7 +78,7 @@
         composeAnimatedGif: function() {
             var encoder = new window.GIFEncoder();
             encoder.setRepeat(0); //auto-loop
-            encoder.setDelay(1000);
+            encoder.setDelay(500);
             encoder.start();
              for (var i=0; i<this.images.length; i++) {
                 var context = this.images[i].getContext('2d');
