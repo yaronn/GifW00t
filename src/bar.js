@@ -40,7 +40,7 @@ window.anigif_bar = {
             this.status("ready")
             
             var buttons = ["record", "stop", "play"];
-            for (var i in buttons) {
+            for (var i=0; i<buttons.length; i++) {
                 this.el.querySelectorAll("#"+buttons[i])[0].onclick = function(e) {self.click(e)};
             }
             
@@ -107,8 +107,8 @@ window.anigif_bar = {
         },
         
         setEnabled: function(buttons) {
-            for (var b in buttons) {
-                this.el.querySelectorAll("#"+b)[0].className = buttons[b]?"":"disabled";
+            for (var i=0; i<buttons.length; i++) {
+                this.el.querySelectorAll("#"+b)[0].className = buttons[i]?"":"disabled";
             }
         },
         
