@@ -1,0 +1,30 @@
+{
+  "name": "fabric",
+  "description": "Object model for HTML5 canvas, and SVG-to-canvas parser. Backed by jsdom and node-canvas.",
+  "version": "1.2.0",
+  "author": "Juriy Zaytsev <kangax@gmail.com>",
+  "keywords": ["canvas", "graphic", "graphics", "SVG", "node-canvas", "parser", "HTML5", "object model"],
+  "repository": "git://github.com/kangax/fabric.js",
+  "licenses": [{
+    "type": "MIT",
+    "url": "http://github.com/kangax/fabric.js/raw/master/LICENSE"
+  }],
+  "scripts": {
+    "build": "node build.js modules=ALL exclude=json,cufon,gestures",
+    "test": "node test.js && jshint src"
+  },
+  "dependencies": {
+    "canvas": "1.0.x",
+    "jsdom": "0.5.6",
+    "xmldom": "0.1.x"
+  },
+  "devDependencies": {
+    "qunit": "0.5.x",
+    "jshint": "1.1.x",
+    "uglify-js": "2.2.x",
+    "execSync": "0.0.4",
+    "plato": "0.5.0"
+  },
+  "engines": { "node": ">=0.4.0 && <1.0.0" },
+  "main": "./dist/all.js"
+}

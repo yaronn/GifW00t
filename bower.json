@@ -1,0 +1,6 @@
+{
+  "name": "anigif",
+  "dependencies": {
+    "fabric": ">=1.2.0"
+  }
+}

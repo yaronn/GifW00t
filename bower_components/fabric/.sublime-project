@@ -1,0 +1,13 @@
+{
+    "folders":
+    [
+        {
+            "path": ".",
+            "folder_exclude_patterns": ["tmp", "log", "node_modules", "docs", "jsdoc-toolkit"],
+            "file_exclude_patterns": ["*.min.js", "*.gz", "*.sublime-workspace"]
+        }
+    ],
+    "settings": {
+        "tab_size": 2
+    }
+}

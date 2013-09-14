@@ -31,7 +31,7 @@
             this.init();
             
             var options = this.merge_options({
-                maxFrames: 30,
+                maxFrames: 100,
                 frameInterval: 1000,
                 el: document.getElementById("main")
             }, opts);
@@ -42,13 +42,40 @@
         recordFrame: function(options) {
             var self = this;
             if (!this.continue) return;
-            this.frames.push(options.el.cloneNode(true));
+            this.frames.push(this.cloneDom(options.el));
             console.log("took snapshot");
             if (this.frames.length<options.maxFrames) {
                 window.setTimeout(function() {
                     self.recordFrame(options);
                     }, options.frameInterval);
             }
+        },
+        
+        cloneDom: function(el) {
+            var clone = el.cloneNode(true);
+            var sourceCanvas = el.getElementsByTagName("canvas");
+            var cloneCanvas = clone.getElementsByTagName("canvas");
+            for (var i=0; i< sourceCanvas.length; i++) {
+                var newCanvas = this.cloneCanvas(sourceCanvas[i])
+                cloneCanvas[i].parentElement.replaceChild(newCanvas, cloneCanvas[i])
+            }
+            return clone;
+        },
+        
+       cloneCanvas: function(oldCanvas) {
+            //create a new canvas
+            var newCanvas = document.createElement('canvas');
+            var context = newCanvas.getContext('2d');
+        
+            //set dimensions
+            newCanvas.width = oldCanvas.width;
+            newCanvas.height = oldCanvas.height;
+        
+            //apply the old canvas to the new one
+            context.drawImage(oldCanvas, 0, 0);
+        
+            //return the new canvas
+            return newCanvas;
         },
         
         stopRecord: function(cba) {
@@ -63,6 +90,7 @@
         renderImage: function(i, cbx) {
             var self = this;
             document.body.appendChild(this.frames[i]);
+            this.replaceSvgWithCanvas(this.frames[i]);
 
             window.html2canvas( [ this.frames[i] ], {
                 onrendered: function(canvas) {
@@ -74,6 +102,38 @@
                 }
             });
         },
+        
+        replaceSvgWithCanvas: function(el) {
+            var self = this;
+            var serializer = new XMLSerializer();
+            var svgs = el.querySelectorAll("svg")
+            for (var i=0; i<svgs.length; i++) {
+                var str = serializer.serializeToString(svgs[i]);
+                var canvasEl = document.createElement("canvas");
+                canvasEl.id="canvas"+i;
+                svgs[i].parentElement.replaceChild(canvasEl, svgs[i]);  
+                self.buildCanvasFromSvg(i, canvasEl, str, null);
+            }
+        },
+        
+        buildCanvasFromSvg: function(id, canvasEl, svgstr, cba) {
+            var canvas;
+            
+            fabric.loadSVGFromString(svgstr, function(objects, options) {
+              
+              var shape = fabric.util.groupSVGElements(objects, options);
+        
+              canvasEl.width = shape.width || 600;
+              canvasEl.height = shape.height || 600;
+        
+              canvas = new fabric.StaticCanvas('canvas'+id, { backgroundColor: '#fff' });
+              canvas.add(shape);
+              shape.center();
+              canvas.renderAll();
+              if (cba) cba(null, canvas);
+            });
+         },
+          
         
         composeAnimatedGif: function() {
             var encoder = new window.GIFEncoder();
