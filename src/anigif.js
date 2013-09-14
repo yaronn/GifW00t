@@ -53,13 +53,40 @@
         
         cloneDom: function(el) {
             var clone = el.cloneNode(true);
+            
             var sourceCanvas = el.getElementsByTagName("canvas");
             var cloneCanvas = clone.getElementsByTagName("canvas");
             for (var i=0; i< sourceCanvas.length; i++) {
                 var newCanvas = this.cloneCanvas(sourceCanvas[i])
                 cloneCanvas[i].parentElement.replaceChild(newCanvas, cloneCanvas[i])
             }
+            
+            var sourceVideos = el.getElementsByTagName("video");
+            var cloneVideos = clone.getElementsByTagName("video");
+            for (var i=0; i< sourceVideos.length; i++) {
+                var videoCanvas = this.getVideoCanvas(sourceVideos[i])
+                cloneVideos[i].parentElement.replaceChild(videoCanvas, cloneVideos[i])
+                //document.body.appendChild(videoCanvas);
+            }
+            
+            clone.id="unique___"+el.id;
+            
             return clone;
+        },
+        
+         getVideoCanvas: function(video) {
+            
+            var canvas = document.createElement("canvas");
+            
+            //try width/geigh -30? here and bellow
+            
+            canvas.width = video.clientWidth;
+            canvas.height = video.clientHeight;
+            
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(video,0,0,video.clientWidth,video.clientHeight);
+            
+            return canvas;
         },
         
        cloneCanvas: function(oldCanvas) {
@@ -89,18 +116,24 @@
         
         renderImage: function(i, cbx) {
             var self = this;
+            
             document.body.appendChild(this.frames[i]);
             this.replaceSvgWithCanvas(this.frames[i]);
 
-            window.html2canvas( [ this.frames[i] ], {
+            window.setTimeout(function() {
+           
+                window.html2canvas( [ self.frames[i] ], {
                 onrendered: function(canvas) {
                     var img = canvas.toDataURL("image/png");
                     self.log(img);
                     self.images.push(canvas);
-                    self.frames[i].parentElement.removeChild(self.frames[i]);
+                    //self.frames[i].parentElement.removeChild(self.frames[i]);
                     cbx();
                 }
-            });
+                });    
+                
+            }, 2000);
+            
         },
         
         replaceSvgWithCanvas: function(el) {
@@ -138,7 +171,7 @@
         composeAnimatedGif: function() {
             var encoder = new window.GIFEncoder();
             encoder.setRepeat(0); //auto-loop
-            encoder.setDelay(500);
+            encoder.setDelay(1000);
             encoder.start();
              for (var i=0; i<this.images.length; i++) {
                 var context = this.images[i].getContext('2d');
