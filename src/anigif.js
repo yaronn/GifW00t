@@ -127,12 +127,12 @@
                     var img = canvas.toDataURL("image/png");
                     self.log(img);
                     self.images.push(canvas);
-                    //self.frames[i].parentElement.removeChild(self.frames[i]);
+                    self.frames[i].parentElement.removeChild(self.frames[i]);
                     cbx();
                 }
                 });    
                 
-            }, 2000);
+            }, 0);
             
         },
         

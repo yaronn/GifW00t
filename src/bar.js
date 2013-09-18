@@ -8,7 +8,7 @@ window.anigif_bar = {
             
             //document.querySelectorAll("[koo=zoo]")[0].src
             
-            this.downloadHtml("http://anigif.yaronn01.c9.io/src/bar.html", function(err, html) {
+            this.downloadHtml("https://anigif-c9-yaronn01.c9.io/src/bar.html", function(err, html) {
                 var div = document.createElement("div");
                 div.style.position = "fixed";
                 div.style.right = "5%";
@@ -80,6 +80,7 @@ window.anigif_bar = {
             this.status("processing...")
             self.el.querySelectorAll("#record")[0].className = "";
             self.setEnabled({record: false, stop: false, play: false})
+            
             document.body.style.cursor = "wait";
             
             //timeout - give the browser a chance to update the cusror
@@ -107,8 +108,8 @@ window.anigif_bar = {
         },
         
         setEnabled: function(buttons) {
-            for (var i=0; i<buttons.length; i++) {
-                this.el.querySelectorAll("#"+b)[0].className = buttons[i]?"":"disabled";
+            for (var b in buttons) {
+                this.el.querySelectorAll("#"+b)[0].className = buttons[b]?"":"disabled";
             }
         },
         
