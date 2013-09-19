@@ -109,8 +109,9 @@
             var self = this;
             this.continue = false;
             async.timesSeries(this.frames.length, self.renderImage.bind(self), function(err){
-                self.composeAnimatedGif();
-                cba();
+                self.composeAnimatedGif(function(err) {
+                   cba(); 
+                });
             });
         },
         
@@ -168,8 +169,9 @@
          },
           
         
-        composeAnimatedGif: function() {
-            var encoder = new window.GIFEncoder();
+        composeAnimatedGif: function(cba) {
+            var self = this
+            var encoder = new window.GIFEncoder_WebWorker();
             encoder.setRepeat(0); //auto-loop
             encoder.setDelay(1000);
             encoder.start();
@@ -177,10 +179,22 @@
                 var context = this.images[i].getContext('2d');
                 encoder.addFrame(context);
             }
-            encoder.finish();
-            this.log("final: ");
+            
+            /*
+            encoder.finish()
             this.img = 'data:image/gif;base64,' + window.encode64(encoder.stream().getData())
             this.log(this.img);
+            cba(null)
+            */
+            
+            encoder.finish_async(function(err, data){
+                self.log("final: ");
+                //this.img = 'data:image/gif;base64,' + window.encode64(encoder.stream().getData())
+                self.img = 'data:image/gif;base64,' + window.encode64(data)
+                self.log(self.img);
+                cba(null)
+            });
+            
         }
         
     };

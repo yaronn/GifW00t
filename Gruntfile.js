@@ -37,6 +37,7 @@ module.exports = function(grunt) {
           'jsgif/LZWEncoder.js',
           'jsgif/NeuQuant.js',
           'jsgif/GIFEncoder.js',
+          'jsgif/GIFEncoder_WebWorker.js',
         ],
         dest: 'build/gif-generator.js'
       },
