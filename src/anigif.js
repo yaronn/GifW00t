@@ -10,13 +10,13 @@
         init: function() {
             this.frames = [];
             this.images = [];
-            this._log = "";
+            //this._log = "";
             this.continue = true;
         },
         
         log: function(str) {
-            console.log(str);
-            this._log += str + "\r\n";
+            //console.log(str);
+            //this._log += str + "\r\n";
         },
         
         merge_options: function(obj1,obj2){
@@ -32,7 +32,7 @@
             
             var options = this.merge_options({
                 maxFrames: 100,
-                frameInterval: 1000,
+                frameInterval: 250,
                 el: document.getElementById("main")
             }, opts);
             
@@ -173,7 +173,7 @@
             var self = this
             var encoder = new window.GIFEncoder_WebWorker();
             encoder.setRepeat(0); //auto-loop
-            encoder.setDelay(1000);
+            encoder.setDelay(250);
             encoder.start();
              for (var i=0; i<this.images.length; i++) {
                 var context = this.images[i].getContext('2d');
