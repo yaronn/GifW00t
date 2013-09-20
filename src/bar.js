@@ -56,7 +56,7 @@ window.anigif_bar = {
         record: function(el) {
             var self = this;
             this.setEnabled({record: false, stop: true, play: false})
-            this.count(3, function() {
+            this.count(1, function() {
                 el.className = "blink"
                 self.status("recording...")
                 window.anigif.startRecord(self.recordOptions);    

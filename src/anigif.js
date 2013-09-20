@@ -31,7 +31,7 @@
             this.init();
             
             var options = this.merge_options({
-                maxFrames: 100,
+                maxFrames: 200,
                 frameInterval: 250,
                 el: document.getElementById("main")
             }, opts);
@@ -124,13 +124,14 @@
             window.setTimeout(function() {
            
                 window.html2canvas( [ self.frames[i] ], {
-                onrendered: function(canvas) {
-                    var img = canvas.toDataURL("image/png");
-                    self.log(img);
-                    self.images.push(canvas);
-                    self.frames[i].parentElement.removeChild(self.frames[i]);
-                    cbx();
-                }
+                    onrendered: function(canvas) {
+                        //var img = canvas.toDataURL("image/png");
+                        //self.log(img);
+                        console.log("rendered image" + i)
+                        self.images.push(canvas);
+                        self.frames[i].parentElement.removeChild(self.frames[i]);
+                        cbx();
+                    }
                 });    
                 
             }, 0);
@@ -171,14 +172,17 @@
         
         composeAnimatedGif: function(cba) {
             var self = this
+            console.log("starting gif composition")
             var encoder = new window.GIFEncoder_WebWorker();
             encoder.setRepeat(0); //auto-loop
             encoder.setDelay(250);
             encoder.start();
              for (var i=0; i<this.images.length; i++) {
                 var context = this.images[i].getContext('2d');
+                
                 encoder.addFrame(context);
             }
+            
             
             /*
             encoder.finish()
