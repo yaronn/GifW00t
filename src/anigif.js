@@ -7,11 +7,23 @@
     
     window.anigif = {
         
+        initOnce: function() {
+            this.init()    
+            this.progressSink = null;
+        },
+        
         init: function() {
             this.frames = [];
+            this.totalFrames = 0;
+            this.renderedFrames = 0;
+            this.composedFrames = 0;
             this.images = [];
             //this._log = "";
             this.continue = true;
+        },
+        
+        progress: function(str) {
+            if (this.progressSink) this.progressSink(str)
         },
         
         log: function(str) {
@@ -31,7 +43,7 @@
             this.init();
             
             var options = this.merge_options({
-                maxFrames: 200,
+                onlyLastFrames: 50,
                 frameInterval: 250,
                 el: document.getElementById("main")
             }, opts);
@@ -43,12 +55,16 @@
             var self = this;
             if (!this.continue) return;
             this.frames.push(this.cloneDom(options.el));
-            console.log("took snapshot");
-            if (this.frames.length<options.maxFrames) {
-                window.setTimeout(function() {
-                    self.recordFrame(options);
-                    }, options.frameInterval);
+            if (this.frames.length>options.onlyLastFrames) {
+                this.frames.shift()
             }
+            this.progress(++this.totalFrames + " frames")
+            console.log("took snapshot");
+            
+            window.setTimeout(function() {
+                self.recordFrame(options);
+                }, options.frameInterval);
+        
         },
         
         cloneDom: function(el) {
@@ -127,6 +143,7 @@
                     onrendered: function(canvas) {
                         //var img = canvas.toDataURL("image/png");
                         //self.log(img);
+                        self.progress("rendered " + ++self.renderedFrames + "/" + self.frames.length)
                         console.log("rendered image" + i)
                         self.images.push(canvas);
                         self.frames[i].parentElement.removeChild(self.frames[i]);
@@ -191,19 +208,26 @@
             cba(null)
             */
             
-            encoder.finish_async(function(err, data){
+            var singleComplete = function() {
+                self.progress("compose " + ++self.composedFrames + "/" + self.frames.length)
+            }
+            
+            var done = function(err, data){
                 self.log("final: ");
                 //this.img = 'data:image/gif;base64,' + window.encode64(encoder.stream().getData())
                 self.img = 'data:image/gif;base64,' + window.encode64(data)
                 self.log(self.img);
                 cba(null)
-            });
+            }
+            
+            self.progress("compose 0/" + self.frames.length)
+            encoder.finish_async({singleComplete: singleComplete, done: done});
             
         }
         
     };
     
-    window.anigif.init();
+window.anigif.initOnce();
 
 
 window.encode64 = function(input) {

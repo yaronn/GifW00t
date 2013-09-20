@@ -17,7 +17,13 @@ window.anigif_bar = {
                 div.innerHTML = html;
                 document.body.appendChild(div)
                 self.init(div)
-            })              
+            })   
+            
+            
+            window.anigif.progressSink = function(msg) {
+                self.status(msg)
+            }
+            
         },
         
         downloadHtml: function(url, cba) {
@@ -71,13 +77,12 @@ window.anigif_bar = {
                 window.setTimeout(function() {self.count(seconds-1, cba)}, 1000);
             }
             
-            
-            
         },
         
         stop: function(el) {
             var self = this;
             this.status("processing...")
+            
             self.el.querySelectorAll("#record")[0].className = "";
             self.setEnabled({record: false, stop: false, play: false})
             
@@ -91,11 +96,13 @@ window.anigif_bar = {
             var start = new Date().getTime();
             var self = this;
             window.anigif.stopRecord(function() {
-                self.status("done");
+                
                 
                 var end = new Date().getTime();
             	var time = end - start;
             	console.log("duration: " + time)
+            	
+            	self.status("done (" + (time/1000).toFixed(2) + "s)");
             	
                 document.body.style.cursor = "default";
                 self.setEnabled({record: true, stop: false, play: true})
