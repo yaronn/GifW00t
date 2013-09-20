@@ -42,16 +42,30 @@ window.anigif_bar = {
             var self = this;
             this.el = el 
             
-            this.setEnabled({record: true, stop: false, play: false})
+            this.setEnabled({record: true, stop: false, play: false, config: true})
             this.status("ready")
             
-            var buttons = ["record", "stop", "play"];
+            var buttons = ["record", "stop", "play", "config"];
             for (var i=0; i<buttons.length; i++) {
                 this.el.querySelectorAll("#"+buttons[i])[0].onclick = function(e) {self.click(e)};
             }
             
-            this.recordOptions = {};
-            
+            this.loadConfig();
+              
+        },
+        
+        loadConfig: function() {
+            this.el.querySelectorAll("#cores")[0].value = window.anigif.options.cores;
+            this.el.querySelectorAll("#onlyLastFrames")[0].value = window.anigif.options.onlyLastFrames;
+            this.el.querySelectorAll("#frameInterval")[0].value = window.anigif.options.frameInterval;
+            this.el.querySelectorAll("#rootNode")[0].value = window.anigif.options.selector;
+        },
+        
+        saveConfig: function() {
+            window.anigif.options.cores = this.el.querySelectorAll("#cores")[0].value;
+            window.anigif.options.onlyLastFrames = this.el.querySelectorAll("#onlyLastFrames")[0].value;
+            window.anigif.options.frameInterval = this.el.querySelectorAll("#frameInterval")[0].value;
+            window.anigif.options.selector = this.el.querySelectorAll("#rootNode")[0].value;
         },
         
         click: function(e) {
@@ -59,13 +73,22 @@ window.anigif_bar = {
             this[source.id](e.target)
         },
         
+        closeConfig: function() {
+            this.el.querySelectorAll("#anigif_settings")[0].style.display = "none"
+        },
+        
+        config: function(el) {
+            var style = this.el.querySelectorAll("#anigif_settings")[0].style;
+            style.display = style.display=="block"? "none":"block";
+        },
+        
         record: function(el) {
             var self = this;
-            this.setEnabled({record: false, stop: true, play: false})
+            this.setEnabled({record: false, stop: true, play: false, config: false})
             this.count(1, function() {
                 el.className = "blink"
                 self.status("recording...")
-                window.anigif.startRecord(self.recordOptions);    
+                window.anigif.startRecord();
             })
         },
         
@@ -84,7 +107,7 @@ window.anigif_bar = {
             this.status("processing...")
             
             self.el.querySelectorAll("#record")[0].className = "";
-            self.setEnabled({record: false, stop: false, play: false})
+            self.setEnabled({record: false, stop: false, play: false, config: false})
             
             document.body.style.cursor = "wait";
             
@@ -105,7 +128,7 @@ window.anigif_bar = {
             	self.status("done (" + (time/1000).toFixed(2) + "s)");
             	
                 document.body.style.cursor = "default";
-                self.setEnabled({record: true, stop: false, play: true})
+                self.setEnabled({record: true, stop: false, play: true, config: true})
             })
         },
         

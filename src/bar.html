@@ -22,13 +22,14 @@
     #anigif_bar {
         padding: 5px;
         overflow:hidden; 
-        width: 200px; 
+        width: 220px; 
         border:1px dashed rgba(0, 0, 0, .9); 
         -webkit-background-clip: padding-box; //for safari
         background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
         background: rgb(232, 232, 232); /* Fall-back for browsers that don't support rgba */
         background: rgba(232, 232, 232, .5);
         font-size: small;
+        font-family: Verdana, Tahoma, sans-serif;
         -webkit-border-radius: 10px;
         -moz-border-radius: 10px;
         border-radius: 10px;
@@ -78,6 +79,36 @@
         }
     }
 
+    #anigif_settings {
+        display: none;
+        margin-top: 10px;
+        padding: 5px;
+        overflow:hidden; 
+        width: 220px; 
+        border:1px solid rgba(0, 0, 0, .9); 
+        -webkit-background-clip: padding-box; //for safari
+        background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+        background: rgb(232, 232, 232); /* Fall-back for browsers that don't support rgba */
+        background: rgba(232, 232, 232, .5);
+        font-size: small;
+        font-family: Verdana, Tahoma, sans-serif;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        text-align:center;
+    }
+    
+    #anigif_settings input{
+        width: 70px;
+    }
+    
+    #anigif_settings .label {
+        width: 130px; 
+        float: left;
+        margin-top: 4px;
+        line-height: 1;
+    }
+    
     
 </style>
 
@@ -94,10 +125,42 @@
          <img id="play" src="https://c9.io/yaronn01/anigif/workspace/src/img/play.png" />
      </div>
      
+     <div>
+         <img id="config" src="https://c9.io/yaronn01/anigif/workspace/src/img/config.png" />
+     </div>
+     
       <div id="status" style="margin-top: 0px; margin-left: 5px;">
          text status here... this is 
      </div>
      
+</div>
+
+<div id="anigif_settings">
+    
+    <div>
+        <div class="label">Root Node:</div>
+        <div><input type="text" id="rootNode" /></div>
+    </div>
+    
+    <div>
+        <div class="label">Frame Interval:</div>
+        <div><input type="text" id="frameInterval" /></div>
+    </div>
+    
+    <div>
+        <div class="label">Only Last Frames:</div>
+        <div><input type="text" id="onlyLastFrames" /></div>
+    </div>
+    
+    <div>
+        <div class="label">Cores:</div>
+        <div><input type="text" id="cores" /></div>
+    </div>
+    
+    
+    <div style="margin-top: 15px;">
+        <a onclick="window.anigif_bar.saveConfig(); window.anigif_bar.closeConfig(); return false;" href="">Close</a>
+    </div>
 </div>
 
         

@@ -10,6 +10,14 @@
         initOnce: function() {
             this.init()    
             this.progressSink = null;
+            
+            this.options = {
+                onlyLastFrames: 50,
+                frameInterval: 250,
+                selector: "#main",
+                cores: 8
+            };
+            
         },
         
         init: function() {
@@ -18,6 +26,7 @@
             this.renderedFrames = 0;
             this.composedFrames = 0;
             this.images = [];
+            this.el = null;
             //this._log = "";
             this.continue = true;
         },
@@ -31,39 +40,28 @@
             //this._log += str + "\r\n";
         },
         
-        merge_options: function(obj1,obj2){
-            var obj3 = {};
-            for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
-            for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
-            return obj3;
-        },
-
-        startRecord: function(opts) {
+        startRecord: function() {
             
             this.init();
             
-            var options = this.merge_options({
-                onlyLastFrames: 50,
-                frameInterval: 250,
-                el: document.getElementById("main")
-            }, opts);
+            this.el = document.querySelectorAll(this.options.selector)[0];
             
-            this.recordFrame(options);
+            this.recordFrame();
         },
         
-        recordFrame: function(options) {
+        recordFrame: function() {
             var self = this;
             if (!this.continue) return;
-            this.frames.push(this.cloneDom(options.el));
-            if (this.frames.length>options.onlyLastFrames) {
+            this.frames.push(this.cloneDom(this.el));
+            if (this.frames.length>this.options.onlyLastFrames) {
                 this.frames.shift()
             }
             this.progress(++this.totalFrames + " frames")
             console.log("took snapshot");
             
             window.setTimeout(function() {
-                self.recordFrame(options);
-                }, options.frameInterval);
+                self.recordFrame(this.options);
+                }, this.options.frameInterval);
         
         },
         
