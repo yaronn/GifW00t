@@ -79,7 +79,14 @@ window.anigif_bar = {
         
         config: function(el) {
             var style = this.el.querySelectorAll("#anigif_settings")[0].style;
-            style.display = style.display=="block"? "none":"block";
+            if (style.display=="block") {
+                this.saveConfig();
+                style.display = "none";
+            }
+            else {
+                style.display = "block"
+            }
+            
         },
         
         record: function(el) {
@@ -112,7 +119,7 @@ window.anigif_bar = {
             document.body.style.cursor = "wait";
             
             //timeout - give the browser a chance to update the cusror
-            window.setTimeout(function() {self.stopInternal()}, 10);
+            window.setTimeout(function() {self.stopInternal()}, 5);
         },
         
         stopInternal: function() {

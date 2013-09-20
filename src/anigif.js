@@ -190,7 +190,7 @@
             console.log("starting gif composition")
             var encoder = new window.GIFEncoder_WebWorker();
             encoder.setRepeat(0); //auto-loop
-            encoder.setDelay(250);
+            encoder.setDelay(this.options.frameInterval);
             encoder.start();
              for (var i=0; i<this.images.length; i++) {
                 var context = this.images[i].getContext('2d');
