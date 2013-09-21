@@ -2,6 +2,7 @@
 
 window.anigif_bar = {
         
+        buttons: ["record", "stop", "play", "config"],
         
         install: function() {
             var self = this;
@@ -16,7 +17,7 @@ window.anigif_bar = {
                 div.style.zIndex=99999
                 div.innerHTML = html;
                 document.body.appendChild(div)
-                self.init(div)
+                self.init(div);
             })   
             
             
@@ -45,9 +46,8 @@ window.anigif_bar = {
             this.setEnabled({record: true, stop: false, play: false, config: true})
             this.status("ready")
             
-            var buttons = ["record", "stop", "play", "config"];
-            for (var i=0; i<buttons.length; i++) {
-                this.el.querySelectorAll("#"+buttons[i])[0].onclick = function(e) {self.click(e)};
+            for (var i=0; i<self.buttons.length; i++) {
+                this.el.querySelectorAll("#"+self.buttons[i])[0].onclick = function(e) {self.click(e)};
             }
             
             this.loadConfig();
@@ -144,9 +144,10 @@ window.anigif_bar = {
             win.focus();
         },
         
-        setEnabled: function(buttons) {
-            for (var b in buttons) {
-                this.el.querySelectorAll("#"+b)[0].className = buttons[b]?"":"disabled";
+        setEnabled: function(settings) {
+            for (var b in settings) {
+                if (!settings.hasOwnProperty(b)) continue;
+                this.el.querySelectorAll("#"+b)[0].className = settings[b]?"":"disabled";
             }
         },
         

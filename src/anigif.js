@@ -12,9 +12,9 @@
             this.progressSink = null;
             
             this.options = {
-                onlyLastFrames: 50,
-                frameInterval: 250,
-                selector: "#main",
+                onlyLastFrames: 150,
+                frameInterval: 50,
+                selector: "#pacman",
                 cores: 8
             };
             
