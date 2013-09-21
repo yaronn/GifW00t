@@ -242,7 +242,9 @@
             var done = function(err, data){
                 self.log("final: ");
                 //this.img = 'data:image/gif;base64,' + window.encode64(encoder.stream().getData())
-                self.img = 'data:image/gif;base64,' + window.encode64(data)
+                
+                //self.img = 'data:image/gif;base64,' + window.encode64(data)
+                self.img = window.getObjURL(data, "image/gif")
                 self.log(self.img);
                 cba(null)
             }
@@ -255,6 +257,28 @@
     };
     
 window.anigif.initOnce();
+
+
+window.getObjURL = function(binStr, type)      {
+    //take apart data URL
+    //var parts = canvas.toDataURL().match(/data:([^;]*)(;base64)?,([0-9A-Za-z+/]+)/);
+    
+    //assume base64 encoding
+    //var binStr = atob(parts[3]);
+    
+    //convert to binary in ArrayBuffer
+    var buf = new ArrayBuffer(binStr.length);
+    var view = new Uint8Array(buf);
+    for(var i = 0; i < view.length; i++)
+      view[i] = binStr.charCodeAt(i);
+    
+    var blob = new Blob([view], {'type': type});
+    
+    var url;
+    if (window.webkitURL) url = window.webkitURL.createObjectURL(blob)
+    else url = window.URL.createObjectURL(blob)
+    return url;
+}
 
 
 window.encode64 = function(input) {
