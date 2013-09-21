@@ -22,7 +22,7 @@
     #anigif_bar {
         padding: 5px;
         overflow:hidden; 
-        width: 220px; 
+        width: 240px; 
         border:1px dashed rgba(0, 0, 0, .9); 
         -webkit-background-clip: padding-box; //for safari
         background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
@@ -84,7 +84,7 @@
         margin-top: 10px;
         padding: 5px;
         overflow:hidden; 
-        width: 220px; 
+        width: 240px; 
         border:1px solid rgba(0, 0, 0, .9); 
         -webkit-background-clip: padding-box; //for safari
         background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
@@ -99,11 +99,15 @@
     }
     
     #anigif_settings input{
-        width: 70px;
+        width: 80px;
+    }
+    
+    #anigif_settings select{
+        width: 80px;
     }
     
     #anigif_settings .label {
-        width: 130px; 
+        width: 140px; 
         float: left;
         margin-top: 4px;
         line-height: 1;
@@ -157,6 +161,21 @@
         <div><input type="text" id="cores" /></div>
     </div>
     
+    <div>
+        <div class="label">Ratio:</div>
+        <div><input type="text" id="ratio" /></div>
+    </div>
+    
+    <div>
+        <div class="label">Quality:</div>
+        <div>
+            <select id="quality">
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+            </select>
+        </div>
+    </div>
     
     <div style="margin-top: 15px;">
         <a onclick="window.anigif_bar.saveConfig(); window.anigif_bar.closeConfig(); return false;" href="">Close</a>

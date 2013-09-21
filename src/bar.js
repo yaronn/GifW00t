@@ -59,6 +59,8 @@ window.anigif_bar = {
             this.el.querySelectorAll("#onlyLastFrames")[0].value = window.anigif.options.onlyLastFrames;
             this.el.querySelectorAll("#frameInterval")[0].value = window.anigif.options.frameInterval;
             this.el.querySelectorAll("#rootNode")[0].value = window.anigif.options.selector;
+            this.el.querySelectorAll("#ratio")[0].value = window.anigif.options.ratio;
+            this.el.querySelectorAll("#quality")[0].value = window.anigif.options.quality;
         },
         
         saveConfig: function() {
@@ -66,6 +68,8 @@ window.anigif_bar = {
             window.anigif.options.onlyLastFrames = this.el.querySelectorAll("#onlyLastFrames")[0].value;
             window.anigif.options.frameInterval = this.el.querySelectorAll("#frameInterval")[0].value;
             window.anigif.options.selector = this.el.querySelectorAll("#rootNode")[0].value;
+            window.anigif.options.ratio = this.el.querySelectorAll("#ratio")[0].value;
+            window.anigif.options.quality = this.el.querySelectorAll("#quality")[0].value;
         },
         
         click: function(e) {

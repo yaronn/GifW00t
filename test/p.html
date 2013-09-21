@@ -1,0 +1,97 @@
+<canvas id="myCanvas" width="400" height="300" style="border:1px solid #000000;"></canvas>
+       
+       
+        <select id="quality">
+                <option id="low">Low</option>
+                <option id="medium">Medium</option>
+                <option id="high">High</option>
+            </select>
+            
+            
+<script>
+            var c=document.getElementById("myCanvas");
+            var ctx=c.getContext("2d");
+            //ctx.fillStyle="#FF0000";
+            //ctx.fillRect(0,0,150,75);
+            var img = new Image();
+            img.src = "../src/img/pink-flower.png"
+            img.onload = function() {
+                ctx.drawImage(img, 0, 0, img.width, img.height)
+                 benchmark();
+                 resizeImage(c, 0.5, function(err, canvas) {
+                    document.body.appendChild(canvas)    
+                 })
+            }
+            
+            
+            function resizeImage(canvas, ratio, cba) {
+                var context = canvas.getContext("2d")
+                var canvas2 = document.createElement("canvas")
+                var context2 = canvas2.getContext("2d")
+                canvas2.width = canvas.width*ratio
+                canvas2.height = canvas.height*ratio
+                var img = new Image();
+                img.src = canvas.toDataURL();
+                img.onload = function() {
+                    context2.drawImage(img, 0, 0, canvas.width, canvas.height, 0, 0, canvas2.width, canvas2.height)    
+                    cba(null, canvas2)
+                }
+            }
+            
+            function benchmark() {
+                var start = new Date().getTime();
+                for (var i=0; i<200; i++) {
+                    c.toDataURL("image/png");
+                }
+                var end = new Date().getTime();
+            	var time = end - start;
+            	console.log("png: " + time)
+            	
+                
+                var start = new Date().getTime();
+                for (var i=0; i<200; i++) {
+                    c.toDataURL("image/jpeg", 0.01);
+                }
+                var end = new Date().getTime();
+            	var time = end - start;
+            	console.log("jpeg 0.01: " + time)
+            	
+                var start = new Date().getTime();
+                for (var i=0; i<200; i++) {
+                    c.toDataURL("image/jpeg", 0.1);
+                }
+                var end = new Date().getTime();
+            	var time = end - start;
+            	console.log("jpeg 0.1: " + time)
+                
+                var start = new Date().getTime();
+                for (var i=0; i<200; i++) {
+                    c.toDataURL("image/jpeg", 0.5);
+                }
+                var end = new Date().getTime();
+            	var time = end - start;
+            	console.log("jpeg 0.5: " + time)
+                
+                var start = new Date().getTime();
+                for (var i=0; i<200; i++) {
+                    c.toDataURL("image/jpeg", 0.9);
+                }
+                var end = new Date().getTime();
+            	var time = end - start;
+            	console.log("jpeg 0.9: " + time)
+            	
+            	 
+                var start = new Date().getTime();
+                for (var i=0; i<200; i++) {
+                    c.toDataURL("image/jpeg", 1);
+                }
+                var end = new Date().getTime();
+            	var time = end - start;
+            	console.log("jpeg 1: " + time)
+                
+                
+            }
+            
+           
+            
+</script>

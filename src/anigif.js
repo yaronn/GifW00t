@@ -13,9 +13,11 @@
             
             this.options = {
                 onlyLastFrames: 150,
-                frameInterval: 50,
-                selector: "#pacman",
-                cores: 8
+                frameInterval: 500,
+                selector: "#main",
+                cores: 8,
+                ratio: 0.5,
+                quality: "Medium"
             };
             
         },
@@ -57,7 +59,7 @@
                 this.frames.shift()
             }
             this.progress(++this.totalFrames + " frames")
-            console.log("took snapshot");
+            //console.log("took snapshot");
             
             window.setTimeout(function() {
                 self.recordFrame(this.options);
@@ -142,15 +144,42 @@
                         //var img = canvas.toDataURL("image/png");
                         //self.log(img);
                         self.progress("rendered " + ++self.renderedFrames + "/" + self.frames.length)
-                        console.log("rendered image" + i)
-                        self.images.push(canvas);
-                        self.frames[i].parentElement.removeChild(self.frames[i]);
-                        cbx();
+                        //console.log("rendered image" + i)
+                        self.resizeImage(canvas, self.options.ratio, function(err, canvas_small) {
+                            self.images.push(canvas_small);
+                            self.frames[i].parentElement.removeChild(self.frames[i]);
+                            cbx();    
+                        })
                     }
                 });    
                 
             }, 0);
             
+        },
+        
+       resizeImage: function(canvas, ratio, cba) {
+                var self = this
+                if (ratio==1) {
+                    cba(null, canvas);
+                    return;
+                }
+                
+                var context = canvas.getContext("2d")
+                var canvas2 = document.createElement("canvas")
+                var context2 = canvas2.getContext("2d")
+                canvas2.width = canvas.width*ratio
+                canvas2.height = canvas.height*ratio
+                var img = new Image();
+                if (self.options.quality=="High")
+                    img.src = canvas.toDataURL("image/png");
+                else if (self.options.quality=="Medium")
+                    img.src = canvas.toDataURL("image/jpeg", 0.9);
+                else img.src = canvas.toDataURL("image/jpeg", 0.1);
+                
+                img.onload = function() {
+                    context2.drawImage(img, 0, 0, canvas.width, canvas.height, 0, 0, canvas2.width, canvas2.height)    
+                    cba(null, canvas2)
+                }
         },
         
         replaceSvgWithCanvas: function(el) {
@@ -187,7 +216,7 @@
         
         composeAnimatedGif: function(cba) {
             var self = this
-            console.log("starting gif composition")
+            //console.log("starting gif composition")
             var encoder = new window.GIFEncoder_WebWorker();
             encoder.setRepeat(0); //auto-loop
             encoder.setDelay(this.options.frameInterval);
