@@ -1,3 +1,5 @@
+
+
 (function(window, document){
 
 window.anigif_bar = {
@@ -36,7 +38,7 @@ window.anigif_bar = {
                 }
             }
             xmlHttp.open( "GET", url, true );
-            xmlHttp.send( null );    
+             xmlHttp.send( null );    
         },
         
         init: function(el) {
@@ -156,9 +158,10 @@ window.anigif_bar = {
         },
         
         status: function(txt) {
-            this.el.querySelectorAll("#status")[0].innerText = txt
+            this.el.querySelectorAll("#status")[0].textContent = txt
         }
 }
+
 
 function install() {
    window.anigif_bar.install(); 
