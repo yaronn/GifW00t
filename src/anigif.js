@@ -244,7 +244,9 @@
                 //this.img = 'data:image/gif;base64,' + window.encode64(encoder.stream().getData())
                 
                 //self.img = 'data:image/gif;base64,' + window.encode64(data)
+                console.log("start get obj url")
                 self.img = window.getObjURL(data, "image/gif")
+                console.log("end get obj url")
                 self.log(self.img);
                 cba(null)
             }
@@ -259,6 +261,7 @@
 window.anigif.initOnce();
 
 
+//need to use this WA since getDataURL() can crash the browser (wehn trying to view the url, not when creating it)
 window.getObjURL = function(binStr, type)      {
     //take apart data URL
     //var parts = canvas.toDataURL().match(/data:([^;]*)(;base64)?,([0-9A-Za-z+/]+)/);
