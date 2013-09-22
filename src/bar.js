@@ -153,7 +153,7 @@ window.anigif_bar = {
         setEnabled: function(settings) {
             for (var b in settings) {
                 if (!settings.hasOwnProperty(b)) continue;
-                this.el.querySelectorAll("#"+b)[0].className = settings[b]?"":"disabled";
+                this.el.querySelectorAll("#"+b)[0].className = settings[b]?"enabled":"disabled";
             }
         },
         

@@ -37,6 +37,7 @@ describe('Record site', function(){
 
 
 function writeSettings(done) {
+  
     browser.waitForVisibleById('config', 15000, function() {
            browser.elementById('config', function(err, el) {
                 browser.clickElement(el, function() {
@@ -58,7 +59,7 @@ function writeSettings(done) {
                                      browser.elementById("quality", function(err, el) {
                                          el.elementById("low", function(err, el) {
                                            el.click(function() {
-                                                startRecord(done)      
+                                                doRecord(done)      
                                            })
                                          })
                                      })
@@ -73,10 +74,50 @@ function writeSettings(done) {
 }
 
 
-function startRecord(done) {
-    done();
+function doRecord(done) {
+    console.log("start wait for record")
+    browser.waitForVisibleById('record', 15000, function() {
+        console.log("record should be visible")
+        browser.elementById('record', function(err, el) {
+            console.log("record:" + el)
+            browser.clickElement(el, function(err) {    
+                setTimeout(function() {
+                    browser.elementById('txt', function(err, edit) {
+                        edit.sendKeys("123", function(err) {
+                            setTimeout(function() {
+                                stopRecord(done)
+                            }, 500)
+                        })
+                    })
+                }, 1500)
+            })
+        })
+    })
 }
 
+function stopRecord(done) {
+     browser.elementById('stop', function(err, stop) {
+        browser.clickElement(stop, function(err) {   
+            browser.elementById('play', function(err, play) {
+                browser.waitForElementByCssSelector('#play.enabled', 20000, function(err) {
+                //setTimeout(function() {
+                    //play.getAttribute("class", function(err, str){
+                      //  console.log("play class is " + str)
+                        validateRecord(done)    
+                    //})
+                //}, 10000)
+                })
+            })
+        })
+     })
+}
+
+function validateRecord(done) {
+     browser.eval("window.anigif.img", function(err, str) {
+         console.log(str)
+         done()
+     })
+}
 /*
 
  
