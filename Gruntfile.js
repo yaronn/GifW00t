@@ -26,24 +26,25 @@ module.exports = function(grunt) {
     concat: {
       anigif: {
         src: [
-          'src/*.js',
-          'html2canvas/build/html2canvas.js',
-          'node_modules/async/lib/async.js'
-        ],
-        dest: 'build/<%= pkg.name %>.js'
-      },
-      gifgenerator: {
-        src: [
-          'jsgif/LZWEncoder.js',
+            'jsgif/LZWEncoder.js',
           'jsgif/NeuQuant.js',
           'jsgif/GIFEncoder.js',
           'jsgif/GIFEncoder_WebWorker.js',
+          'jsgif/workcrew.js',
+          'src/*.js',
+          'html2canvas/build/html2canvas.js',
+          'node_modules/async/lib/async.js',
+          'bower_components/fabric/dist/all.js'
         ],
-        dest: 'build/gif-generator.js'
+        dest: 'build/<%= pkg.name %>.js'
       },
+     
       options:{
-        banner: meta.banner + meta.pre,
-        footer: meta.post
+        //banner: meta.banner + meta.pre,
+        //footer: meta.post,
+        process: function(src, filepath) {
+            return '/* ' + filepath + ' */\n' + src;
+        }
       }
     },
     
@@ -120,5 +121,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['targethtml:dev']);
   grunt.registerTask('full', ['clean', 'shell:buildHtml2canvas', 'jshint',  'targethtml:prod', 'targethtml:dev', 'concat', 'uglify']);
+  grunt.registerTask('build-prod', ['clean', 'targethtml:prod', 'concat']);
   grunt.registerTask('test', ['simplemocha']);
 };

@@ -158,7 +158,7 @@ function validateRecord(done) {
          setTimeout(function() {
              
              browser.eval("window.imgbase64", function(err, actual) {
-                 //fs.writeFileSync('./test/expected.txt', actual)
+                 //fs.writeFileSync('./test/expected_'+browser_name+'.txt', actual)
                  fs.writeFileSync('./test/actual_'+browser_name+'.txt', actual)
                  var expected = fs.readFileSync('./test/expected_'+browser_name+'.txt').toString()
                  var res = actual==expected
