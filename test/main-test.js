@@ -4,10 +4,14 @@ var assert = require("assert"),
 
 var browser;
 
+var record_delay = 1000;
+var frame_interval = 5500;
+var browser_name = "";
+
 describe('Record site', function(){
     
-    before(function() {
-        browser = wd.promiseRemote("ondemand.saucelabs.com", 80, "yaronn01", "daa47681-6117-4d8b-a6b7-fe52adc65a58");
+    beforeEach(function() {
+        browser = wd.remote("ondemand.saucelabs.com", 80, "yaronn01", "daa47681-6117-4d8b-a6b7-fe52adc65a58");
 
         browser.on('status', function(info){
           console.log('\x1b[36m%s\x1b[0m', info);
@@ -19,19 +23,31 @@ describe('Record site', function(){
 
     })
 
-    after(function(done) {
-        console.log("before done")
+    afterEach(function(done) {
         browser.quit(function() {console.log("after done"); done()})
     })  
     
-    it('should create correct visual', function(done){
-        browser.init({browserName: 'chrome', name: "correct visual"}, 
+     it('should create correct visual - chrome', function(done){
+        browser_name = 'chrome'
+        browser.init({browserName: browser_name, name: "correct visual"}, 
                     function() {
                         browser.get("https://c9.io/yaronn01/anigif/workspace/test/simple.html", function() {
                             setTimeout(function() {writeSettings(done)}, 3000)
                     })   
         })
-    });
+    })
+    
+    it('should create correct visual - firefox', function(done){
+        browser_name = 'firefox'
+        browser.init({browserName: browser_name, name: "correct visual"}, 
+                    function() {
+                        browser.get("https://c9.io/yaronn01/anigif/workspace/test/simple.html", function() {
+                            setTimeout(function() {writeSettings(done)}, 3000)
+                    })   
+        })
+    })
+    
+    
         
 })
 
@@ -39,8 +55,9 @@ describe('Record site', function(){
 function writeSettings(done) {
   
     browser.waitForVisibleById('config', 15000, function() {
-           browser.elementById('config', function(err, el) {
-                browser.clickElement(el, function() {
+        
+           browser.elementById('config', function(err, config) {
+                browser.clickElement(config, function() {
                     
                     var setField = function(name, value, cba) {
                         browser.elementById(name, function(err, el) {
@@ -52,14 +69,16 @@ function writeSettings(done) {
                         })   
                     }
                     
-                    setField("rootNode", "div_inner", function() {
-                        setField("frameInterval", 1000, function() {
+                    setField("rootNode", "#inner_div", function() {
+                        setField("frameInterval", frame_interval, function() {
                             setField("cores", 2, function() {
                                 setField("ratio", 0.8, function() {
                                      browser.elementById("quality", function(err, el) {
-                                         el.elementById("low", function(err, el) {
+                                         el.elementById("high", function(err, el) {
                                            el.click(function() {
-                                                doRecord(done)      
+                                                browser.clickElement(config, function() {
+                                                    doRecord(done)      
+                                                })
                                            })
                                          })
                                      })
@@ -75,21 +94,33 @@ function writeSettings(done) {
 
 
 function doRecord(done) {
-    console.log("start wait for record")
+    
+    var click = function(id, cba) {
+        browser.elementById(id, function(err, el) {
+            browser.clickElement(el, function(err) {
+                cba(null)
+            })
+        })
+    }
+    
+    
     browser.waitForVisibleById('record', 15000, function() {
-        console.log("record should be visible")
+    
         browser.elementById('record', function(err, el) {
-            console.log("record:" + el)
+    
             browser.clickElement(el, function(err) {    
                 setTimeout(function() {
                     browser.elementById('txt', function(err, edit) {
                         edit.sendKeys("123", function(err) {
-                            setTimeout(function() {
-                                stopRecord(done)
-                            }, 500)
                         })
+                        setTimeout(function() {
+                                     click("btnCanvas", function() {})
+                                     click("btnTitle", function() {})
+                                     //click("btnImg", function() {})
+                                     setTimeout(function() {stopRecord(done)}, frame_interval);
+                                   }, frame_interval*0.8)
                     })
-                }, 1500)
+                }, record_delay+frame_interval*0.4)
             })
         })
     })
@@ -97,15 +128,12 @@ function doRecord(done) {
 
 function stopRecord(done) {
      browser.elementById('stop', function(err, stop) {
+        if (err) return done(err)
         browser.clickElement(stop, function(err) {   
             browser.elementById('play', function(err, play) {
-                browser.waitForElementByCssSelector('#play.enabled', 20000, function(err) {
-                //setTimeout(function() {
-                    //play.getAttribute("class", function(err, str){
-                      //  console.log("play class is " + str)
+                browser.waitForElementByCssSelector('#play.enabled', 25000, function(err) {
+                        if (err) return done(err)
                         validateRecord(done)    
-                    //})
-                //}, 10000)
                 })
             })
         })
@@ -113,64 +141,32 @@ function stopRecord(done) {
 }
 
 function validateRecord(done) {
-     browser.eval("window.anigif.img", function(err, str) {
-         console.log(str)
-         done()
+     var func = 'var xmlHttp = new XMLHttpRequest(); ' +
+                'xmlHttp.onreadystatechange = function() {\n' +
+                'var reader = new FileReader();' +
+                   'reader.onload = function(event){\n' +
+                     'window.imgbase64 = reader.result;' +
+                   '};\n' +
+                   'reader.readAsDataURL(xmlHttp.response);' +
+                '}\n' +
+                'xmlHttp.open( "GET", window.anigif.img, true );' +
+                'xmlHttp.responseType = "blob";' + 
+                'xmlHttp.send( null );'
+
+     browser.execute(func, function(err) {
+         console.log(err)
+         setTimeout(function() {
+             
+             browser.eval("window.imgbase64", function(err, actual) {
+                 //fs.writeFileSync('./test/expected.txt', actual)
+                 fs.writeFileSync('./test/actual_'+browser_name+'.txt', actual)
+                 var expected = fs.readFileSync('./test/expected_'+browser_name+'.txt').toString()
+                 var res = actual==expected
+                 if (!res) return done(new Error("actual diffes than expected"))
+                 done()
+             })
+             
+         }, 3500)
+         
      })
 }
-/*
-
- 
-
-
-function startRecord(cba) {
-    clickRecord()
-    wait 1500
-    type text
-    wait 500
-    change canvas
-    wait 500
-    change title
-    change img
-    wait 500
-    stop
-    get data url
-    compare expected
-    
-}
-
-
- browser.init({browserName:'chrome'}, function(err) {
-        browser.get("https://c9.io/yaronn01/anigif/workspace/test/simple.html", function(err) {
-            configureAnigif({rootNode: "inner_div", interval: 1000, cores: 2, ratio: 0.8, quality: "Low"}, function() {
-                startRecord()
-            })
-        })
-      })
-    })  
-    
-    
-    
-            browser.elementById('txt', function(err, edit) {
-                browser.elementById('start', function(err, start) {
-                    browser.clickElement(start, function() {
-                        setTimeout(function() {
-                            edit.sendKeys("1", function() {
-                                setTimeout(function() {
-                                    browser.elementById('stop', function(err, end) {
-                                        browser.clickElement(end, function() {
-                                            browser.eval("window.anigif._log", function(err, str) {
-                                                var gif = /final:\s*data:image\/gif;base64,(.*)/g.exec(str)[1]
-                                                var expected = fs.readFileSync("test/simple.base64").toString().replace(/\s/g, "") ;
-                                                assert.equal(expected, gif, "actuall and expected images differ")
-                                                done()    
-                                            })
-                                        })
-                                    })
-                                }, 2500);
-                            })
-                            
-                        }, 2000)
-                        
-
-*/

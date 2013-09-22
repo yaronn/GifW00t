@@ -243,10 +243,8 @@
                 self.log("final: ");
                 //this.img = 'data:image/gif;base64,' + window.encode64(encoder.stream().getData())
                 
-                //self.img = 'data:image/gif;base64,' + window.encode64(data)
-                console.log("start get obj url")
+                //self.img64 = 'data:image/gif;base64,' + window.encode64(data)
                 self.img = window.getObjURL(data, "image/gif")
-                console.log("end get obj url")
                 self.log(self.img);
                 cba(null)
             }
