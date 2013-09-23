@@ -16,13 +16,16 @@ module.exports = function(grunt) {
 
     pkg: grunt.file.readJSON('package.json'),
 
-    clean: ["build"],
+    clean: {
+        build:  ["build"],
+        gzip:  ["build-gzip"],
+        },
     
     shell: {
         buildHtml2canvas: {
             command: 'grunt --gruntfile ./html2canvas/Gruntfile.js'
         },
-        deploy: {
+        s3deploy: {
             command: "node s3publish"
         }
     },
@@ -44,6 +47,11 @@ module.exports = function(grunt) {
          files: [
           {expand: true, flatten: true, src: ['anigif/bar.html'], dest: 'build/<%= pkg.name %>', filter: 'isFile'}, // includes files in path
         ] 
+      },
+      togzip: {
+          files: [
+              {expand: false, flatten: false, src: ['build/**'], dest: 'build-gzip/', filter: 'isFile'}, // includes files in path
+              ]
       }
     },
 
@@ -150,7 +158,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-targethtml');
 
   grunt.registerTask('default', ['targethtml:dev']);
+  grunt.registerTask('deploy', ['clean:gzip', 'copy:togzip', 'shell:s3deploy']);
   grunt.registerTask('full', ['clean', 'shell:buildHtml2canvas', 'jshint',  'targethtml:prod', 'targethtml:dev', 'concat', 'copy', 'uglify']);
-  grunt.registerTask('build-prod', ['clean', 'targethtml:prod', 'targethtml:dev', 'concat', 'copy', 'uglify']);
+  grunt.registerTask('build-prod', ['clean', 'targethtml:prod', 'targethtml:dev', 'concat', 'copy:resources', 'copy:javascript', 'copy:html', 'uglify']);
   grunt.registerTask('test', ['simplemocha']);
 };
