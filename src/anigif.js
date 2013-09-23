@@ -17,7 +17,8 @@
                 selector: "#main",
                 cores: 8,
                 ratio: 0.5,
-                quality: "Medium"
+                quality: "Medium",
+                base_url: ""
             };
             
         },
@@ -217,7 +218,7 @@
         composeAnimatedGif: function(cba) {
             var self = this
             //console.log("starting gif composition")
-            var encoder = new window.GIFEncoder_WebWorker();
+            var encoder = new window.GIFEncoder_WebWorker({base_url: self.options.base_url+"jsgif/"});
             encoder.setRepeat(0); //auto-loop
             encoder.setDelay(this.options.frameInterval);
             encoder.start();

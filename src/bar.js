@@ -3,6 +3,8 @@
 (function(window, document){
 
 window.anigif_bar = {
+
+        base_url: typeof(anigif_base_url)=="undefined"?getAbsoluteUrlPrefix() + "anigif/":anigif_base_url,
         
         buttons: ["record", "stop", "play", "config"],
         
@@ -10,23 +12,27 @@ window.anigif_bar = {
             var self = this;
             
             //document.querySelectorAll("[koo=zoo]")[0].src
-            
-            this.downloadHtml("https://anigif-c9-yaronn01.c9.io/src/bar.html", function(err, html) {
+            window.anigif.options.base_url = self.base_url
+            this.downloadHtml(self.base_url + "bar.html", function(err, html) {
                 var div = document.createElement("div");
                 div.style.position = "fixed";
                 div.style.right = "5%";
                 div.style.top="5%";
                 div.style.zIndex=99999
-                div.innerHTML = html;
+                var htmlworking = self.applyBaseUrl(html)
+                div.innerHTML = htmlworking;
                 document.body.appendChild(div)
                 self.init(div);
             })   
-            
             
             window.anigif.progressSink = function(msg) {
                 self.status(msg)
             }
             
+        },
+        
+        applyBaseUrl: function(divstr) {
+          return divstr.replace(/src="/g, 'src="'+this.base_url);
         },
         
         downloadHtml: function(url, cba) {
@@ -162,6 +168,13 @@ window.anigif_bar = {
         }
 }
 
+
+    
+function getAbsoluteUrlPrefix() {
+    var el = document.createElement('span');
+    el.innerHTML = '<a href=".">&nbsp;</a>';
+    return el.firstChild.href;
+}
 
 function install() {
    window.anigif_bar.install(); 
