@@ -2,8 +2,19 @@
     
 <head>
     
-    
+    <!--(if target prod)>
         <script src="anigif/anigif.js"></script>
+    <!(endif)-->
+    
+    <!--(if target dev)>
+        <script src="jsgif/GIFEncoder_WebWorker.js"></script>
+        <script src="jsgif/workcrew.js"></script>
+        <script src="anigif/anigif.js"></script>
+        <script src="anigif/bar.js"></script>
+        <script src="html2canvas/build/html2canvas.js"></script>
+        <script src="node_modules/async/lib/async.js"></script>
+        <script src="bower_components/fabric/dist/all.js"></script>
+    <!(endif)-->
     
 </head>
 

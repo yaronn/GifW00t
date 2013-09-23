@@ -26,7 +26,7 @@ module.exports = function(grunt) {
     copy: {
       resources: {
         files: [
-          {expand: true, flatten: true, src: ['src/img/*'], dest: 'build/<%= pkg.name %>/img', filter: 'isFile'}, // includes files in path
+          {expand: true, flatten: true, src: ['anigif/img/*'], dest: 'build/<%= pkg.name %>/img', filter: 'isFile'}, // includes files in path
         ]
       },
       javascript: {
@@ -41,7 +41,7 @@ module.exports = function(grunt) {
       },
       html: {
          files: [
-          {expand: true, flatten: true, src: ['src/bar.html'], dest: 'build/<%= pkg.name %>', filter: 'isFile'}, // includes files in path
+          {expand: true, flatten: true, src: ['anigif/bar.html'], dest: 'build/<%= pkg.name %>', filter: 'isFile'}, // includes files in path
         ] 
       }
     },
@@ -50,12 +50,9 @@ module.exports = function(grunt) {
     concat: {
       anigif: {
         src: [
-          //  'jsgif/LZWEncoder.js',
-          //'jsgif/NeuQuant.js',
-          //'jsgif/GIFEncoder.js',
           'jsgif/GIFEncoder_WebWorker.js',
           'jsgif/workcrew.js',
-          'src/*.js',
+          'anigif/*.js',
           'html2canvas/build/html2canvas.js',
           'node_modules/async/lib/async.js',
           'bower_components/fabric/dist/all.js'
@@ -75,12 +72,12 @@ module.exports = function(grunt) {
     targethtml: {
       prod: {
         files: {
-          'build/simple.html': 'test/simpleTemplate.html'
+          'build/simple.html': 'simpleTemplate.html'
         }
       },
        dev: {
         files: {
-          'test/simple.html': 'test/simpleTemplate.html'
+          './simple.html': 'simpleTemplate.html'
         }
       }
     },
@@ -95,7 +92,7 @@ module.exports = function(grunt) {
       }
     },
     jshint: {
-      all: ['src/*.js', 'html2canvas/build/html2canvas.js'],
+      all: ['anigif/*.js', 'html2canvas/build/html2canvas.js'],
       options: {
         curly: true,
         eqeqeq: true,
@@ -145,6 +142,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['targethtml:dev']);
   grunt.registerTask('full', ['clean', 'shell:buildHtml2canvas', 'jshint',  'targethtml:prod', 'targethtml:dev', 'concat', 'copy', 'uglify']);
-  grunt.registerTask('build-prod', ['clean', 'targethtml:prod', 'concat', 'copy', 'uglify']);
+  grunt.registerTask('build-prod', ['clean', 'targethtml:prod', 'targethtml:dev', 'concat', 'copy', 'uglify']);
   grunt.registerTask('test', ['simplemocha']);
 };

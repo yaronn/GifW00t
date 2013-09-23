@@ -225,7 +225,7 @@ WorkCrew.prototype.clean = function() {
     this.working = {};
 };
 
-/* src/anigif.js */
+/* anigif/anigif.js */
 
 
 
@@ -531,7 +531,7 @@ window.encode64 = function(input) {
 }
 
 })(window, document);
-/* src/bar.js */
+/* anigif/bar.js */
 
 
 (function(window, document){
