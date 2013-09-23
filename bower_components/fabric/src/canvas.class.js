@@ -1,7 +1,6 @@
 (function() {
 
-  var extend = fabric.util.object.extend,
-      getPointer = fabric.util.getPointer,
+  var getPointer = fabric.util.getPointer,
       degreesToRadians = fabric.util.degreesToRadians,
       radiansToDegrees = fabric.util.radiansToDegrees,
       atan2 = Math.atan2,
@@ -14,54 +13,58 @@
   /**
    * Canvas class
    * @class fabric.Canvas
-   * @constructor
    * @extends fabric.StaticCanvas
-   * @param {HTMLElement | String} el &lt;canvas> element to initialize instance on
-   * @param {Object} [options] Options object
    */
-  fabric.Canvas = function(el, options) {
-    options || (options = { });
+  fabric.Canvas = fabric.util.createClass(fabric.StaticCanvas, /** @lends fabric.Canvas.prototype */ {
 
-    this._initStatic(el, options);
-    this._initInteractive();
-    this._createCacheCanvas();
+    /**
+     * Constructor
+     * @param {HTMLElement | String} el &lt;canvas> element to initialize instance on
+     * @param {Object} [options] Options object
+     * @return {Object} thisArg
+     */
+    initialize: function(el, options) {
+      options || (options = { });
 
-    fabric.Canvas.activeInstance = this;
-  };
+      this._initStatic(el, options);
+      this._initInteractive();
+      this._createCacheCanvas();
 
-  function ProtoProxy(){ }
-  ProtoProxy.prototype = fabric.StaticCanvas.prototype;
-  fabric.Canvas.prototype = new ProtoProxy();
-
-  var InteractiveMethods = /** @lends fabric.Canvas.prototype */ {
+      fabric.Canvas.activeInstance = this;
+    },
 
     /**
      * When true, objects can be transformed by one side (unproportionally)
      * @type Boolean
+     * @default
      */
     uniScaleTransform:      false,
 
     /**
      * When true, objects use center point as the origin of transformation
      * @type Boolean
+     * @default
      */
     centerTransform:        false,
 
     /**
      * Indicates that canvas is interactive. This property should not be changed.
      * @type Boolean
+     * @default
      */
     interactive:            true,
 
     /**
      * Indicates whether group selection should be enabled
      * @type Boolean
+     * @default
      */
     selection:              true,
 
     /**
      * Color of selection
      * @type String
+     * @default
      */
     selectionColor:         'rgba(100, 100, 255, 0.3)', // blue
 
@@ -75,62 +78,79 @@
     /**
      * Color of the border of selection (usually slightly darker than color of selection itself)
      * @type String
+     * @default
      */
     selectionBorderColor:   'rgba(255, 255, 255, 0.3)',
 
     /**
      * Width of a line used in object/group selection
      * @type Number
+     * @default
      */
     selectionLineWidth:     1,
 
     /**
      * Default cursor value used when hovering over an object on canvas
      * @type String
+     * @default
      */
     hoverCursor:            'move',
 
     /**
      * Default cursor value used when moving an object on canvas
      * @type String
+     * @default
      */
     moveCursor:             'move',
 
     /**
      * Default cursor value used for the entire canvas
      * @type String
+     * @default
      */
     defaultCursor:          'default',
 
     /**
      * Cursor value used during free drawing
      * @type String
+     * @default
      */
     freeDrawingCursor:      'crosshair',
 
     /**
      * Cursor value used for rotation point
      * @type String
+     * @default
      */
     rotationCursor:         'crosshair',
 
     /**
      * Default element class that's given to wrapper (div) element of canvas
      * @type String
+     * @default
      */
     containerClass:        'canvas-container',
 
     /**
      * When true, object detection happens on per-pixel basis rather than on per-bounding-box
      * @type Boolean
+     * @default
      */
     perPixelTargetFind:     false,
 
     /**
      * Number of pixels around target pixel to tolerate (consider active) during object detection
      * @type Number
+     * @default
      */
-    targetFindTolerance: 0,
+    targetFindTolerance:    0,
+
+    /**
+     * When true, target detection is skipped when hovering over canvas. This can be used to improve performance.
+     * @type Boolean
+     * @default
+     */
+    skipTargetFind: false,
 
     /**
      * @private
@@ -150,7 +170,7 @@
     /**
      * Resets the current transform to its original values and chooses the type of resizing based on the event
      * @private
-     * @param e {Event} Event object fired on mousemove
+     * @param {Event} e Event object fired on mousemove
      */
     _resetCurrentTransform: function(e) {
       var t = this._currentTransform;
@@ -160,7 +180,7 @@
       t.target.set('left', t.original.left);
       t.target.set('top', t.original.top);
 
-      if (e.altKey || this.centerTransform) {
+      if (e.altKey || this.centerTransform || t.target.centerTransform) {
         if (t.originX !== 'center') {
           if (t.originX === 'right') {
             t.mouseXSign = -1;
@@ -206,7 +226,6 @@
      * @private
      */
     _normalizePointer: function (object, pointer) {
-
       var activeGroup = this.getActiveGroup(),
           x = pointer.x,
           y = pointer.y;
@@ -279,6 +298,8 @@
 
     /**
      * @private
+     * @param {Event} e
+     * @param {fabric.Object} target
      */
     _shouldClearSelection: function (e, target) {
       var activeGroup = this.getActiveGroup();
@@ -297,6 +318,8 @@
 
     /**
      * @private
+     * @param {Event} e
+     * @param {fabric.Object} target
      */
     _setupCurrentTransform: function (e, target) {
       if (!target) return;
@@ -316,7 +339,7 @@
               : 'scale';
       }
 
-      var originX = "center", originY = "center";
+      var originX = target.originX, originY = target.originY;
 
       if (corner === 'ml' || corner === 'tl' || corner === 'bl') {
         originX = "right";
@@ -332,10 +355,10 @@
         originY = "top";
       }
 
-      if (corner === 'mtr') {
-        originX = 'center';
-        originY = 'center';
-      }
+      // if (corner === 'mtr') {
+      //   originX = 'center';
+      //   originY = 'center';
+      // }
 
       // var center = target.getCenterPoint();
       this._currentTransform = {
@@ -371,8 +394,8 @@
 
     /**
      * @private
-     * @param e {Event}
-     * @param target {fabric.Object}
+     * @param {Event} e
+     * @param {fabric.Object} target
      * @return {Boolean}
      */
     _shouldHandleGroupLogic: function(e, target) {
@@ -384,6 +407,8 @@
 
     /**
      * @private
+     * @param {Event} e
+     * @param {fabric.Object} target
      */
     _handleGroupLogic: function (e, target) {
       if (target === this.getActiveGroup()) {
@@ -418,8 +443,13 @@
           // only if there's an active object
           if (target !== this._activeObject) {
             // and that object is not the actual target
-            var group = new fabric.Group([ this._activeObject, target ]);
+            var objects = this.getObjects();
+            var isActiveLower = objects.indexOf(this._activeObject) < objects.indexOf(target);
+            var group = new fabric.Group(
+              isActiveLower ? [ target, this._activeObject ] : [ this._activeObject, target ]);
+
             this.setActiveGroup(group);
+            this._activeObject = null;
             activeGroup = this.getActiveGroup();
             this.fire('selection:created', { target: activeGroup, e: e });
           }
@@ -494,7 +524,7 @@
         }
       }
 
-      // adjust the mouse coordinates when dealing with padding      
+      // adjust the mouse coordinates when dealing with padding
       if (abs(localMouse.x) > target.padding) {
         if (localMouse.x < 0 ) {
           localMouse.x += target.padding;
@@ -504,13 +534,13 @@
       } else { // mouse is within the padding, set to 0
         localMouse.x = 0;
       }
-      
+
       if (abs(localMouse.y) > target.padding) {
         if (localMouse.y < 0 ) {
           localMouse.y += target.padding;
         } else {
           localMouse.y -= target.padding;
-        }      
+        }
       } else {
         localMouse.y = 0;
       }
@@ -519,9 +549,9 @@
       var newScaleX = target.scaleX, newScaleY = target.scaleY;
       if (by === 'equally' && !lockScalingX && !lockScalingY) {
         var dist = localMouse.y + localMouse.x;
-        var lastDist = (target.height + (target.strokeWidth)) * t.original.scaleY + 
+        var lastDist = (target.height + (target.strokeWidth)) * t.original.scaleY +
                        (target.width + (target.strokeWidth)) * t.original.scaleX;
-        
+
         // We use t.scaleX/Y instead of target.scaleX/Y because the object may have a min scale and we'll loose the proportions
         newScaleX = t.original.scaleX * dist/lastDist;
         newScaleY = t.original.scaleY * dist/lastDist;
@@ -580,9 +610,15 @@
       if (t.target.get('lockRotation')) return;
 
       var lastAngle = atan2(t.ey - t.top - o.top, t.ex - t.left - o.left),
-          curAngle = atan2(y - t.top - o.top, x - t.left - o.left);
+          curAngle = atan2(y - t.top - o.top, x - t.left - o.left),
+          angle = radiansToDegrees(curAngle - lastAngle + t.theta);
 
-      t.target.angle = radiansToDegrees(curAngle - lastAngle + t.theta);
+      // normalize angle to positive value
+      if (angle < 0) {
+        angle = 360 + angle;
+      }
+
+      t.target.angle = angle;
     },
 
     /**
@@ -661,9 +697,10 @@
           y2 = y1 + this._groupSelector.top,
           currentObject,
           selectionX1Y1 = new fabric.Point(min(x1, x2), min(y1, y2)),
-          selectionX2Y2 = new fabric.Point(max(x1, x2), max(y1, y2));
+          selectionX2Y2 = new fabric.Point(max(x1, x2), max(y1, y2)),
+          isClick = x1 === x2 && y1 === y2;
 
-      for (var i = 0, len = this._objects.length; i < len; ++i) {
+      for (var i = this._objects.length; i--; ) {
         currentObject = this._objects[i];
 
         if (!currentObject) continue;
@@ -676,6 +713,9 @@
           if (this.selection && currentObject.selectable) {
             currentObject.set('active', true);
             group.push(currentObject);
+
+            // only add one object if it's a click
+            if (isClick) break;
           }
         }
       }
@@ -685,7 +725,7 @@
         this.setActiveObject(group[0], e);
       }
       else if (group.length > 1) {
-        group = new fabric.Group(group);
+        group = new fabric.Group(group.reverse());
         this.setActiveGroup(group);
         group.saveCoords();
         this.fire('selection:created', { target: group });
@@ -699,6 +739,7 @@
      * @param {Boolean} skipGroup when true, group is skipped and only objects are traversed through
      */
     findTarget: function (e, skipGroup) {
+      if (this.skipTargetFind) return;
 
       var target,
           pointer = this.getPointer(e);
@@ -722,8 +763,14 @@
       // then check all of the objects on canvas
       // Cache all targets where their bounding box contains point.
       var possibleTargets = [];
+
       for (var i = this._objects.length; i--; ) {
-        if (this._objects[i] && this._objects[i].visible && this.containsPoint(e, this._objects[i])) {
+
+        if (this._objects[i] &&
+            this._objects[i].visible &&
+            this._objects[i].selectable &&
+            this.containsPoint(e, this._objects[i])) {
+
           if (this.perPixelTargetFind || this._objects[i].perPixelTargetFind) {
             possibleTargets[possibleTargets.length] = this._objects[i];
           }
@@ -853,7 +900,8 @@
 
     /**
      * Sets given object as the only active object on canvas
-     * @param object {fabric.Object} Object to set as an active one
+     * @param {fabric.Object} object Object to set as an active one
+     * @param {Event} [e] Event (passed along when firing "object:selected")
      * @return {fabric.Canvas} thisArg
      * @chainable
      */
@@ -961,7 +1009,7 @@
 
     /**
      * Draws objects' controls (borders/controls)
-     * @param {Object} ctx context to render controls on
+     * @param {CanvasRenderingContext2D} ctx Context to render controls on
      */
     drawControls: function(ctx) {
       var activeGroup = this.getActiveGroup();
@@ -984,12 +1032,9 @@
         }
       }
     }
-  };
+  });
 
-  fabric.Canvas.prototype.toString = fabric.StaticCanvas.prototype.toString;
-  extend(fabric.Canvas.prototype, InteractiveMethods);
-
-  // iterating manually to workaround Opera's bug
+  // copying static properties manually to work around Opera's bug,
   // where "prototype" property is enumerable and overrides existing prototype
   for (var prop in fabric.StaticCanvas) {
     if (prop !== 'prototype') {

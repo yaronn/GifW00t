@@ -26,9 +26,9 @@ module.exports = function(grunt) {
     concat: {
       anigif: {
         src: [
-            'jsgif/LZWEncoder.js',
-          'jsgif/NeuQuant.js',
-          'jsgif/GIFEncoder.js',
+          //  'jsgif/LZWEncoder.js',
+          //'jsgif/NeuQuant.js',
+          //'jsgif/GIFEncoder.js',
           'jsgif/GIFEncoder_WebWorker.js',
           'jsgif/workcrew.js',
           'src/*.js',
@@ -62,7 +62,7 @@ module.exports = function(grunt) {
     },
 
     uglify: {
-      dist: {
+      anigif: {
         src: ['<%= concat.anigif.dest %>'],
         dest: 'build/<%= pkg.name %>.min.js'
       },
@@ -121,6 +121,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['targethtml:dev']);
   grunt.registerTask('full', ['clean', 'shell:buildHtml2canvas', 'jshint',  'targethtml:prod', 'targethtml:dev', 'concat', 'uglify']);
-  grunt.registerTask('build-prod', ['clean', 'targethtml:prod', 'concat']);
+  grunt.registerTask('build-prod', ['clean', 'targethtml:prod', 'concat', 'uglify']);
   grunt.registerTask('test', ['simplemocha']);
 };

@@ -99,10 +99,12 @@
      * @param {Object} [options] Options object
      */
     _initializePath: function (options) {
-      var isWidthSet = 'width' in options,
-          isHeightSet = 'height' in options,
+      var isWidthSet = 'width' in options && options.width != null,
+          isHeightSet = 'height' in options && options.width != null,
           isLeftSet = 'left' in options,
-          isTopSet = 'top' in options;
+          isTopSet = 'top' in options,
+          origLeft = isLeftSet ? this.left : 0,
+          origTop = isTopSet ? this.top : 0;
 
       if (!isWidthSet || !isHeightSet) {
         extend(this, this._parseDimensions());
@@ -121,17 +123,17 @@
           this.left = this.width / 2;
         }
       }
-      this.pathOffset = this.pathOffset || this._calculatePathOffset(isTopSet || isLeftSet); //Save top-left coords as offset
+      this.pathOffset = this.pathOffset || this._calculatePathOffset(origLeft, origTop); //Save top-left coords as offset
     },
 
     /**
      * @private
      * @param {Boolean} positionSet When false, path offset is returned otherwise 0
      */
-    _calculatePathOffset: function (positionSet) {
+    _calculatePathOffset: function (origLeft, origTop) {
       return {
-        x: positionSet ? 0 : this.left - (this.width / 2),
-        y: positionSet ? 0 : this.top - (this.height / 2)
+        x: this.left - origLeft - (this.width / 2),
+        y: this.top - origTop - (this.height / 2)
       };
     },
 
@@ -488,7 +490,8 @@
      */
     toObject: function(propertiesToInclude) {
       var o = extend(this.callSuper('toObject', propertiesToInclude), {
-        path: this.path
+        path: this.path,
+        pathOffset: this.pathOffset
       });
       if (this.sourcePath) {
         o.sourcePath = this.sourcePath;
@@ -520,19 +523,12 @@
      */
     toSVG: function() {
       var chunks = [],
-          markup = [];
+          markup = this._createBaseSVGMarkup();
 
       for (var i = 0, len = this.path.length; i < len; i++) {
         chunks.push(this.path[i].join(' '));
       }
       var path = chunks.join(' ');
-
-      if (this.fill && this.fill.toLive) {
-        markup.push(this.fill.toSVG(this, true));
-      }
-      if (this.stroke && this.stroke.toLive) {
-        markup.push(this.stroke.toSVG(this, true));
-      }
 
       markup.push(
         '<g transform="', (this.group ? '' : this.getSvgTransform()), '">',
@@ -663,8 +659,8 @@
           deltaY = maxY - minY;
 
       var o = {
-        left: minX + deltaX / 2,
-        top: minY + deltaY / 2,
+        left: this.left + (minX + deltaX / 2),
+        top: this.top + (minY + deltaY / 2),
         width: deltaX,
         height: deltaY
       };
@@ -676,16 +672,34 @@
   /**
    * Creates an instance of fabric.Path from an object
    * @static
-   * @return {fabric.Path} Instance of fabric.Path
+   * @memberOf fabric.Path
+   * @param {Object} object
+   * @param {Function} callback Callback to invoke when an fabric.Path instance is created
    */
-  fabric.Path.fromObject = function(object) {
-    return new fabric.Path(object.path, object);
+  fabric.Path.fromObject = function(object, callback) {
+    if (typeof object.path === 'string') {
+      fabric.loadSVGFromURL(object.path, function (elements) {
+        var path = elements[0];
+
+        var pathUrl = object.path;
+        delete object.path;
+
+        fabric.util.object.extend(path, object);
+        path.setSourcePath(pathUrl);
+
+        callback(path);
+      });
+    }
+    else {
+      callback(new fabric.Path(object.path, object));
+    }
   };
 
   /* _FROM_SVG_START_ */
   /**
    * List of attribute names to account for when parsing SVG element (used by `fabric.Path.fromElement`)
    * @static
+   * @memberOf fabric.Path
    * @see http://www.w3.org/TR/SVG/paths.html#PathElement
    */
   fabric.Path.ATTRIBUTE_NAMES = fabric.SHARED_ATTRIBUTES.concat(['d']);
@@ -693,14 +707,24 @@
   /**
    * Creates an instance of fabric.Path from an SVG <path> element
    * @static
+   * @memberOf fabric.Path
    * @param {SVGElement} element to parse
+   * @param {Function} callback Callback to invoke when an fabric.Path instance is created
    * @param {Object} [options] Options object
-   * @return {fabric.Path} Instance of fabric.Path
    */
-  fabric.Path.fromElement = function(element, options) {
+  fabric.Path.fromElement = function(element, callback, options) {
     var parsedAttributes = fabric.parseAttributes(element, fabric.Path.ATTRIBUTE_NAMES);
-    return new fabric.Path(parsedAttributes.d, extend(parsedAttributes, options));
+    callback && callback(new fabric.Path(parsedAttributes.d, extend(parsedAttributes, options)));
   };
   /* _FROM_SVG_END_ */
+
+  /**
+   * Indicates that instances of this type are async
+   * @static
+   * @memberOf fabric.Path
+   * @type Boolean
+   * @default
+   */
+  fabric.Path.async = true;
 
 })(typeof exports !== 'undefined' ? exports : this);

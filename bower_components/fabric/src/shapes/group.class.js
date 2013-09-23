@@ -28,7 +28,7 @@
    * Group class
    * @class fabric.Group
    * @extends fabric.Object
-   * @extends fabric.Collection
+   * @mixes fabric.Collection
    */
   fabric.Group = fabric.util.createClass(fabric.Object, fabric.Collection, /** @lends fabric.Group.prototype */ {
 
@@ -160,9 +160,8 @@
     },
 
     /**
-     * @param delegatedProperties
-     * @type Object
      * Properties that are delegated to group objects when reading/writing
+     * @param {Object} delegatedProperties
      */
     delegatedProperties: {
       fill:             true,
@@ -173,7 +172,6 @@
       fontStyle:        true,
       lineHeight:       true,
       textDecoration:   true,
-      textShadow:       true,
       textAlign:        true,
       backgroundColor:  true
     },
@@ -391,7 +389,7 @@
      */
     toSVG: function() {
       var objectsMarkup = [ ];
-      for (var i = this._objects.length; i--; ) {
+      for (var i = 0, len = this._objects.length; i < len; i++) {
         objectsMarkup.push(this._objects[i].toSVG());
       }
 
@@ -433,6 +431,7 @@
   /**
    * Returns {@link fabric.Group} instance from an object representation
    * @static
+   * @memberOf fabric.Group
    * @param {Object} object Object to create a group from
    * @param {Object} [options] Options object
    * @return {fabric.Group} An instance of fabric.Group
@@ -447,7 +446,9 @@
   /**
    * Indicates that instances of this type are async
    * @static
+   * @memberOf fabric.Group
    * @type Boolean
+   * @default
    */
   fabric.Group.async = true;
 

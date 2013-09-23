@@ -120,8 +120,11 @@
      * @param {CanvasRenderingContext2D} ctx Context to render on
      */
     _renderDashedStroke: function(ctx) {
-      var x = this.width === 1 ? 0 : -this.width / 2,
-          y = this.height === 1 ? 0 : -this.height / 2;
+      var
+        xMult = this.x1 <= this.x2 ? -1 : 1,
+        yMult = this.y1 <= this.y2 ? -1 : 1,
+        x = this.width === 1 ? 0 : xMult * this.width / 2,
+        y = this.height === 1 ? 0 : yMult * this.height / 2;
 
       ctx.beginPath();
       fabric.util.drawDashedLine(ctx, x, y, -x, -y, this.strokeDashArray);
@@ -149,11 +152,7 @@
      * @return {String} svg representation of an instance
      */
     toSVG: function() {
-      var markup = [];
-
-      if (this.stroke && this.stroke.toLive) {
-        markup.push(this.stroke.toSVG(this, true));
-      }
+      var markup = this._createBaseSVGMarkup();
 
       markup.push(
         '<line ',
@@ -182,6 +181,7 @@
   /**
    * List of attribute names to account for when parsing SVG element (used by {@link fabric.Line.fromElement})
    * @static
+   * @memberOf fabric.Line
    * @see http://www.w3.org/TR/SVG/shapes.html#LineElement
    */
   fabric.Line.ATTRIBUTE_NAMES = fabric.SHARED_ATTRIBUTES.concat('x1 y1 x2 y2'.split(' '));
@@ -189,6 +189,7 @@
   /**
    * Returns fabric.Line instance from an SVG element
    * @static
+   * @memberOf fabric.Line
    * @param {SVGElement} element Element to parse
    * @param {Object} [options] Options object
    * @return {fabric.Line} instance of fabric.Line
@@ -208,6 +209,7 @@
   /**
    * Returns fabric.Line instance from an object representation
    * @static
+   * @memberOf fabric.Line
    * @param {Object} object Object to create an instance from
    * @return {fabric.Line} instance of fabric.Line
    */

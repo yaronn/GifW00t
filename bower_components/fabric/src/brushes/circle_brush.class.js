@@ -2,11 +2,12 @@
  * CircleBrush class
  * @class fabric.CircleBrush
  */
-fabric.CircleBrush = fabric.util.createClass( fabric.BaseBrush, /** @lends fabric.CircleBrush.prototype */ {
+fabric.CircleBrush = fabric.util.createClass(fabric.BaseBrush, /** @lends fabric.CircleBrush.prototype */ {
 
   /**
    * Width of a brush
    * @type Number
+   * @default
    */
   width: 10,
 
@@ -19,22 +20,11 @@ fabric.CircleBrush = fabric.util.createClass( fabric.BaseBrush, /** @lends fabri
     this.canvas = canvas;
     this.points = [ ];
   },
-
   /**
-   * Invoked on mouse down
-   * @param {Object} pointer
-   */
-  onMouseDown: function() {
-    this.points.length = 0;
-    this.canvas.clearContext(this.canvas.contextTop);
-    this.setShadowStyles();
-  },
-
-  /**
-   * Invoked on mouse move
-   * @param {Object} pointer
-   */
-  onMouseMove: function(pointer) {
+  * Invoked inside on mouse down and mouse move
+  * @param {Object} pointer
+  */
+  drawDot: function(pointer) {
     var point = this.addPoint(pointer);
     var ctx = this.canvas.contextTop;
 
@@ -46,11 +36,31 @@ fabric.CircleBrush = fabric.util.createClass( fabric.BaseBrush, /** @lends fabri
   },
 
   /**
+   * Invoked on mouse down
+   */
+  onMouseDown: function(pointer) {
+    this.points.length = 0;
+    this.canvas.clearContext(this.canvas.contextTop);
+    this._setShadow();
+    this.drawDot(pointer);
+  },
+
+  /**
+   * Invoked on mouse move
+   * @param {Object} pointer
+   */
+  onMouseMove: function(pointer) {
+    this.drawDot(pointer);
+  },
+
+  /**
    * Invoked on mouse up
    */
   onMouseUp: function() {
-    var originalRenderOnAddition = this.canvas.renderOnAddition;
-    this.canvas.renderOnAddition = false;
+    var originalRenderOnAddRemove = this.canvas.renderOnAddRemove;
+    this.canvas.renderOnAddRemove = false;
+
+    var circles = [ ];
 
     for (var i = 0, len = this.points.length; i < len; i++) {
       var point = this.points[i];
@@ -58,20 +68,21 @@ fabric.CircleBrush = fabric.util.createClass( fabric.BaseBrush, /** @lends fabri
         radius: point.radius,
         left: point.x,
         top: point.y,
-        fill: point.fill,
-        shadow: {
-          color: this.shadowColor || this.color,
-          blur: this.shadowBlur,
-          offsetX: this.shadowOffsetX,
-          offsetY: this.shadowOffsetY
-        }
+        fill: point.fill
       });
-      this.canvas.add(circle);
+
+      this.shadow && circle.setShadow(this.shadow);
+
+      circles.push(circle);
     }
+    var group = new fabric.Group(circles);
+
+    this.canvas.add(group);
+    this.canvas.fire('path:created', { path: group });
 
     this.canvas.clearContext(this.canvas.contextTop);
-    this.removeShadowStyles();
-    this.canvas.renderOnAddition = originalRenderOnAddition;
+    this._resetShadow();
+    this.canvas.renderOnAddRemove = originalRenderOnAddRemove;
     this.canvas.renderAll();
   },
 

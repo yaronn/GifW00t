@@ -17,6 +17,22 @@ var modulesToExclude = buildArgsAsObject.exclude ? buildArgsAsObject.exclude.spl
 var minifier = buildArgsAsObject.minifier || 'uglifyjs';
 var mininfierCmd;
 
+var noStrict = 'no-strict' in buildArgsAsObject;
+var noSVGExport = 'no-svg-export' in buildArgsAsObject;
+var noES5Compat = 'no-es5-compat' in buildArgsAsObject;
+var requirejs = 'requirejs' in buildArgsAsObject ? 'requirejs' : false;
+
+// set amdLib var to encourage later support of other AMD systems
+var amdLib = requirejs;
+
+// if we want requirejs AMD support, use uglify
+var amdUglifyFlags = '';
+if (amdLib === 'requirejs' && minifier !== 'uglifyjs') {
+  console.log('[notice]: require.js support requires uglifyjs as minifier; changed minifier to uglifyjs.');
+  minifier = 'uglifyjs';
+  amdUglifyFlags = " -r 'require,exports,window,fabric' -e window:window,undefined ";
+}
+
 if (minifier === 'yui') {
   mininfierCmd = 'java -jar lib/yuicompressor-2.4.6.jar dist/all.js -o dist/all.min.js';
 }
@@ -24,12 +40,8 @@ else if (minifier === 'closure') {
   mininfierCmd = 'java -jar lib/google_closure_compiler.jar --js dist/all.js --js_output_file dist/all.min.js';
 }
 else if (minifier === 'uglifyjs') {
-  mininfierCmd = 'uglifyjs --output dist/all.min.js dist/all.js';
+  mininfierCmd = 'uglifyjs ' + amdUglifyFlags + ' --output dist/all.min.js dist/all.js';
 }
-
-var noStrict = 'no-strict' in buildArgsAsObject;
-var noSVGExport = 'no-svg-export' in buildArgsAsObject;
-var noES5Compat = 'no-es5-compat' in buildArgsAsObject;
 
 var buildSh = 'build-sh' in buildArgsAsObject;
 var buildMinified = 'build-minified' in buildArgsAsObject;
@@ -45,6 +57,7 @@ var distFileContents =
     (noStrict ? ' no-strict' : '') +
     (noSVGExport ? ' no-svg-export' : '') +
     (noES5Compat ? ' no-es5-compat' : '') +
+    (requirejs ? ' requirejs' : '') +
   '` */';
 
 function appendFileContents(fileNames, callback) {
@@ -101,6 +114,14 @@ function ifSpecifiedDependencyInclude(included, excluded, fileName) {
   );
 }
 
+function ifSpecifiedAMDInclude(amdLib) {
+  var supportedLibraries = ['requirejs'];
+  if (supportedLibraries.indexOf(amdLib) > -1) {
+    return 'src/amd/' + amdLib + '.js';
+  }
+  return '';
+}
+
 var filesToInclude = [
   'HEADER.js',
 
@@ -123,16 +144,19 @@ var filesToInclude = [
   'src/util/dom_misc.js',
   'src/util/dom_request.js',
 
+  //ifSpecifiedInclude('animation', 'src/util/animate.js'),
+  'src/util/animate.js',
   ifSpecifiedInclude('easing', 'src/util/anim_ease.js'),
 
   ifSpecifiedInclude('parser', 'src/parser.js'),
 
   'src/point.class.js',
-  ifSpecifiedInclude('gradient', 'src/gradient.class.js'),
-  'src/pattern.class.js',
-  'src/shadow.class.js',
   'src/intersection.class.js',
   'src/color.class.js',
+
+  ifSpecifiedInclude('gradient', 'src/gradient.class.js'),
+  ifSpecifiedInclude('pattern', 'src/pattern.class.js'),
+  ifSpecifiedInclude('shadow', 'src/shadow.class.js'),
 
   'src/static_canvas.class.js',
 
@@ -146,7 +170,6 @@ var filesToInclude = [
   ifSpecifiedInclude('interaction', 'src/canvas.class.js'),
   ifSpecifiedInclude('interaction', 'src/mixins/canvas_events.mixin.js'),
 
-  'src/mixins/canvas_animation.mixin.js',
   'src/mixins/canvas_dataurl_exporter.mixin.js',
 
   ifSpecifiedInclude('serialization', 'src/mixins/canvas_serialization.mixin.js'),
@@ -158,6 +181,9 @@ var filesToInclude = [
   'src/mixins/stateful.mixin.js',
 
   ifSpecifiedInclude('interaction', 'src/mixins/object_interactivity.mixin.js'),
+
+  // ifSpecifiedInclude('animation', 'src/mixins/animation.mixin.js'),
+  'src/mixins/animation.mixin.js',
 
   'src/shapes/line.class.js',
   'src/shapes/circle.class.js',
@@ -173,11 +199,13 @@ var filesToInclude = [
 
   ifSpecifiedInclude('object_straightening', 'src/mixins/object_straightening.mixin.js'),
 
+  ifSpecifiedInclude('image_filters', 'src/filters/base_filter.class.js'),
   ifSpecifiedInclude('image_filters', 'src/filters/brightness_filter.class.js'),
   ifSpecifiedInclude('image_filters', 'src/filters/convolute_filter.class.js'),
   ifSpecifiedInclude('image_filters', 'src/filters/gradienttransparency_filter.class.js'),
   ifSpecifiedInclude('image_filters', 'src/filters/grayscale_filter.class.js'),
   ifSpecifiedInclude('image_filters', 'src/filters/invert_filter.class.js'),
+  ifSpecifiedInclude('image_filters', 'src/filters/mask_filter.class.js'),
   ifSpecifiedInclude('image_filters', 'src/filters/noise_filter.class.js'),
   ifSpecifiedInclude('image_filters', 'src/filters/pixelate_filter.class.js'),
   ifSpecifiedInclude('image_filters', 'src/filters/removewhite_filter.class.js'),
@@ -188,14 +216,16 @@ var filesToInclude = [
   ifSpecifiedInclude('text', 'src/shapes/text.class.js'),
   ifSpecifiedInclude('cufon', 'src/shapes/text.cufon.js'),
 
-  ifSpecifiedInclude('node', 'src/node.js')
+  ifSpecifiedInclude('node', 'src/node.js'),
+
+  ifSpecifiedAMDInclude(amdLib)
 ];
 
 if (buildMinified) {
   for (var i = 0; i < filesToInclude.length; i++) {
     if (!filesToInclude[i]) continue;
     var fileNameWithoutSlashes = filesToInclude[i].replace(/\//g, '^');
-    exec('uglifyjs -nc ' + filesToInclude[i] + ' > tmp/' + fileNameWithoutSlashes);
+    exec('uglifyjs -nc ' + amdUglifyFlags + filesToInclude[i] + ' > tmp/' + fileNameWithoutSlashes);
   }
 }
 else if (buildSh) {
@@ -231,16 +261,50 @@ else {
         throw err;
       }
 
-      console.log('Built distribution to dist/all.js');
+      // add js wrapping in AMD closure for requirejs if necessary
+      if (amdLib !== false) {
+        exec('uglifyjs dist/all.js ' + amdUglifyFlags + ' -b --output dist/all.js');
+      }
+
+      if (amdLib !== false) {
+        console.log('Built distribution to dist/all.js (' + amdLib + '-compatible)');
+      } else {
+        console.log('Built distribution to dist/all.js');
+      }
 
       exec(mininfierCmd, function (error, output) {
-        if (!error) {
-          console.log('Minified using', minifier, 'to dist/all.min.js');
+        if (error) {
+          console.error('Minification failed using', minifier, 'with', mininfierCmd);
+          process.exit(1);
         }
+        console.log('Minified using', minifier, 'to dist/all.min.js');
+
         exec('gzip -c dist/all.min.js > dist/all.min.js.gz', function (error, output) {
           console.log('Gzipped to dist/all.min.js.gz');
         });
       });
+
+      // Always build requirejs AMD module in dist/all.require.js
+      // add necessary requirejs footer code to filesToInclude if we haven't before
+      if (amdLib === false) {
+        amdLib = "requirejs";
+        filesToInclude[filesToInclude.length] = ifSpecifiedAMDInclude(amdLib);
+      }
+
+      appendFileContents(filesToInclude, function() {
+        fs.writeFile('dist/all.require.js', distFileContents, function (err) {
+          if (err) {
+            console.log(err);
+            throw err;
+          }
+          exec('uglifyjs dist/all.require.js ' + amdUglifyFlags + ' -b --output dist/all.require.js');
+          console.log('Built distribution to dist/all.require.js (requirejs-compatible)');
+        });
+      });
+
     });
   });
+
+
+
 }

@@ -2,6 +2,12 @@
 
   var emptyImageCanvasData = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfQAAAH0CAYAAADL1t+KAAAH7ElEQVR4nO3VMQ0AMAzAsPInvYHoMS2yEeTLHADge/M6AADYM3QACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIMHQACDB0AAgwdAAIuMjH4b7osLFBAAAAAElFTkSuQmCC";
 
+  var CANVAS_SVG = '<?xml version="1.0" encoding="UTF-8" standalone="no" ?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\n'+
+                   '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="600" height="600" xml:space="preserve"><desc>Created with Fabric.js ' + fabric.version + '</desc><defs></defs></svg>';
+
+  var CANVAS_SVG_VIEWBOX = '<?xml version="1.0" encoding="UTF-8" standalone="no" ?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\n'+
+                           '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="300" height="300" viewBox="100 100 300 300" xml:space="preserve"><desc>Created with Fabric.js ' + fabric.version + '</desc><defs></defs></svg>';
+
   var PATH_JSON = '{"objects": [{"type": "path", "originX": "center", "originY": "center", "left": 268, "top": 266, "width": 51, "height": 49,'+
                   ' "fill": "rgb(0,0,0)", "overlayFill": null, "stroke": null, "strokeWidth": 1, "scaleX": 1, "scaleY": 1, '+
                   '"angle": 0, "flipX": false, "flipY": false, "opacity": 1, "path": [["M", 18.511, 13.99],'+
@@ -21,18 +27,18 @@
 
   var PATH_DATALESS_JSON = '{"objects":[{"type":"path","originX":"center","originY":"center","left":200,"top":200,"width":200,"height":200,"fill":"rgb(0,0,0)",'+
                            '"overlayFill":null,"stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeLineJoin":"miter","strokeMiterLimit":10,'+
-                           '"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"selectable":true,"hasControls":true,"hasBorders":true,"hasRotatingPoint":true,"transparentCorners":true,'+
-                           '"perPixelTargetFind":false,"shadow":null,"visible":true,"clipTo":null,"path":"http://example.com/"}],"background":""}';
+                           '"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,'+
+                           '"shadow":null,"visible":true,"clipTo":null,"path":"http://example.com/","pathOffset":{"x":100,"y":100}}],"background":""}';
 
   var RECT_JSON = '{"objects":[{"type":"rect","originX":"center","originY":"center","left":0,"top":0,"width":10,"height":10,"fill":"rgb(0,0,0)","overlayFill":null,'+
                   '"stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeLineJoin":"miter","strokeMiterLimit":10,'+
-                  '"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"selectable":true,"hasControls":true,"hasBorders":true,"hasRotatingPoint":true,'+
-                  '"transparentCorners":true,"perPixelTargetFind":false,"shadow":null,"visible":true,"clipTo":null,"rx":0,"ry":0,"x":0,"y":0}],"background":"#ff5555"}';
+                  '"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,'+
+                  '"shadow":null,"visible":true,"clipTo":null,"rx":0,"ry":0,"x":0,"y":0}],"background":"#ff5555"}';
 
   var RECT_JSON_WITH_PADDING = '{"objects":[{"type":"rect","originX":"center","originY":"center","left":0,"top":0,"width":10,"height":20,"fill":"rgb(0,0,0)","overlayFill":null,'+
                                '"stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeLineJoin":"miter","strokeMiterLimit":10,'+
-                               '"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"selectable":true,"hasControls":true,"hasBorders":true,"hasRotatingPoint":true,'+
-                               '"transparentCorners":true,"perPixelTargetFind":false,"shadow":null,"visible":true,"clipTo":null,"padding":123,"foo":"bar","rx":0,"ry":0,"x":0,"y":0}],"background":""}';
+                               '"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,'+
+                               '"shadow":null,"visible":true,"clipTo":null,"padding":123,"foo":"bar","rx":0,"ry":0,"x":0,"y":0}],"background":""}';
 
   // force creation of static canvas
   // TODO: fix this
@@ -99,6 +105,36 @@
     equal(canvas.getObjects().length, 4, 'should support multiple arguments');
   });
 
+  test('add renderOnAddRemove disabled', function() {
+    var rect = makeRect(),
+        originalRenderOnAddition,
+        renderAllCount = 0;
+
+    function countRenderAll() {
+      renderAllCount++;
+    }
+
+    originalRenderOnAddition = canvas.renderOnAddRemove;
+    canvas.renderOnAddRemove = false;
+
+    canvas.on('after:render', countRenderAll);
+
+    ok(canvas === canvas.add(rect), 'should be chainable');
+    equal(renderAllCount, 0);
+
+    equal(canvas.item(0), rect);
+
+    canvas.add(makeRect(), makeRect(), makeRect());
+    equal(canvas.getObjects().length, 4, 'should support multiple arguments');
+    equal(renderAllCount, 0);
+
+    canvas.renderAll();
+    equal(renderAllCount, 1);
+
+    canvas.off('after:render', countRenderAll);
+    canvas.renderOnAddRemove = originalRenderOnAddition;
+  });
+
   test('insertAt', function() {
     var rect1 = makeRect(),
         rect2 = makeRect();
@@ -113,6 +149,40 @@
     canvas.insertAt(rect, 2);
     equal(canvas.item(2), rect);
     equal(canvas, canvas.insertAt(rect, 2), 'should be chainable');
+  });
+
+  test('insertAt renderOnAddRemove disabled', function() {
+    var rect1 = makeRect(),
+        rect2 = makeRect(),
+        originalRenderOnAddition,
+        renderAllCount = 0;
+
+    function countRenderAll() {
+      renderAllCount++;
+    }
+
+    originalRenderOnAddition = canvas.renderOnAddRemove;
+    canvas.renderOnAddRemove = false;
+
+    canvas.on('after:render', countRenderAll);
+
+    canvas.add(rect1, rect2);
+    equal(renderAllCount, 0);
+
+    var rect = makeRect();
+
+    canvas.insertAt(rect, 1);
+    equal(renderAllCount, 0);
+
+    equal(canvas.item(1), rect);
+    canvas.insertAt(rect, 2);
+    equal(renderAllCount, 0);
+
+    canvas.renderAll();
+    equal(renderAllCount, 1);
+
+    canvas.off('after:render', countRenderAll);
+    canvas.renderOnAddRemove = originalRenderOnAddition;
   });
 
   test('clearContext', function() {
@@ -148,6 +218,22 @@
       // this.assertIdentical(emptyImageCanvasData, canvas.toDataURL('png'));
       equal(typeof dataURL, 'string');
       equal(dataURL.substring(0, 21), 'data:image/png;base64');
+    }
+  });
+
+  test('toDataURL jpg', function() {
+    if (!fabric.Canvas.supports('toDataURL')) {
+      alert("toDataURL is not supported by this environment. Some of the tests can not be run.");
+    }
+    else {
+      try {
+        var dataURL = canvas.toDataURL({ format: 'jpg' });
+        equal(dataURL.substring(0, 22), 'data:image/jpeg;base64');
+      }
+      // node-canvas does not support jpeg data urls
+      catch(err) {
+        ok(true);
+      }
     }
   });
 
@@ -193,12 +279,38 @@
     equal(rect.getAngle(), 90, 'angle should be coerced to 90 (from 100)');
   });
 
+  test('toSVG', function() {
+    ok(typeof canvas.toSVG == 'function');
+    canvas.clear();
+
+    var svg = canvas.toSVG();
+    equal(svg, CANVAS_SVG);
+  });
+
+  test('toSVG with different encoding (ISO-8859-1)', function() {
+    ok(typeof canvas.toSVG == 'function');
+    canvas.clear();
+
+    var svg = canvas.toSVG({encoding: 'ISO-8859-1'});
+    var svgDefaultEncoding = canvas.toSVG();
+    ok(svg != svgDefaultEncoding);
+    equal(svg, CANVAS_SVG.replace('encoding="UTF-8"', 'encoding="ISO-8859-1"'));
+  });
+
   test('toSVG without preamble', function() {
     ok(typeof canvas.toSVG == 'function');
     var withPreamble = canvas.toSVG();
     var withoutPreamble = canvas.toSVG({suppressPreamble: true});
     ok(withPreamble != withoutPreamble);
     equal(withoutPreamble.slice(0, 4), '<svg', 'svg should start with root node when premable is suppressed');
+  });
+
+  test('toSVG with viewBox', function() {
+    ok(typeof canvas.toSVG == 'function');
+    canvas.clear();
+
+    var svg = canvas.toSVG({viewBox: {x: 100, y: 100, width: 300, height: 300}});
+    equal(svg, CANVAS_SVG_VIEWBOX);
   });
 
   test('toJSON', function() {
@@ -352,6 +464,24 @@
     });
   });
 
+  test('toJSON custom properties non-existence check', function() {
+    var rect = new fabric.Rect({ width: 10, height: 20 });
+    rect.padding = 123;
+    canvas.add(rect);
+    rect.foo = 'bar';
+
+    canvas.bar = 456;
+
+    var data = canvas.toJSON(['padding', 'foo', 'bar', 'baz']);
+    ok('padding' in data.objects[0]);
+    ok('foo' in data.objects[0], 'foo shouldn\'t be included if it\'s not in an object');
+    ok(!('bar' in data.objects[0]), 'bar shouldn\'t be included if it\'s not in an object');
+    ok(!('baz' in data.objects[0]), 'bar shouldn\'t be included if it\'s not in an object');
+    ok(!('foo' in data));
+    ok(!('baz' in data));
+    ok('bar' in data);
+  });
+
   test('remove', function() {
     ok(typeof canvas.remove == 'function');
     var rect1 = makeRect(),
@@ -359,6 +489,35 @@
     canvas.add(rect1, rect2);
     equal(canvas.remove(rect1), rect1, 'should return removed object');
     equal(canvas.item(0), rect2, 'only second object should be left');
+  });
+
+  test('remove renderOnAddRemove disabled', function() {
+    var rect1 = makeRect(),
+        rect2 = makeRect(),
+        originalRenderOnAddition,
+        renderAllCount = 0;
+
+    function countRenderAll() {
+      renderAllCount++;
+    }
+
+    originalRenderOnAddition = canvas.renderOnAddRemove;
+    canvas.renderOnAddRemove = false;
+
+    canvas.on('after:render', countRenderAll);
+
+    canvas.add(rect1, rect2);
+    equal(renderAllCount, 0);
+
+    equal(canvas.remove(rect1), rect1, 'should return removed object');
+    equal(renderAllCount, 0);
+    equal(canvas.item(0), rect2, 'only second object should be left');
+
+    canvas.renderAll();
+    equal(renderAllCount, 1);
+
+    canvas.off('after:render', countRenderAll);
+    canvas.renderOnAddRemove = originalRenderOnAddition;
   });
 
   test('sendToBack', function() {
@@ -733,7 +892,7 @@
   });
 
   asyncTest('loadFromJSON with text', function() {
-    var json = '{"objects":[{"type":"text","left":150,"top":200,"width":128,"height":64.32,"fill":"#000000","overlayFill":"","stroke":"","strokeWidth":"","scaleX":0.8,"scaleY":0.8,"angle":0,"flipX":false,"flipY":false,"opacity":1,"selectable":true,"text":"NAME HERE","fontSize":24,"fontWeight":"","fontFamily":"Delicious_500","fontStyle":"","lineHeight":"","textDecoration":"","textShadow":"","textAlign":"center","path":"","strokeStyle":"","backgroundColor":""}],"background":"#ffffff"}';
+    var json = '{"objects":[{"type":"text","left":150,"top":200,"width":128,"height":64.32,"fill":"#000000","overlayFill":"","stroke":"","strokeWidth":"","scaleX":0.8,"scaleY":0.8,"angle":0,"flipX":false,"flipY":false,"opacity":1,"text":"NAME HERE","fontSize":24,"fontWeight":"","fontFamily":"Delicious_500","fontStyle":"","lineHeight":"","textDecoration":"","textAlign":"center","path":"","strokeStyle":"","backgroundColor":""}],"background":"#ffffff"}';
     canvas.loadFromJSON(json, function() {
 
       canvas.renderAll();

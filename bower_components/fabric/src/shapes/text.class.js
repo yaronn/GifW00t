@@ -18,16 +18,15 @@
     'fontFamily',
     'fontWeight',
     'fontSize',
-    'path',
     'text',
     'textDecoration',
-    'textShadow',
     'textAlign',
     'fontStyle',
     'lineHeight',
     'backgroundColor',
     'textBackgroundColor',
-    'useNative'
+    'useNative',
+    'path'
   );
 
   /**
@@ -56,6 +55,150 @@
     },
 
     /**
+     * Retrieves object's fontSize
+     * @method getFontSize
+     * @memberOf fabric.Text.prototype
+     * @return {String} Font size (in pixels)
+     */
+
+    /**
+     * Sets object's fontSize
+     * @method setFontSize
+     * @memberOf fabric.Text.prototype
+     * @param {Number} fontSize Font size (in pixels)
+     * @return {fabric.Text}
+     * @chainable
+     */
+
+    /**
+     * Retrieves object's fontWeight
+     * @method getFontWeight
+     * @memberOf fabric.Text.prototype
+     * @return {(String|Number)} Font weight
+     */
+
+    /**
+     * Sets object's fontWeight
+     * @method setFontWeight
+     * @memberOf fabric.Text.prototype
+     * @param {(Number|String)} fontWeight Font weight
+     * @return {fabric.Text}
+     * @chainable
+     */
+
+    /**
+     * Retrieves object's fontFamily
+     * @method getFontFamily
+     * @memberOf fabric.Text.prototype
+     * @return {String} Font family
+     */
+
+    /**
+     * Sets object's fontFamily
+     * @method setFontFamily
+     * @memberOf fabric.Text.prototype
+     * @param {String} fontFamily Font family
+     * @return {fabric.Text}
+     * @chainable
+     */
+
+    /**
+     * Retrieves object's text
+     * @method getText
+     * @memberOf fabric.Text.prototype
+     * @return {String} text
+     */
+
+    /**
+     * Sets object's text
+     * @method setText
+     * @memberOf fabric.Text.prototype
+     * @param {String} text Text
+     * @return {fabric.Text}
+     * @chainable
+     */
+
+    /**
+     * Retrieves object's textDecoration
+     * @method getTextDecoration
+     * @memberOf fabric.Text.prototype
+     * @return {String} Text decoration
+     */
+
+    /**
+     * Sets object's textDecoration
+     * @method setTextDecoration
+     * @memberOf fabric.Text.prototype
+     * @param {String} textDecoration Text decoration
+     * @return {fabric.Text}
+     * @chainable
+     */
+
+    /**
+     * Retrieves object's fontStyle
+     * @method getFontStyle
+     * @memberOf fabric.Text.prototype
+     * @return {String} Font style
+     */
+
+    /**
+     * Sets object's fontStyle
+     * @method setFontStyle
+     * @memberOf fabric.Text.prototype
+     * @param {String} fontStyle Font style
+     * @return {fabric.Text}
+     * @chainable
+     */
+
+    /**
+     * Retrieves object's lineHeight
+     * @method getLineHeight
+     * @memberOf fabric.Text.prototype
+     * @return {Number} Line height
+     */
+
+    /**
+     * Sets object's lineHeight
+     * @method setLineHeight
+     * @memberOf fabric.Text.prototype
+     * @param {Number} lineHeight Line height
+     * @return {fabric.Text}
+     * @chainable
+     */
+
+    /**
+     * Retrieves object's textAlign
+     * @method getTextAlign
+     * @memberOf fabric.Text.prototype
+     * @return {String} Text alignment
+     */
+
+    /**
+     * Sets object's textAlign
+     * @method setTextAlign
+     * @memberOf fabric.Text.prototype
+     * @param {String} textAlign Text alignment
+     * @return {fabric.Text}
+     * @chainable
+     */
+
+    /**
+     * Retrieves object's textBackgroundColor
+     * @method getTextBackgroundColor
+     * @memberOf fabric.Text.prototype
+     * @return {String} Text background color
+     */
+
+    /**
+     * Sets object's textBackgroundColor
+     * @method setTextBackgroundColor
+     * @memberOf fabric.Text.prototype
+     * @param {String} textBackgroundColor Text background color
+     * @return {fabric.Text}
+     * @chainable
+     */
+
+    /**
      * Type of an object
      * @type String
      * @default
@@ -71,7 +214,7 @@
 
     /**
      * Font weight (e.g. bold, normal, 400, 600, 800)
-     * @type Number
+     * @type {(Number|String)}
      * @default
      */
     fontWeight:           'normal',
@@ -89,13 +232,6 @@
      * @default
      */
     textDecoration:       '',
-
-    /**
-     * Text shadow
-     * @type String | null
-     * @default
-     */
-    textShadow:           '',
 
     /**
      * Text alignment. Possible values: "left", "center", or "right".
@@ -144,14 +280,30 @@
      * @type Boolean
      * @default
      */
-     useNative:           true,
+    useNative:            true,
 
-     /**
-      * List of properties to consider when checking if state of an object is changed ({@link fabric.Object#hasStateChanged})
-      * as well as for history (undo/redo) purposes
-      * @type Array
-      */
-     stateProperties:     stateProperties,
+    /**
+     * List of properties to consider when checking if state of an object is changed ({@link fabric.Object#hasStateChanged})
+     * as well as for history (undo/redo) purposes
+     * @type Array
+     */
+    stateProperties:      stateProperties,
+
+    /**
+     * When defined, an object is rendered via stroke and this property specifies its color.
+     * <b>Backwards incompatibility note:</b> This property was named "strokeStyle" until v1.1.6
+     * @type String
+     * @default
+     */
+    stroke:               null,
+
+    /**
+     * Shadow object representing shadow of this shape.
+     * <b>Backwards incompatibility note:</b> This property was named "textShadow" (String) until v1.2.11
+     * @type fabric.Shadow
+     * @default
+     */
+    shadow:               null,
 
     /**
      * Constructor
@@ -226,6 +378,8 @@
       this.width = this._getTextWidth(ctx, textLines);
       this.height = this._getTextHeight(ctx, textLines);
 
+      this.clipTo && fabric.util.clipContext(this, ctx);
+
       this._renderTextBackground(ctx, textLines);
 
       if (this.textAlign !== 'left' && this.textAlign !== 'justify') {
@@ -234,12 +388,10 @@
       }
 
       ctx.save();
-      this._setTextShadow(ctx);
-      this.clipTo && fabric.util.clipContext(this, ctx);
+      this._setShadow(ctx);
       this._renderTextFill(ctx, textLines);
       this._renderTextStroke(ctx, textLines);
-      this.clipTo && ctx.restore();
-      this.textShadow && ctx.restore();
+      this._removeShadow(ctx);
       ctx.restore();
 
       if (this.textAlign !== 'left' && this.textAlign !== 'justify') {
@@ -247,10 +399,10 @@
       }
 
       this._renderTextDecoration(ctx, textLines);
+      this.clipTo && ctx.restore();
+
       this._setBoundaries(ctx, textLines);
       this._totalLineHeight = 0;
-
-      this.setCoords();
     },
 
     /**
@@ -328,37 +480,14 @@
 
     /**
      * @private
+     * @param {String} method Method name ("fillText" or "strokeText")
      * @param {CanvasRenderingContext2D} ctx Context to render on
+     * @param {String} line Chars to render
+     * @param {Number} left Left position of text
+     * @param {Number} top Top position of text
      */
-    _setTextShadow: function(ctx) {
-      if (!this.textShadow) return;
-
-      // "rgba(0,0,0,0.2) 2px 2px 10px"
-      // "rgb(0, 100, 0) 0 0 5px"
-      // "red 2px 2px 1px"
-      // "#f55 123 345 567"
-      var reOffsetsAndBlur = /\s+(-?\d+)(?:px)?\s+(-?\d+)(?:px)?\s+(\d+)(?:px)?\s*/;
-
-      var shadowDeclaration = this.textShadow;
-      var offsetsAndBlur = reOffsetsAndBlur.exec(this.textShadow);
-      var shadowColor = shadowDeclaration.replace(reOffsetsAndBlur, '');
-
-      ctx.save();
-      ctx.shadowColor = shadowColor;
-      ctx.shadowOffsetX = parseInt(offsetsAndBlur[1], 10);
-      ctx.shadowOffsetY = parseInt(offsetsAndBlur[2], 10);
-      ctx.shadowBlur = parseInt(offsetsAndBlur[3], 10);
-
-      this._shadows = [{
-        blur: ctx.shadowBlur,
-        color: ctx.shadowColor,
-        offX: ctx.shadowOffsetX,
-        offY: ctx.shadowOffsetY
-      }];
-
-      this._shadowOffsets = [[
-        parseInt(ctx.shadowOffsetX, 10), parseInt(ctx.shadowOffsetY, 10)
-      ]];
+    _drawChars: function(method, ctx, chars, left, top) {
+      ctx[method](chars, left, top);
     },
 
     /**
@@ -368,12 +497,15 @@
      * @param {String} line Text to render
      * @param {Number} left Left position of text
      * @param {Number} top Top position of text
+     * @param {Number} lineIndex Index of a line in a text
      */
-    _drawTextLine: function(method, ctx, line, left, top) {
+    _drawTextLine: function(method, ctx, line, left, top, lineIndex) {
+      // lift the line by quarter of fontSize
+      top -= this.fontSize / 4;
 
       // short-circuit
       if (this.textAlign !== 'justify') {
-        ctx[method](line, left, top);
+        this._drawChars(method, ctx, line, left, top, lineIndex);
         return;
       }
 
@@ -382,7 +514,6 @@
 
       if (totalWidth > lineWidth) {
         // stretch the line
-
         var words = line.split(/\s+/);
         var wordsWidth = ctx.measureText(line.replace(/\s+/g, '')).width;
         var widthDiff = totalWidth - wordsWidth;
@@ -391,12 +522,12 @@
 
         var leftOffset = 0;
         for (var i = 0, len = words.length; i < len; i++) {
-          ctx[method](words[i], left + leftOffset, top);
+          this._drawChars(method, ctx, words[i], left + leftOffset, top, lineIndex);
           leftOffset += ctx.measureText(words[i]).width + spaceWidth;
         }
       }
       else {
-        ctx[method](line, left, top);
+        this._drawChars(method, ctx, line, left, top, lineIndex);
       }
     },
 
@@ -435,16 +566,22 @@
      * @param {Array} textLines Array of all text lines
      */
     _renderTextFill: function(ctx, textLines) {
-      if (!this.fill) return;
+      if (!this.fill && !this.skipFillStrokeCheck) return;
 
       this._boundaries = [ ];
+      var lineHeights = 0;
+
       for (var i = 0, len = textLines.length; i < len; i++) {
+        var heightOfLine = this._getHeightOfLine(ctx, i, textLines);
+        lineHeights += heightOfLine;
+
         this._drawTextLine(
           'fillText',
           ctx,
           textLines[i],
           this._getLeftOffset(),
-          this._getTopOffset() + (i * this.fontSize * this.lineHeight) + this.fontSize
+          this._getTopOffset() + lineHeights,
+          i
         );
       }
     },
@@ -455,7 +592,9 @@
      * @param {Array} textLines Array of all text lines
      */
     _renderTextStroke: function(ctx, textLines) {
-      if (!this.stroke) return;
+      if (!this.stroke && !this.skipFillStrokeCheck) return;
+
+      var lineHeights = 0;
 
       ctx.save();
       if (this.strokeDashArray) {
@@ -468,16 +607,24 @@
 
       ctx.beginPath();
       for (var i = 0, len = textLines.length; i < len; i++) {
+        var heightOfLine = this._getHeightOfLine(ctx, i, textLines);
+        lineHeights += heightOfLine;
+
         this._drawTextLine(
           'strokeText',
           ctx,
           textLines[i],
           this._getLeftOffset(),
-          this._getTopOffset() + (i * this.fontSize * this.lineHeight) + this.fontSize
+          this._getTopOffset() + lineHeights,
+          i
         );
       }
       ctx.closePath();
       ctx.restore();
+    },
+
+    _getHeightOfLine: function() {
+      return this.fontSize * this.lineHeight;
     },
 
     /**
@@ -574,7 +721,8 @@
     _renderTextDecoration: function(ctx, textLines) {
       if (!this.textDecoration) return;
 
-      var halfOfVerticalBox = this.originY === 'top' ? 0 : this._getTextHeight(ctx, textLines) / 2;
+      // var halfOfVerticalBox = this.originY === 'top' ? 0 : this._getTextHeight(ctx, textLines) / 2;
+      var halfOfVerticalBox = this._getTextHeight(ctx, textLines) / 2;
       var _this = this;
 
       /** @ignore */
@@ -586,20 +734,22 @@
 
           ctx.fillRect(
             _this._getLeftOffset() + lineLeftOffset,
-            (offset + (i * _this.fontSize * _this.lineHeight)) - halfOfVerticalBox,
+            (offset + (i * _this._getHeightOfLine(ctx, i, textLines))) - halfOfVerticalBox,
             lineWidth,
             1);
         }
       }
 
+      var fractionOfFontSize = this.fontSize / 4;
+
       if (this.textDecoration.indexOf('underline') > -1) {
-        renderLinesAtOffset(this.fontSize);
+        renderLinesAtOffset(this.fontSize * this.lineHeight);
       }
       if (this.textDecoration.indexOf('line-through') > -1) {
-        renderLinesAtOffset(this.fontSize / 2);
+        renderLinesAtOffset(this.fontSize * this.lineHeight - fractionOfFontSize);
       }
       if (this.textDecoration.indexOf('overline') > -1) {
-        renderLinesAtOffset(0);
+        renderLinesAtOffset(fractionOfFontSize);
       }
     },
 
@@ -648,7 +798,6 @@
         fontStyle:            this.fontStyle,
         lineHeight:           this.lineHeight,
         textDecoration:       this.textDecoration,
-        textShadow:           this.textShadow,
         textAlign:            this.textAlign,
         path:                 this.path,
         backgroundColor:      this.backgroundColor,
@@ -663,7 +812,6 @@
      * @return {String} svg representation of an instance
      */
     toSVG: function() {
-
       var textLines = this.text.split(/\r?\n/),
           lineTopOffset = this.useNative
             ? this.fontSize * this.lineHeight
@@ -684,7 +832,7 @@
         '<g transform="', this.getSvgTransform(), '">',
           textAndBg.textBgRects.join(''),
           '<text ',
-            (this.fontFamily ? 'font-family="\'' + this.fontFamily + '\'" ': ''),
+            (this.fontFamily ? 'font-family="' + this.fontFamily.replace(/"/g,'\'') + '" ': ''),
             (this.fontSize ? 'font-size="' + this.fontSize + '" ': ''),
             (this.fontStyle ? 'font-style="' + this.fontStyle + '" ': ''),
             (this.fontWeight ? 'font-weight="' + this.fontWeight + '" ': ''),
@@ -706,35 +854,36 @@
      * @return {Array}
      */
     _getSVGShadows: function(lineTopOffset, textLines) {
-      var shadowSpans = [], j, i, jlen, ilen, lineTopOffsetMultiplier = 1;
+      var shadowSpans = [],
+          i, len,
+          lineTopOffsetMultiplier = 1;
 
-      if (!this._shadows || !this._boundaries) {
+      if (!this.shadow || !this._boundaries) {
         return shadowSpans;
       }
 
-      for (j = 0, jlen = this._shadows.length; j < jlen; j++) {
-        for (i = 0, ilen = textLines.length; i < ilen; i++) {
-          if (textLines[i] !== '') {
-            var lineLeftOffset = (this._boundaries && this._boundaries[i]) ? this._boundaries[i].left : 0;
-            shadowSpans.push(
-              '<tspan x="',
-              toFixed((lineLeftOffset + lineTopOffsetMultiplier) + this._shadowOffsets[j][0], 2),
-              ((i === 0 || this.useNative) ? '" y' : '" dy'), '="',
-              toFixed(this.useNative
-                ? ((lineTopOffset * i) - this.height / 2 + this._shadowOffsets[j][1])
-                : (lineTopOffset + (i === 0 ? this._shadowOffsets[j][1] : 0)), 2),
-              '" ',
-              this._getFillAttributes(this._shadows[j].color), '>',
-              fabric.util.string.escapeXml(textLines[i]),
-            '</tspan>');
-            lineTopOffsetMultiplier = 1;
-          } else {
-            // in some environments (e.g. IE 7 & 8) empty tspans are completely ignored, using a lineTopOffsetMultiplier
-            // prevents empty tspans
-            lineTopOffsetMultiplier++;
-          }
+      for (i = 0, len = textLines.length; i < len; i++) {
+        if (textLines[i] !== '') {
+          var lineLeftOffset = (this._boundaries && this._boundaries[i]) ? this._boundaries[i].left : 0;
+          shadowSpans.push(
+            '<tspan x="',
+            toFixed((lineLeftOffset + lineTopOffsetMultiplier) + this.shadow.offsetX, 2),
+            ((i === 0 || this.useNative) ? '" y' : '" dy'), '="',
+            toFixed(this.useNative
+              ? ((lineTopOffset * i) - this.height / 2 + this.shadow.offsetY)
+              : (lineTopOffset + (i === 0 ? this.shadow.offsetY : 0)), 2),
+            '" ',
+            this._getFillAttributes(this.shadow.color), '>',
+            fabric.util.string.escapeXml(textLines[i]),
+          '</tspan>');
+          lineTopOffsetMultiplier = 1;
+        } else {
+          // in some environments (e.g. IE 7 & 8) empty tspans are completely ignored, using a lineTopOffsetMultiplier
+          // prevents empty tspans
+          lineTopOffsetMultiplier++;
         }
       }
+
       return shadowSpans;
     },
 
@@ -826,38 +975,19 @@
     /* _TO_SVG_END_ */
 
     /**
-     * Sets "color" of an instance (alias of `set('fill', &hellip;)`)
-     * @param {String} value
-     * @return {fabric.Text} thisArg
-     * @chainable
-     */
-    setColor: function(value) {
-      this.set('fill', value);
-      return this;
-    },
-
-    /**
-     * Returns actual text value of an instance
-     * @return {String}
-     */
-    getText: function() {
-      return this.text;
-    },
-
-    /**
      * Sets specified property to a specified value
-     * @param {String} name
+     * @param {String} key
      * @param {Any} value
      * @return {fabric.Text} thisArg
      * @chainable
      */
-    _set: function(name, value) {
-      if (name === 'fontFamily' && this.path) {
+    _set: function(key, value) {
+      if (key === 'fontFamily' && this.path) {
         this.path = this.path.replace(/(.*?)([^\/]*)(\.font\.js)/, '$1' + value + '$3');
       }
-      this.callSuper('_set', name, value);
+      this.callSuper('_set', key, value);
 
-      if (name in this._dimensionAffectingProps) {
+      if (key in this._dimensionAffectingProps) {
         this._initDimensions();
         this.setCoords();
       }
@@ -876,6 +1006,8 @@
   /**
    * List of attribute names to account for when parsing SVG element (used by {@link fabric.Text.fromElement})
    * @static
+   * @memberOf fabric.Text
+   * @see: http://www.w3.org/TR/SVG/text.html#TextElement
    */
   fabric.Text.ATTRIBUTE_NAMES = fabric.SHARED_ATTRIBUTES.concat(
     'x y font-family font-style font-weight font-size text-decoration'.split(' '));
@@ -883,12 +1015,12 @@
   /**
    * Returns fabric.Text instance from an SVG element (<b>not yet implemented</b>)
    * @static
+   * @memberOf fabric.Text
    * @param {SVGElement} element Element to parse
    * @param {Object} [options] Options object
    * @return {fabric.Text} Instance of fabric.Text
    */
   fabric.Text.fromElement = function(element, options) {
-
     if (!element) {
       return null;
     }
@@ -916,6 +1048,7 @@
   /**
    * Returns fabric.Text instance from an object representation
    * @static
+   * @memberOf fabric.Text
    * @param object {Object} object Object to create an instance from
    * @return {fabric.Text} Instance of fabric.Text
    */

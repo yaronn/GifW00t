@@ -5,9 +5,7 @@
   var fabric = global.fabric || (global.fabric = { }),
       extend = fabric.util.object.extend,
       invoke = fabric.util.array.invoke,
-      parentToObject = fabric.Object.prototype.toObject,
-      camelize = fabric.util.string.camelize,
-      capitalize = fabric.util.string.capitalize;
+      parentToObject = fabric.Object.prototype.toObject;
 
   if (fabric.PathGroup) {
     fabric.warn('fabric.PathGroup is already defined');
@@ -208,27 +206,39 @@
   });
 
   /**
-   * @private
-   */
-  function instantiatePaths(paths) {
-    for (var i = 0, len = paths.length; i < len; i++) {
-      if (!(paths[i] instanceof fabric.Object)) {
-        var klassName = camelize(capitalize(paths[i].type));
-        paths[i] = fabric[klassName].fromObject(paths[i]);
-      }
-    }
-    return paths;
-  }
-
-  /**
    * Creates fabric.PathGroup instance from an object representation
    * @static
+   * @memberOf fabric.PathGroup
    * @param {Object} object
-   * @return {fabric.PathGroup}
+   * @param {Function} callback Callback to invoke when an fabric.PathGroup instance is created
    */
-  fabric.PathGroup.fromObject = function(object) {
-    var paths = instantiatePaths(object.paths);
-    return new fabric.PathGroup(paths, object);
+  fabric.PathGroup.fromObject = function(object, callback) {
+    if (typeof object.paths === 'string') {
+      fabric.loadSVGFromURL(object.paths, function (elements) {
+
+        var pathUrl = object.paths;
+        delete object.paths;
+
+        var pathGroup = fabric.util.groupSVGElements(elements, object, pathUrl);
+
+        callback(pathGroup);
+      });
+    }
+    else {
+      fabric.util.enlivenObjects(object.paths, function(enlivenedObjects) {
+        delete object.paths;
+        callback(new fabric.PathGroup(enlivenedObjects, object));
+      });
+    }
   };
+
+  /**
+   * Indicates that instances of this type are async
+   * @static
+   * @memberOf fabric.PathGroup
+   * @type Boolean
+   * @default
+   */
+  fabric.PathGroup.async = true;
 
 })(typeof exports !== 'undefined' ? exports : this);

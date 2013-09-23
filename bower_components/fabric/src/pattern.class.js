@@ -5,30 +5,35 @@
 fabric.Pattern = fabric.util.createClass(/** @lends fabric.Pattern.prototype */ {
 
   /**
-   * Repeat property of a pattern (one of repeat, repeat-x, repeat-y)
+   * Repeat property of a pattern (one of repeat, repeat-x, repeat-y or no-repeat)
    * @type String
+   * @default
    */
   repeat: 'repeat',
 
   /**
    * Pattern horizontal offset from object's left/top corner
    * @type Number
+   * @default
    */
   offsetX: 0,
 
   /**
    * Pattern vertical offset from object's left/top corner
    * @type Number
+   * @default
    */
   offsetY: 0,
 
   /**
    * Constructor
-   * @param {Object} [options]
+   * @param {Object} [options] Options object
    * @return {fabric.Pattern} thisArg
    */
   initialize: function(options) {
     options || (options = { });
+
+    this.id = fabric.Object.__uid++;
 
     if (options.source) {
       if (typeof options.source === 'string') {
@@ -63,7 +68,7 @@ fabric.Pattern = fabric.util.createClass(/** @lends fabric.Pattern.prototype */ 
 
   /**
    * Returns object representation of a pattern
-   * @return {Object}
+   * @return {Object} Object representation of a pattern instance
    */
   toObject: function() {
 
@@ -86,9 +91,42 @@ fabric.Pattern = fabric.util.createClass(/** @lends fabric.Pattern.prototype */ 
     };
   },
 
+  /* _TO_SVG_START_ */
+  /**
+   * Returns SVG representation of a pattern
+   * @param {fabric.Object} object
+   * @return {String} SVG representation of a pattern
+   */
+  toSVG: function(object) {
+    var patternSource = typeof this.source === 'function' ? this.source() : this.source;
+    var patternWidth = patternSource.width / object.getWidth();
+    var patternHeight = patternSource.height / object.getHeight();
+    var patternImgSrc = '';
+
+    if (patternSource.src) {
+      patternImgSrc = patternSource.src;
+    }
+    else if (patternSource.toDataURL) {
+      patternImgSrc = patternSource.toDataURL();
+    }
+
+    return '<pattern id="SVGID_' + this.id +
+                  '" x="' + this.offsetX +
+                  '" y="' + this.offsetY +
+                  '" width="' + patternWidth +
+                  '" height="' + patternHeight + '">' +
+             '<image x="0" y="0"' +
+                    ' width="' + patternSource.width +
+                    '" height="' + patternSource.height +
+                    '" xlink:href="' + patternImgSrc +
+             '"></image>' +
+           '</pattern>';
+  },
+  /* _TO_SVG_END_ */
+
   /**
    * Returns an instance of CanvasPattern
-   * @param ctx
+   * @param {CanvasRenderingContext2D} ctx Context to create pattern
    * @return {CanvasPattern}
    */
   toLive: function(ctx) {

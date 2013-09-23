@@ -12,14 +12,14 @@ Using Fabric.js, you can create and populate objects on canvas; objects like sim
 
 ### Goals
 
-- Unit tested (1660+ tests at the moment)
-- Modular (~60 small "classes", modules, mixins)
+- Unit tested (2000+ tests at the moment)
+- Modular (~60 small ["classes", modules, mixins](http://fabricjs.com/docs/))
 - Cross-browser
 - [Fast](https://github.com/kangax/fabric.js/wiki/Focus-on-speed)
 - Encapsulated in one object
 - No browser sniffing for critical functionality
 - Runs under ES5 strict mode
-- Runs on a server under [Node.js](http://nodejs.org/)
+- Runs on a server under [Node.js](http://nodejs.org/) (0.6, 0.8, 0.10)
 
 ### Supported browsers
 
@@ -27,7 +27,7 @@ Using Fabric.js, you can create and populate objects on canvas; objects like sim
 - Safari 3+
 - Opera 9.64+
 - Chrome (all versions should work)
-- IE9+
+- IE9, IE10, IE11
 
 #### With help of [Explorer Canvas](http://code.google.com/p/explorercanvas/)
 
@@ -42,11 +42,16 @@ You can [run automated unit tests](http://fabricjs.com/test/unit/) right in the 
 
 Fabric.js started as a foundation for design editor on [printio.ru](http://printio.ru) — interactive online store with ability to create your own designs. The idea was to create [Javascript-based editor](http://printio.ru/ringer_man_tees/new), which would make it easy to manipulate vector shapes and images on T-Shirts. Since performance was one of the most critical requirements, we chose canvas over SVG. While SVG is excellent with static shapes, it's not as performant as canvas when it comes to dynamic manipulation of objects (movement, scaling, rotation, etc.). Fabric.js was heavily inspired by [Ernest Delgado's canvas experiment](http://www.ernestdelgado.com/public-tests/canvasphoto/demo/canvas.html). In fact, code from Ernest's experiment was the foundation of an entire framework. Later, Fabric.js grew into a collection of distinct object types and got an SVG-to-canvas parser.
 
+<h3 id="bower-install">Install with bower</h3>
+
+    $ bower install fabric
+
+
 <h3 id="fabric-building">Building</h3>
 
 1. [Install Node.js](https://github.com/joyent/node/wiki/Installation)
 
-2. Build distribution file  **[~76K minified, ~22K gzipped]**
+2. Build distribution file  **[~77K minified, ~20K gzipped]**
 
         $ node build.js
 
@@ -79,6 +84,10 @@ Fabric.js started as a foundation for design editor on [printio.ru](http://print
         # or Google Closure Compiler
         $ node build.js modules=... minifier=closure
 
+4. Enable AMD support via require.js (requires uglify)
+
+        $ node build.js requirejs modules=... 
+
 ### Demos
 
 - [Demos](http://fabricjs.com/demos/)
@@ -105,9 +114,11 @@ These are the optional modules that could be specified for inclusion, when build
 - **freedrawing** — Adds support for free drawing
 - **gestures** — Adds support for multitouch gestures with help of [Event.js](https://github.com/mudcube/Event.js)
 - **object_straightening** — Adds support for rotating an object to one of 0, 90, 180, 270, etc. depending on which is angle is closer.
+- **animation** — Adds support for animation (`fabric.util.animate`, `fabric.util.requestAnimFrame`, `fabric.Object#animate`, `fabric.Canvas#fxCenterObjectH/#fxCenterObjectV/#fxRemove`)
 
 Additional flags for build script are:
 
+- **requirejs** — Makes fabric requirejs AMD-compatible in `dist/all.js`. *Note:* an unminified, requirejs-compatible version is always created in `dist/all.require.js`
 - **no-strict** — Strips "use strict" directives from source
 - **no-svg-export** — Removes svg exporting functionality
 - **no-es5-compat** - Removes ES5 compat methods (Array.prototype.*, String.prototype.*, Function.prototype.*)
@@ -136,7 +147,15 @@ For example:
 
 ### Staying in touch
 
-Follow [@fabric.js](http://twitter.com/fabricjs) or [@kangax](http://twitter.com/kangax) on twitter. Questions, suggestions — [fabric.js on Google Groups](http://groups.google.com/group/fabricjs).
+Follow [@fabric.js](http://twitter.com/fabricjs) or [@kangax](http://twitter.com/kangax) on twitter.
+
+Questions, suggestions — [fabric.js on Google Groups](http://groups.google.com/group/fabricjs).
+
+See [Fabric questions on Stackoverflow](stackoverflow.com/questions/tagged/fabricjs),
+Fabric snippets on [jsfiddle](http://jsfiddle.net/user/fabricjs/fiddles/)
+or [codepen.io](http://codepen.io/tag/fabricjs).
+
+Get help in Fabric's IRC channel — irc://irc.freenode.net/#fabric.js
 
 ### Credits
 

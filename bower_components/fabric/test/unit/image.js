@@ -37,12 +37,6 @@
     'flipY':              false,
     'opacity':            1,
     'src':                fabric.isLikelyNode ? undefined : IMG_SRC,
-    'selectable':         true,
-    'hasControls':        true,
-    'hasBorders':         true,
-    'hasRotatingPoint':   true,
-    'transparentCorners': true,
-    'perPixelTargetFind': false,
     'shadow':             null,
     'visible':            true,
     'clipTo':             null,
@@ -145,6 +139,7 @@
       var elImage = _createImageElement();
       equal(image.setElement(elImage), image, 'chainable');
       equal(image.getElement(), elImage);
+      equal(image._originalElement, elImage);
 
       start();
     });

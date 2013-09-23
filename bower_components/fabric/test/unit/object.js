@@ -2,6 +2,47 @@
 
   var canvas = this.canvas = fabric.isLikelyNode ? fabric.createCanvasForNode() : new fabric.StaticCanvas();
 
+  function getAbsolutePath(path) {
+    var isAbsolute = /^https?:/.test(path);
+    if (isAbsolute) return path;
+    var imgEl = _createImageElement();
+    imgEl.src = path;
+    var src = imgEl.src;
+    imgEl = null;
+    return src;
+  }
+
+  var IMG_SRC     = fabric.isLikelyNode ? (__dirname + '/../fixtures/test_image.gif') : getAbsolutePath('../fixtures/test_image.gif'),
+      IMG_WIDTH   = 276,
+      IMG_HEIGHT  = 110;
+
+  function _createImageElement() {
+    return fabric.isLikelyNode ? new (require('canvas').Image) : fabric.document.createElement('img');
+  }
+
+  function createImageObject(callback) {
+    var elImage = _createImageElement();
+    elImage.width = IMG_WIDTH;
+    elImage.height = IMG_HEIGHT;
+    setSrc(elImage, IMG_SRC, function() {
+      callback(elImage);
+    });
+  }
+
+  function setSrc(img, src, callback) {
+    if (fabric.isLikelyNode) {
+      require('fs').readFile(src, function(err, imgData) {
+        if (err) throw err;
+        img.src = imgData;
+        callback && callback();
+      });
+    }
+    else {
+      img.src = src;
+      callback && callback();
+    }
+  }
+
   QUnit.module('fabric.Object', {
     teardown: function() {
       canvas.clear();
@@ -111,13 +152,13 @@
   test('toJSON', function() {
     var emptyObjectJSON = '{"type":"object","originX":"center","originY":"center","left":0,"top":0,"width":0,"height":0,"fill":"rgb(0,0,0)",'+
                           '"overlayFill":null,"stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeLineJoin":"miter","strokeMiterLimit":10,'+
-                          '"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"selectable":true,"hasControls":true,"hasBorders":true,"hasRotatingPoint":true,'+
-                          '"transparentCorners":true,"perPixelTargetFind":false,"shadow":null,"visible":true,"clipTo":null}';
+                          '"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,'+
+                          '"shadow":null,"visible":true,"clipTo":null}';
 
     var augmentedJSON = '{"type":"object","originX":"center","originY":"center","left":0,"top":0,"width":122,"height":0,"fill":"rgb(0,0,0)",'+
                         '"overlayFill":null,"stroke":null,"strokeWidth":1,"strokeDashArray":[5,2],"strokeLineCap":"round","strokeLineJoin":"bevil","strokeMiterLimit":5,'+
-                        '"scaleX":1.3,"scaleY":1,"angle":0,"flipX":false,"flipY":true,"opacity":0.88,"selectable":true,"hasControls":true,"hasBorders":true,"hasRotatingPoint":true,'+
-                        '"transparentCorners":true,"perPixelTargetFind":false,"shadow":null,"visible":true,"clipTo":null}';
+                        '"scaleX":1.3,"scaleY":1,"angle":0,"flipX":false,"flipY":true,"opacity":0.88,'+
+                        '"shadow":null,"visible":true,"clipTo":null}';
 
     var cObj = new fabric.Object();
     ok(typeof cObj.toJSON == 'function');
@@ -158,12 +199,6 @@
       'flipX':              false,
       'flipY':              false,
       'opacity':            1,
-      'selectable':         true,
-      'hasControls':        true,
-      'hasBorders':         true,
-      'hasRotatingPoint':   true,
-      'transparentCorners': true,
-      'perPixelTargetFind': false,
       'shadow':             null,
       'visible':            true,
       'clipTo':             null
@@ -191,12 +226,6 @@
       'flipX':              true,
       'flipY':              false,
       'opacity':            0.13,
-      'selectable':         false,
-      'hasControls':        true,
-      'hasBorders':         true,
-      'hasRotatingPoint':   true,
-      'transparentCorners': true,
-      'perPixelTargetFind': false,
       'shadow':             null,
       'visible':            true,
       'clipTo':             null
@@ -211,7 +240,6 @@
         .set('height', 40)
         .set('flipX', true)
         .set('opacity', 0.13)
-        .set('selectable', false)
         .set('strokeDashArray', [5, 2])
         .set('strokeLineCap', 'round')
         .set('strokeLineJoin', 'bevil')
@@ -239,6 +267,42 @@
     testFractionDigits.call(this, 2, 166.67);
     testFractionDigits.call(this, 3, 166.667);
     testFractionDigits.call(this, 0, 167);
+  });
+
+  test('toObject without default values', function() {
+
+    var emptyObjectRepr = { type: 'object' };
+
+    var augmentedObjectRepr = {
+      type: 'object',
+      left: 10,
+      top: 20,
+      width: 30,
+      height: 40,
+      strokeDashArray: [ 5, 2 ],
+      strokeLineCap: 'round',
+      strokeLineJoin: 'bevil',
+      strokeMiterLimit: 5,
+      flipX: true,
+      opacity: 0.13
+    };
+
+    var cObj = new fabric.Object();
+    cObj.includeDefaultValues = false;
+    deepEqual(emptyObjectRepr, cObj.toObject());
+
+    cObj.set('left', 10)
+        .set('top', 20)
+        .set('width', 30)
+        .set('height', 40)
+        .set('flipX', true)
+        .set('opacity', 0.13)
+        .set('strokeDashArray', [5, 2])
+        .set('strokeLineCap', 'round')
+        .set('strokeLineJoin', 'bevil')
+        .set('strokeMiterLimit', 5);
+
+    deepEqual(augmentedObjectRepr, cObj.toObject());
   });
 
   test('toDatalessObject', function() {
@@ -747,6 +811,29 @@
     }, 1000);
   });
 
+  asyncTest('animate with abort', function() {
+    var object = new fabric.Object({ left: 123, top: 124 });
+
+    var context;
+    object.animate({ left: 223, top: 224 }, {
+      abort: function() {
+        context = this;
+        return true;
+      }
+    });
+
+    setTimeout(function() {
+
+      equal(123, Math.round(object.get('left')));
+      equal(124, Math.round(object.get('top')));
+
+      equal(context, object, 'abort should be called in context of an object');
+
+      start();
+
+    }, 100);
+  });
+
   test('observable', function() {
     var object = new fabric.Object({ left: 20, top: 30, width: 40, height: 50, angle: 43 });
 
@@ -799,7 +886,7 @@
     ok(typeof object.remove == 'function');
 
     canvas.add(object);
-    object.remove();
+    equal(object.remove(), object, 'should be chainable');
 
     equal(canvas.getObjects().length, 0);
   });
@@ -810,7 +897,7 @@
     ok(typeof object.center == 'function');
 
     canvas.add(object);
-    object.center();
+    equal(object.center(), object, 'should be chainable');
 
     equal(object.getLeft(), canvas.getWidth() / 2);
     equal(object.getTop(), canvas.getHeight() / 2);
@@ -822,7 +909,7 @@
     ok(typeof object.centerH == 'function');
 
     canvas.add(object);
-    object.centerH();
+    equal(object.centerH(), object, 'should be chainable');
 
     equal(object.getLeft(), canvas.getWidth() / 2);
   });
@@ -833,7 +920,7 @@
     ok(typeof object.centerV == 'function');
 
     canvas.add(object);
-    object.centerV();
+    equal(object.centerV(), object, 'should be chainable');
 
     equal(object.getTop(), canvas.getHeight() / 2);
   });
@@ -842,36 +929,53 @@
     var object = new fabric.Object();
 
     ok(typeof object.sendToBack == 'function');
+
+    canvas.add(object);
+    equal(object.sendToBack(), object, 'should be chainable');
   });
 
   test('bringToFront', function() {
     var object = new fabric.Object();
 
     ok(typeof object.bringToFront == 'function');
+
+    canvas.add(object);
+    equal(object.bringToFront(), object, 'should be chainable');
   });
 
   test('sendBackwards', function() {
     var object = new fabric.Object();
 
-    ok(typeof object.bringToFront == 'function');
+    ok(typeof object.sendBackwards == 'function');
+
+    canvas.add(object);
+    equal(object.sendBackwards(), object, 'should be chainable');
   });
 
   test('bringForward', function() {
     var object = new fabric.Object();
 
-    ok(typeof object.bringToFront == 'function');
+    ok(typeof object.bringForward == 'function');
+
+    canvas.add(object);
+    equal(object.bringForward(), object, 'should be chainable');
   });
 
   test('moveTo', function() {
     var object = new fabric.Object();
 
     ok(typeof object.moveTo == 'function');
+
+    canvas.add(object);
+    equal(object.moveTo(), object, 'should be chainable');
   });
 
-  test('gradient serialization', function() {
+  test('setGradient', function() {
     var object = new fabric.Object();
 
-    object.setGradient('fill', {
+    ok(typeof object.setGradient == 'function');
+
+    equal(object.setGradient('fill', {
       x1: 0,
       y1: 0,
       x2: 100,
@@ -880,40 +984,104 @@
         '0': 'rgb(255,0,0)',
         '1': 'rgb(0,128,0)'
       }
-    });
+    }), object, 'should be chainable');
 
     ok(typeof object.toObject().fill == 'object');
+    ok(object.fill instanceof fabric.Gradient);
 
-    equal(object.toObject().fill.type, 'linear');
+    var fill = object.fill;
 
-    equal(object.toObject().fill.coords.x1, 0);
-    equal(object.toObject().fill.coords.y1, 0);
+    equal(fill.type, 'linear');
 
-    equal(object.toObject().fill.coords.x2, 100);
-    equal(object.toObject().fill.coords.y2, 100);
+    equal(fill.coords.x1, 0);
+    equal(fill.coords.y1, 0);
 
-    equal(object.toObject().fill.colorStops[0].offset, 0);
-    equal(object.toObject().fill.colorStops[1].offset, 1);
-    equal(object.toObject().fill.colorStops[0].color, 'rgb(255,0,0)');
-    equal(object.toObject().fill.colorStops[1].color, 'rgb(0,128,0)');
+    equal(fill.coords.x2, 100);
+    equal(fill.coords.y2, 100);
+
+    equal(fill.colorStops[0].offset, 0);
+    equal(fill.colorStops[1].offset, 1);
+    equal(fill.colorStops[0].color, 'rgb(255,0,0)');
+    equal(fill.colorStops[1].color, 'rgb(0,128,0)');
+  });
+
+  asyncTest('setPatternFill', function() {
+    var object = new fabric.Object();
+
+    ok(typeof object.setPatternFill == 'function');
+
+    createImageObject(function(img) {
+      equal(object.setPatternFill({source: img}), object, 'should be chainable');
+
+      ok(typeof object.toObject().fill == 'object');
+      ok(object.fill instanceof fabric.Pattern);
+
+      equal(object.fill.source, img);
+      equal(object.fill.repeat, 'repeat');
+      equal(object.fill.offsetX, 0);
+      equal(object.fill.offsetY, 0);
+
+      equal(object.setPatternFill({source: img, repeat: 'repeat-y', offsetX: 100, offsetY: 50}), object, 'should be chainable');
+
+      ok(typeof object.fill == 'object');
+      ok(object.fill instanceof fabric.Pattern);
+
+      equal(object.fill.source, img);
+      equal(object.fill.repeat, 'repeat-y');
+      equal(object.fill.offsetX, 100);
+      equal(object.fill.offsetY, 50);
+
+      start();
+    });
   });
 
   test('setShadow', function() {
     var object = new fabric.Object();
 
-    object.setShadow({
+    ok(typeof object.setShadow == 'function');
+
+    equal(object.setShadow({
       color: 'red',
       blur: 10,
       offsetX: 5,
       offsetY: 15
-    });
+    }), object, 'should be chainable');
 
+    ok(typeof object.toObject().shadow == 'object');
     ok(object.shadow instanceof fabric.Shadow);
 
     equal(object.shadow.color, 'red');
     equal(object.shadow.blur, 10);
     equal(object.shadow.offsetX, 5);
     equal(object.shadow.offsetY, 15);
+  });
+
+  test('set shadow', function() {
+    var object = new fabric.Object();
+
+    object.set('shadow', '10px 5px 0 #FF0000');
+
+    ok(object.shadow instanceof fabric.Shadow);
+
+    equal(object.shadow.color, '#FF0000');
+    equal(object.shadow.blur, 0);
+    equal(object.shadow.offsetX, 10);
+    equal(object.shadow.offsetY, 5);
+
+    object.set('shadow', null);
+
+    ok(!(object.shadow instanceof fabric.Shadow));
+
+    equal(object.shadow, null);
+  });
+
+  test('setColor', function(){
+    var object = new fabric.Object();
+
+    ok(typeof object.setColor == 'function');
+
+    equal(object.setColor('123456'), object, 'should be chainable');
+    equal(object.get('fill'), '123456');
   });
 
   test('intersectsWithRect', function() {
