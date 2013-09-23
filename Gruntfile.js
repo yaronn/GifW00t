@@ -1,3 +1,4 @@
+
 /*global module:false*/
 module.exports = function(grunt) {
 
@@ -20,6 +21,9 @@ module.exports = function(grunt) {
     shell: {
         buildHtml2canvas: {
             command: 'grunt --gruntfile ./html2canvas/Gruntfile.js'
+        },
+        deploy: {
+            command: "node s3publish"
         }
     },
     
@@ -125,6 +129,14 @@ module.exports = function(grunt) {
         all: { src: ['test/**/*.js'] }
     }
   });
+
+
+  grunt.registerTask('s3deploy', 'deploy /build to s3', function(arg1, arg2) {
+   
+
+    
+  });
+
 
   // Load tasks
   grunt.loadNpmTasks('grunt-contrib-concat');

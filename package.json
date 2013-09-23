@@ -23,12 +23,14 @@
     "grunt-shell": "~0.3.1",
     "grunt-simple-mocha": "~0.4.0",
     "wd": "~0.1.2",
+    "aws-sdk": "~1.6.0",
     "grunt-targethtml": "~0.2.4",
-    "http-server": "git+https://github.com/yaronn/http-server.git"
+    "http-server": "git+https://github.com/yaronn/http-server.git",
+    "mime": "~1.2.11"
   },
   "scripts": {
-      "test": "grunt test",
-      "server": "./node_modules/http-server/bin/http-server ./ -p $PORT -a $IP"
+    "test": "grunt test",
+    "server": "./node_modules/http-server/bin/http-server ./ -p $PORT -a $IP"
   },
   "homepage": "",
   "licenses": [
