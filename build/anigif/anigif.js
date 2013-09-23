@@ -1,4 +1,4 @@
-/* jsgif/GIFEncoder_WebWorker.js */
+/* anigif/jsgif/GIFEncoder_WebWorker.js */
 GIFEncoder_WebWorker = function(options) {
     
     var exports = {}
@@ -118,7 +118,7 @@ GIFEncoder_WebWorker = function(options) {
 
 
 
-/* jsgif/workcrew.js */
+/* anigif/jsgif/workcrew.js */
 /*
 WorkCrew - a WebWorker work queue library
  
@@ -538,6 +538,8 @@ window.encode64 = function(input) {
 
 window.anigif_bar = {
 
+        resolve_mode: typeof(anigif_base_url)=="undefined"?"absolute_from_root":"absolute_from_remote",
+        
         base_url: typeof(anigif_base_url)=="undefined"?getAbsoluteUrlPrefix() + "anigif/":anigif_base_url,
         
         buttons: ["record", "stop", "play", "config"],

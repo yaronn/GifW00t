@@ -4,3 +4,6 @@
 [submodule "jsgif"]
 	path = jsgif
 	url = git@github.com:antimatter15/jsgif.git
+[submodule "anigif/jsgif"]
+	path = anigif/jsgif
+	url = git@github.com:yaronn/jsgif.git

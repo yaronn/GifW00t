@@ -6,7 +6,7 @@ window.anigif_bar = {
 
         resolve_mode: typeof(anigif_base_url)=="undefined"?"absolute_from_root":"absolute_from_remote",
         
-        base_url: this.resolve_mode=="absolute_from_root"?getAbsoluteUrlPrefix() + "anigif/":anigif_base_url,
+        base_url: typeof(anigif_base_url)=="undefined"?getAbsoluteUrlPrefix() + "anigif/":anigif_base_url,
         
         buttons: ["record", "stop", "play", "config"],
         

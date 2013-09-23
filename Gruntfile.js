@@ -27,16 +27,13 @@ module.exports = function(grunt) {
       resources: {
         files: [
           {expand: true, flatten: true, src: ['anigif/img/*'], dest: 'build/<%= pkg.name %>/img', filter: 'isFile'}, // includes files in path
+          {expand: true, flatten: true, src: ['sampleResources/*'], dest: 'build/sampleResources', filter: 'isFile'}, // includes files in path
         ]
       },
       javascript: {
         files: [
-          {expand: true, flatten: true, src: ['jsgif/GIFEncoder.js', 'jsgif/LZWEncoder.js', 'jsgif/NeuQuant.js', 'jsgif/workcrew.js', 'jsgif/worker.js'], dest: 'build/<%= pkg.name %>/jsgif', filter: 'isFile'}, // includes files in path
-        ]
-      },
-      javascript1: {
-        files: [
-          {expand: true, flatten: true, src: ['jsgif/Demos/b64.js'], dest: 'build/<%= pkg.name %>/jsgif/Demos', filter: 'isFile'}, // includes files in path
+          {expand: true, flatten: true, src: ['anigif/jsgif/GIFEncoder.js', 'anigif/jsgif/LZWEncoder.js', 'anigif/jsgif/NeuQuant.js', 'anigif/jsgif/workcrew.js', 'anigif/jsgif/worker.js'], dest: 'build/<%= pkg.name %>/jsgif', filter: 'isFile'},
+          {expand: true, flatten: true, src: ['anigif/jsgif/Demos/b64.js'], dest: 'build/<%= pkg.name %>/jsgif/Demos', filter: 'isFile'}
         ]
       },
       html: {
@@ -50,8 +47,8 @@ module.exports = function(grunt) {
     concat: {
       anigif: {
         src: [
-          'jsgif/GIFEncoder_WebWorker.js',
-          'jsgif/workcrew.js',
+          'anigif/jsgif/GIFEncoder_WebWorker.js',
+          'anigif/jsgif/workcrew.js',
           'anigif/*.js',
           'html2canvas/build/html2canvas.js',
           'node_modules/async/lib/async.js',
