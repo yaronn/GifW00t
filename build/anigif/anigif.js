@@ -4532,6 +4532,10 @@ _html2canvas.Renderer.Canvas = function(options) {
         next();
     };
 
+
+    //******
+    root.async = async;
+    /*
     // AMD / RequireJS
     if (typeof define !== 'undefined' && define.amd) {
         define([], function () {
@@ -4545,7 +4549,7 @@ _html2canvas.Renderer.Canvas = function(options) {
     // included directly via <script> tag
     else {
         root.async = async;
-    }
+    }*/
 
 }());
 
