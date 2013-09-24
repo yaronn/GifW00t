@@ -365,7 +365,7 @@ WorkCrew.prototype.clean = function() {
             var self = this;
             
             if (this.options.fixedWidth!="") {
-                this.frames[i].style.width=this.options.fixedWidth;
+                this.frames[i].style.width=this.options.fixedWidth + "px";
             }
             
             document.body.appendChild(this.frames[i]);
