@@ -70,7 +70,7 @@ function writeSettings(done) {
                     }
                     
                     setField("rootNode", "#inner_div", function() {
-                        setField("frameInterval", frame_interval, function() {
+                        setField("framesPerSecond", 1000/frame_interval, function() {
                             setField("cores", 2, function() {
                                 setField("ratio", 0.8, function() {
                                      browser.elementById("quality", function(err, el) {

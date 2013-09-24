@@ -241,12 +241,13 @@ WorkCrew.prototype.clean = function() {
             
             this.options = {
                 onlyLastFrames: 150,
-                frameInterval: 500,
+                framesPerSecond: 2,
                 selector: "#main",
                 cores: 8,
                 ratio: 0.8,
                 quality: "Medium",
-                base_url: ""
+                base_url: "",
+                fixedWidth: ""
             };
             
         },
@@ -292,7 +293,7 @@ WorkCrew.prototype.clean = function() {
             
             window.setTimeout(function() {
                 self.recordFrame(this.options);
-                }, this.options.frameInterval);
+                }, 1000/this.options.framesPerSecond);
         
         },
         
@@ -362,6 +363,10 @@ WorkCrew.prototype.clean = function() {
         
         renderImage: function(i, cbx) {
             var self = this;
+            
+            if (this.options.fixedWidth!="") {
+                this.frames[i].style.width=this.options.fixedWidth;
+            }
             
             document.body.appendChild(this.frames[i]);
             this.replaceSvgWithCanvas(this.frames[i]);
@@ -448,7 +453,7 @@ WorkCrew.prototype.clean = function() {
             //console.log("starting gif composition")
             var encoder = new window.GIFEncoder_WebWorker({base_url: self.options.base_url+"jsgif/"});
             encoder.setRepeat(0); //auto-loop
-            encoder.setDelay(this.options.frameInterval);
+            encoder.setDelay(1000/this.options.framesPerSecond);
             encoder.start();
              for (var i=0; i<this.images.length; i++) {
                 var context = this.images[i].getContext('2d');
@@ -478,7 +483,7 @@ WorkCrew.prototype.clean = function() {
                 cba(null)
             }
             
-            self.progress("compose 0/" + self.frames.length)
+            self.progress("composed 0/" + self.frames.length)
             encoder.finish_async({singleComplete: singleComplete, done: done});
             
         }
@@ -553,13 +558,24 @@ window.anigif_bar = {
             window.anigif.options.base_url = self.base_url
             this.downloadHtml(self.base_url + "bar.html", function(err, html) {
                 var div = document.createElement("div");
+                div.id = "anigif_wrapper";
                 div.style.position = "fixed";
-                div.style.right = "5%";
-                div.style.top="5%";
+                div.style.right = self.right || "5%";
+                div.style.top = self.top || "5%";
                 div.style.zIndex=99999
                 var htmlworking = self.applyBaseUrl(html)
                 div.innerHTML = htmlworking;
                 document.body.appendChild(div)
+                
+               //prevant global page hooks from hapenning when interacting with anigif
+                var preventBubble = function(e) {
+                    e.stopPropagation();
+                }
+                div.addEventListener("keydown", preventBubble, true);
+                div.addEventListener("keypress", preventBubble, true); 
+                div.addEventListener("mousedown", preventBubble, true)
+                
+                
                 self.init(div);
             })   
             
@@ -603,19 +619,21 @@ window.anigif_bar = {
         loadConfig: function() {
             this.el.querySelectorAll("#cores")[0].value = window.anigif.options.cores;
             this.el.querySelectorAll("#onlyLastFrames")[0].value = window.anigif.options.onlyLastFrames;
-            this.el.querySelectorAll("#frameInterval")[0].value = window.anigif.options.frameInterval;
+            this.el.querySelectorAll("#framesPerSecond")[0].value = window.anigif.options.framesPerSecond;
             this.el.querySelectorAll("#rootNode")[0].value = window.anigif.options.selector;
             this.el.querySelectorAll("#ratio")[0].value = window.anigif.options.ratio;
             this.el.querySelectorAll("#quality")[0].value = window.anigif.options.quality;
+            this.el.querySelectorAll("#fixedWidth")[0].value = window.anigif.options.fixedWidth;
         },
         
         saveConfig: function() {
             window.anigif.options.cores = this.el.querySelectorAll("#cores")[0].value;
             window.anigif.options.onlyLastFrames = this.el.querySelectorAll("#onlyLastFrames")[0].value;
-            window.anigif.options.frameInterval = this.el.querySelectorAll("#frameInterval")[0].value;
+            window.anigif.options.framesPerSecond = this.el.querySelectorAll("#framesPerSecond")[0].value;
             window.anigif.options.selector = this.el.querySelectorAll("#rootNode")[0].value;
             window.anigif.options.ratio = this.el.querySelectorAll("#ratio")[0].value;
             window.anigif.options.quality = this.el.querySelectorAll("#quality")[0].value;
+            window.anigif.options.fixedWidth = this.el.querySelectorAll("#fixedWidth")[0].value;
         },
         
         click: function(e) {

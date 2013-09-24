@@ -89,7 +89,7 @@
         -webkit-background-clip: padding-box; //for safari
         background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
         background: rgb(232, 232, 232); /* Fall-back for browsers that don't support rgba */
-        background: rgba(232, 232, 232, .5);
+        background: rgba(232, 232, 232, .96);
         font-size: small;
         font-family: Verdana, Tahoma, sans-serif;
         -webkit-border-radius: 10px;
@@ -142,13 +142,13 @@
 <div id="anigif_settings">
     
     <div>
-        <div class="label" title="Root node for record (CSS selector)">Record node:</div>
+        <div class="label" title="Root node for recording (CSS selector)">Element to Record:</div>
         <div><input type="text" id="rootNode" /></div>
     </div>
     
     <div>
-        <div class="label" title="How much interval time between frames (milliseconds)">Frame Interval:</div>
-        <div><input type="text" id="frameInterval" /></div>
+        <div class="label" title="How many frames to capture per second">Frames Per Second:</div>
+        <div><input type="text" id="framesPerSecond" /></div>
     </div>
     
     <div>
@@ -175,6 +175,11 @@
                 <option id="high">High</option>
             </select>
         </div>
+    </div>
+    
+      <div>
+        <div class="label" title="Render the element in a fixed width (usefull if the element width depends on upper stream elements whcih are not captured)">Fixed Width (Optional):</div>
+        <div><input type="text" id="fixedWidth" /></div>
     </div>
     
     <div style="margin-top: 15px;">

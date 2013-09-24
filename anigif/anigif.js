@@ -13,12 +13,13 @@
             
             this.options = {
                 onlyLastFrames: 150,
-                frameInterval: 500,
+                framesPerSecond: 2,
                 selector: "#main",
                 cores: 8,
                 ratio: 0.8,
                 quality: "Medium",
-                base_url: ""
+                base_url: "",
+                fixedWidth: ""
             };
             
         },
@@ -64,7 +65,7 @@
             
             window.setTimeout(function() {
                 self.recordFrame(this.options);
-                }, this.options.frameInterval);
+                }, 1000/this.options.framesPerSecond);
         
         },
         
@@ -134,6 +135,10 @@
         
         renderImage: function(i, cbx) {
             var self = this;
+            
+            if (this.options.fixedWidth!="") {
+                this.frames[i].style.width=this.options.fixedWidth + "px";
+            }
             
             document.body.appendChild(this.frames[i]);
             this.replaceSvgWithCanvas(this.frames[i]);
@@ -220,7 +225,7 @@
             //console.log("starting gif composition")
             var encoder = new window.GIFEncoder_WebWorker({base_url: self.options.base_url+"jsgif/"});
             encoder.setRepeat(0); //auto-loop
-            encoder.setDelay(this.options.frameInterval);
+            encoder.setDelay(1000/this.options.framesPerSecond);
             encoder.start();
              for (var i=0; i<this.images.length; i++) {
                 var context = this.images[i].getContext('2d');
