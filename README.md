@@ -6,7 +6,7 @@ GifW00t!
 <img src="https://c9.io/yaronn01/anigif/workspace/pacman/img/demo7.gif"  width="200px" />
 <img src="https://c9.io/yaronn01/anigif/workspace/pacman/img/demo11.gif"  width="230px" />
 
-More information in twitter [YaronNaveh](http://twitter.com/#!/YaronNaveh)
+More information in my twitter - [@YaronNaveh](http://twitter.com/#!/YaronNaveh)
 
 
 What is GifW00t!?
