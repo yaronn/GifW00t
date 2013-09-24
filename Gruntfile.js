@@ -26,10 +26,10 @@ module.exports = function(grunt) {
             command: 'grunt --gruntfile ./html2canvas/Gruntfile.js'
         },
         s3deploy: {
-            command: "node s3publish './build-gzip/build'"
+            command: "node ./utils/s3publish './build-gzip/build'"
         },
         pacmandeploy: {
-            command: "node s3publish './pacman-gzip'"
+            command: "node ./utils/s3publish './pacman-gzip'"
         },
     },
     
