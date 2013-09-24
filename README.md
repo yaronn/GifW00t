@@ -17,6 +17,7 @@ GifW00t! is a pure-javascript web recorder. Just add one script tag to your page
 
 Oh and did I mention that you can use GifW00t! on 3rd party sites as well?
 
+For more information check out [my twitter](http://twitter.com/#!/YaronNaveh), the project [sample site](s3-us-west-2.amazonaws.com/anigif100/pacman/index.html), or [my blog](http://webservices20.blogspot.com/).
 
 How to use GifW00t!?
 ---------------------
@@ -40,15 +41,15 @@ wait a few seconds and the GifW00t! panel bar will appear.
 *Option 1 - refer directly to GifW00t! server*
 Just add this code inside your <head>:
 
-  <script>
-    var anigif_base_url = "https://s3-us-west-2.amazonaws.com/anigif100/anigif/"
-  </script>
-  <script src="https://s3-us-west-2.amazonaws.com/anigif100/anigif/anigif.min.js"></script>
+    <script>
+        var anigif_base_url = "https://s3-us-west-2.amazonaws.com/anigif100/anigif/"
+    </script>
+    <script src="https://s3-us-west-2.amazonaws.com/anigif100/anigif/anigif.min.js"></script>
   
 *Option 2 - serve GifW00t! yourself (it is just static files)*
 Copy /anigif from thsi project to your web site root. Then in your html add this:
 
-  <script src="https://s3-us-west-2.amazonaws.com/anigif100/anigif/anigif.min.js"></script>
+    <script src="https://s3-us-west-2.amazonaws.com/anigif100/anigif/anigif.min.js"></script>
 
 
 Compatibility
@@ -60,9 +61,9 @@ Options
 ---------------------
 Click the GifW00t! panel bar settings button in order to change record settings. Important settings are:
 
-  Element to record: What element in your page should GifW00t! capture (including sub elements). The value is a CSS selector. For example if you want to capture '<div id="main">' set the value to '#main'. Please always choose a Div element as the root for record.
-  
-  Frames per second: How many frames should GifW00t! capture each second. This heavily affects performance
+    Element to record: What element in your page should GifW00t! capture (including sub elements). The value is a CSS selector. For example if you want to capture '<div id="main">' set the value to '#main'. Please always choose a Div element as the root for record.
+
+    Frames per second: How many frames should GifW00t! capture each second. This heavily affects performance
 
 
 Optimization
