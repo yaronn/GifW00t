@@ -5,7 +5,8 @@ var dir = require('./treedir');
 var mime = require('mime');
 var exec = require('child_process').exec;
 
-var folder = "./build-gzip/build"
+var folder = process.argv[2]
+var prefix = process.argv[3] || ""
 
 function uploadFile(file) {
 
@@ -17,8 +18,8 @@ function uploadFile(file) {
          fs.readFile(file+".gz", function (err, data) {
            if (err) { throw err; }
             
-           var obj =file.substring(folder.length+"/".length)
-    
+           var obj = prefix + file.substring(folder.length+"/".length)
+        
            s3.client.putObject({
                 Bucket: 'anigif100',
                 Key: obj,

@@ -7,3 +7,6 @@
 [submodule "anigif/jsgif"]
 	path = anigif/jsgif
 	url = git@github.com:yaronn/jsgif.git
+[submodule "pacman"]
+	path = pacman
+	url = git@github.com:yaronn/pacman.git

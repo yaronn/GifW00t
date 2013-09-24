@@ -31,7 +31,7 @@ describe('Record site', function(){
         browser_name = 'chrome'
         browser.init({browserName: browser_name, name: "correct visual"}, 
                     function() {
-                        browser.get("https://c9.io/yaronn01/anigif/workspace/test/simple.html", function() {
+                        browser.get("https://s3-us-west-2.amazonaws.com/anigif100/simple.html", function() {
                             setTimeout(function() {writeSettings(done)}, 3000)
                     })   
         })
@@ -41,7 +41,7 @@ describe('Record site', function(){
         browser_name = 'firefox'
         browser.init({browserName: browser_name, name: "correct visual"}, 
                     function() {
-                        browser.get("https://c9.io/yaronn01/anigif/workspace/test/simple.html", function() {
+                        browser.get("https://s3-us-west-2.amazonaws.com/anigif100/simple.html", function() {
                             setTimeout(function() {writeSettings(done)}, 3000)
                     })   
         })

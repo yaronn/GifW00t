@@ -26,8 +26,11 @@ module.exports = function(grunt) {
             command: 'grunt --gruntfile ./html2canvas/Gruntfile.js'
         },
         s3deploy: {
-            command: "node s3publish"
-        }
+            command: "node s3publish './build-gzip/build'"
+        },
+        pacmandeploy: {
+            command: "node s3publish './pacman' pacman"
+        },
     },
     
     copy: {
@@ -139,13 +142,6 @@ module.exports = function(grunt) {
   });
 
 
-  grunt.registerTask('s3deploy', 'deploy /build to s3', function(arg1, arg2) {
-   
-
-    
-  });
-
-
   // Load tasks
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -158,7 +154,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-targethtml');
 
   grunt.registerTask('default', ['targethtml:dev']);
-  grunt.registerTask('deploy', ['clean:gzip', 'copy:togzip', 'shell:s3deploy']);
+  grunt.registerTask('deploy', ['clean:gzip', 'copy:togzip', 'shell:s3deploy', 'shell:pacmandeploy']);
   grunt.registerTask('full', ['clean', 'shell:buildHtml2canvas', 'jshint',  'targethtml:prod', 'targethtml:dev', 'concat', 'copy', 'uglify']);
   grunt.registerTask('build-prod', ['clean', 'targethtml:prod', 'targethtml:dev', 'concat', 'copy:resources', 'copy:javascript', 'copy:html', 'uglify']);
   grunt.registerTask('test', ['simplemocha']);

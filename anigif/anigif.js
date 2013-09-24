@@ -237,7 +237,7 @@
             */
             
             var singleComplete = function() {
-                self.progress("compose " + ++self.composedFrames + "/" + self.frames.length)
+                self.progress("composed " + ++self.composedFrames + "/" + self.frames.length)
             }
             
             var done = function(err, data){
