@@ -6,6 +6,9 @@ GifW00t!
 <img src="https://c9.io/yaronn01/anigif/workspace/pacman/img/demo7.gif"  width="200px" />
 <img src="https://c9.io/yaronn01/anigif/workspace/pacman/img/demo11.gif"  width="230px" />
 
+More information in twitter [YaronNaveh](http://twitter.com/#!/YaronNaveh)
+
+
 What is GifW00t!?
 ---------------------
 GifW00t! is a pure-javascript web recorder. Just add one script tag to your page, and users will be able to record and replay their interaction with the site. Some of the possibilities:
@@ -18,7 +21,7 @@ GifW00t! is a pure-javascript web recorder. Just add one script tag to your page
 
 Oh and did I mention that you can use GifW00t! on 3rd party sites as well?
 
-For more information check out [my twitter](http://twitter.com/#!/YaronNaveh), the project [sample site](s3-us-west-2.amazonaws.com/anigif100/pacman/index.html), or [my blog](http://webservices20.blogspot.com/).
+For more information check out [@YaronNaveh](http://twitter.com/#!/YaronNaveh), the project [sample site](s3-us-west-2.amazonaws.com/anigif100/pacman/index.html), or [my blog](http://webservices20.blogspot.com/).
 
 How to use GifW00t!?
 ---------------------
@@ -79,4 +82,4 @@ Here are the top ways to make GifW00t! render images faster:
 
 More information
 ---------------------
-Check out [my twitter](http://twitter.com/#!/YaronNaveh), the project [sample site](s3-us-west-2.amazonaws.com/anigif100/pacman/index.html), or [my blog](http://webservices20.blogspot.com/).
+Check out [@YaronNaveh](http://twitter.com/#!/YaronNaveh), the project [sample site](s3-us-west-2.amazonaws.com/anigif100/pacman/index.html), or [my blog](http://webservices20.blogspot.com/).
