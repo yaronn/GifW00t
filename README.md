@@ -42,7 +42,7 @@ wait a few seconds and the GifW00t! panel bar will appear.
 
 ### 3. You develop a website and want to embedd GifW00t!
 
-*Option 1 - refer directly to GifW00t! server*
+**Option 1 - refer directly to GifW00t! server**
 Just add this code inside your \<head\>:
 
     <script>
@@ -50,7 +50,7 @@ Just add this code inside your \<head\>:
     </script>
     <script src="https://s3-us-west-2.amazonaws.com/anigif100/anigif/anigif.min.js"></script>
   
-*Option 2 - serve GifW00t! yourself (it is just static files)*
+**Option 2 - serve GifW00t! yourself (it is just static files)**
 Copy /anigif from thsi project to your web site root. Then in your html add this:
 
     <script src="https://s3-us-west-2.amazonaws.com/anigif100/anigif/anigif.min.js"></script>
