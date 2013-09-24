@@ -33,12 +33,12 @@ In this case all you need is to work with the [GifW00t! panel bar](http://s3-us-
 ### 2. You surf in a site that does not embedd GifW00t!
 No problem. Open Chrome develoepr tools (CTRL+J) or Firefox Firebug and paste this code in the console:
 
-    var anigif_base_url = "https://s3-us-west-2.amazonaws.com/anigif100/anigif/"
+    var anigif_base_url = "http://s3-us-west-2.amazonaws.com/anigif100/anigif/"
     var ref=document.createElement('script')
-    ref.setAttribute("src", "https://s3-us-west-2.amazonaws.com/anigif100/anigif/anigif.min.js")
+    ref.setAttribute("src", "http://s3-us-west-2.amazonaws.com/anigif100/anigif/anigif.min.js")
     document.head.appendChild(ref)
 
-wait a few seconds and the GifW00t! panel bar will appear.
+wait a few seconds and the GifW00t! panel bar will appear. You can also set both urls to https if you need ssl.
 
 ### 3. You develop a website and want to embedd GifW00t!
 
