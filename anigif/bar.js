@@ -132,7 +132,7 @@ window.anigif_bar = {
             var self = this;
             if (seconds==0) cba();
             else {
-                self.status(seconds);
+                self.status("starting in " + seconds + "...");
                 window.setTimeout(function() {self.count(seconds-1, cba)}, 1000);
             }
             
