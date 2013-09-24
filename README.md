@@ -63,13 +63,13 @@ Compatibility
 Verified on Chrome 29 and Firefox 24. Will probably not work on some other browsers since some very new browser feaures are required.
 
 
-Options
+Settings
 ---------------------
 Click the GifW00t! panel bar settings button in order to change record settings. Important settings are:
 
-    Element to record: What element in your page should GifW00t! capture (including sub elements). The value is a CSS selector. For example if you want to capture '\<div id="main"\>' set the value to '#main'. Please always choose a Div element as the root for record.
+**Element to record:** What element in your page should GifW00t! capture (including sub elements). The value is a CSS selector. For example if you want to capture '\<div id="main"\>' set the value to '#main'. Please always choose a Div element as the root for record.
 
-    Frames per second: How many frames should GifW00t! capture each second. This heavily affects performance
+**Frames per second:** How many frames should GifW00t! capture each second. This heavily affects performance
 
 
 Optimization
