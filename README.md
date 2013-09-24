@@ -83,8 +83,8 @@ Here are the top ways to make GifW00t! render images faster:
 
 Special Thanks
 ---------------------
-GifW00t! uses some amazing libraries including [html2canvas](https://github.com/niklasvh/html2canvas) by [@Niklasvh](https://twitter.com/Niklasvh) and [jsgif](https://github.com/antimatter15/jsgif) by [antimatter15](https://twitter.com/antimatter15).
-Also special thanks for [daleharvey](https://twitter.com/daleharvey/) on the great HTML5 [pacman](http://arandomurl.com/2010/07/25/html5-pacman.html) and [helicopter](http://arandomurl.com/2010/08/05/html5-helicopter.html) games which I've used a lot while testing.
+GifW00t! uses some amazing libraries including [html2canvas](https://github.com/niklasvh/html2canvas) by [@Niklasvh](https://twitter.com/Niklasvh) and [jsgif](https://github.com/antimatter15/jsgif) by [@antimatter15](https://twitter.com/antimatter15).
+Also special thanks to [@daleharvey](https://twitter.com/daleharvey/) on the great HTML5 [pacman](http://arandomurl.com/2010/07/25/html5-pacman.html) and [helicopter](http://arandomurl.com/2010/08/05/html5-helicopter.html) games which I've used a lot while testing.
 
 More information
 ---------------------
