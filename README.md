@@ -3,7 +3,6 @@ GifW00t!
 
 <img src="https://c9.io/yaronn01/anigif/workspace/pacman/img/demo8.gif"  width="220px" />
 <img src="https://c9.io/yaronn01/anigif/workspace/pacman/img/demo10.gif"  width="200px" />
-<img src="https://c9.io/yaronn01/anigif/workspace/pacman/img/demo7.gif"  width="200px" />
 <img src="https://c9.io/yaronn01/anigif/workspace/pacman/img/demo11.gif"  width="230px" />
 
 More information in my twitter - [@YaronNaveh](http://twitter.com/#!/YaronNaveh)
@@ -21,7 +20,7 @@ GifW00t! is a pure-javascript web recorder. Just add one script tag to your page
 
 Oh and did I mention that you can use GifW00t! on 3rd party sites as well?
 
-For more information check out [@YaronNaveh](http://twitter.com/#!/YaronNaveh), the project [sample site](s3-us-west-2.amazonaws.com/anigif100/pacman/index.html), or [my blog](http://webservices20.blogspot.com/).
+For more information check out [@YaronNaveh](http://twitter.com/#!/YaronNaveh), the project [sample site](http://s3-us-west-2.amazonaws.com/anigif100/pacman/index.html), or [my blog](http://webservices20.blogspot.com/).
 
 How to use GifW00t!?
 ---------------------
@@ -33,12 +32,12 @@ In this case all you need is to work with the [GifW00t! panel bar](http://s3-us-
 ### 2. You surf in a site that does not embedd GifW00t!
 No problem. Open Chrome develoepr tools (CTRL+J) or Firefox Firebug and paste this code in the console:
 
-    var anigif_base_url = "https://s3-us-west-2.amazonaws.com/anigif100/anigif/"
+    var anigif_base_url = "http://s3-us-west-2.amazonaws.com/anigif100/anigif/"
     var ref=document.createElement('script')
-    ref.setAttribute("src", "https://s3-us-west-2.amazonaws.com/anigif100/anigif/anigif.min.js")
+    ref.setAttribute("src", "http://s3-us-west-2.amazonaws.com/anigif100/anigif/anigif.min.js")
     document.head.appendChild(ref)
 
-wait a few seconds and the GifW00t! panel bar will appear.
+wait a few seconds and the GifW00t! panel bar will appear. You can also set both urls to https if you need ssl.
 
 ### 3. You develop a website and want to embedd GifW00t!
 
@@ -81,7 +80,11 @@ Here are the top ways to make GifW00t! render images faster:
 * Dont's record for too long... Unless you like 100GB animated GIFs. A resord should probably be from a few seconds to a minute.
 * Set the "ratio" attribute to a low value. This attribute determines how result gif is scaled down compared to actuall size. 0.5 means 50%.
 
+Special Thanks
+---------------------
+GifW00t! uses some amazing libraries including [html2canvas](https://github.com/niklasvh/html2canvas) by [@Niklasvh](https://twitter.com/Niklasvh) and [jsgif](https://github.com/antimatter15/jsgif) by [@antimatter15](https://twitter.com/antimatter15).
+Also special thanks to [@daleharvey](https://twitter.com/daleharvey/) on the great HTML5 [pacman](http://arandomurl.com/2010/07/25/html5-pacman.html) and [helicopter](http://arandomurl.com/2010/08/05/html5-helicopter.html) games which I've used a lot while testing.
 
 More information
 ---------------------
-Check out [@YaronNaveh](http://twitter.com/#!/YaronNaveh), the project [sample site](s3-us-west-2.amazonaws.com/anigif100/pacman/index.html), or [my blog](http://webservices20.blogspot.com/).
+Check out [@YaronNaveh](http://twitter.com/#!/YaronNaveh), the project [sample site](http://s3-us-west-2.amazonaws.com/anigif100/pacman/index.html), or [my blog](http://webservices20.blogspot.com/).
