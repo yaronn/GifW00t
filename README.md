@@ -2,8 +2,7 @@ GifW00t!
 ====================
 
 ![GifW00t!](https://c9.io/yaronn01/anigif/workspace/pacman/img/demo11.gif "GifW00t!")
-\includegraphics[width=0.75\linewidth]{![GifW00t!](https://c9.io/yaronn01/anigif/workspace/pacman/img/demo10.gif "GifW00t!")}
-
+\includegraphics[width=0.75\linewidth]{https://c9.io/yaronn01/anigif/workspace/pacman/img/demo10.gif "GifW00t!"}
 
 
 What is GifW00t!?
