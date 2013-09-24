@@ -21,7 +21,7 @@ GifW00t! is a pure-javascript web recorder. Just add one script tag to your page
 
 Oh and did I mention that you can use GifW00t! on 3rd party sites as well?
 
-For more information check out [@YaronNaveh](http://twitter.com/#!/YaronNaveh), the project [sample site](s3-us-west-2.amazonaws.com/anigif100/pacman/index.html), or [my blog](http://webservices20.blogspot.com/).
+For more information check out [@YaronNaveh](http://twitter.com/#!/YaronNaveh), the project [sample site](http://s3-us-west-2.amazonaws.com/anigif100/pacman/index.html), or [my blog](http://webservices20.blogspot.com/).
 
 How to use GifW00t!?
 ---------------------
@@ -88,4 +88,4 @@ Also special thanks to [@daleharvey](https://twitter.com/daleharvey/) on the gre
 
 More information
 ---------------------
-Check out [@YaronNaveh](http://twitter.com/#!/YaronNaveh), the project [sample site](s3-us-west-2.amazonaws.com/anigif100/pacman/index.html), or [my blog](http://webservices20.blogspot.com/).
+Check out [@YaronNaveh](http://twitter.com/#!/YaronNaveh), the project [sample site](http://s3-us-west-2.amazonaws.com/anigif100/pacman/index.html), or [my blog](http://webservices20.blogspot.com/).
