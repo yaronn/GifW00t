@@ -3,7 +3,7 @@ GifW00t!
 
 <img src="https://c9.io/yaronn01/anigif/workspace/pacman/img/demo8.gif"  width="220px" />
 <img src="https://c9.io/yaronn01/anigif/workspace/pacman/img/demo10.gif"  width="200px" />
-<img src="https://c9.io/yaronn01/anigif/workspace/pacman/img/demo7.gif"  width="210px" />
+<img src="https://c9.io/yaronn01/anigif/workspace/pacman/img/demo7.gif"  width="200px" />
 <img src="https://c9.io/yaronn01/anigif/workspace/pacman/img/demo11.gif"  width="230px" />
 
 What is GifW00t!?
