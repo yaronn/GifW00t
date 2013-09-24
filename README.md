@@ -13,7 +13,7 @@ What is GifW00t!?
 ---------------------
 GifW00t! is a pure-javascript web recorder. Just add one script tag to your page, and users will be able to record and replay their interaction with the site. Some of the possibilities:
 
-* Record game sessions and provide instant replay
+* Record game sessions and watch instant replay
 * Report site bugs
 * Usage instructions clip
 * Share amazing data visualizations, canvas animation
