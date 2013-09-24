@@ -6,11 +6,10 @@ var mime = require('mime');
 var exec = require('child_process').exec;
 
 var folder = process.argv[2]
-var prefix = process.argv[3] || ""
 
 function uploadFile(file) {
 
-    var child = exec('gzip -9 ' + file, function (error, stdout, stderr) {
+    var child = exec('gzip -9 "' + file + '"', function (error, stdout, stderr) {
          if (error !== null) {
           throw('exec error: ' + error);
          }
@@ -18,7 +17,7 @@ function uploadFile(file) {
          fs.readFile(file+".gz", function (err, data) {
            if (err) { throw err; }
             
-           var obj = prefix + file.substring(folder.length+"/".length)
+           var obj = file.substring(folder.length+"/".length)
         
            s3.client.putObject({
                 Bucket: 'anigif100',

@@ -244,7 +244,7 @@ WorkCrew.prototype.clean = function() {
                 frameInterval: 500,
                 selector: "#main",
                 cores: 8,
-                ratio: 0.5,
+                ratio: 0.8,
                 quality: "Medium",
                 base_url: ""
             };
@@ -465,7 +465,7 @@ WorkCrew.prototype.clean = function() {
             */
             
             var singleComplete = function() {
-                self.progress("compose " + ++self.composedFrames + "/" + self.frames.length)
+                self.progress("composed " + ++self.composedFrames + "/" + self.frames.length)
             }
             
             var done = function(err, data){
@@ -541,6 +541,8 @@ window.anigif_bar = {
         resolve_mode: typeof(anigif_base_url)=="undefined"?"absolute_from_root":"absolute_from_remote",
         
         base_url: typeof(anigif_base_url)=="undefined"?getAbsoluteUrlPrefix() + "anigif/":anigif_base_url,
+        
+        record_delay: 3,
         
         buttons: ["record", "stop", "play", "config"],
         
@@ -640,7 +642,7 @@ window.anigif_bar = {
         record: function(el) {
             var self = this;
             this.setEnabled({record: false, stop: true, play: false, config: false})
-            this.count(1, function() {
+            this.count(self.record_delay, function() {
                 el.className = "blink"
                 self.status("recording...")
                 window.anigif.startRecord();

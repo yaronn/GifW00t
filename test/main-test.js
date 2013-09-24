@@ -4,7 +4,7 @@ var assert = require("assert"),
 
 var browser;
 
-var record_delay = 1000;
+var record_delay = 3000;
 var frame_interval = 5500;
 var browser_name = "";
 

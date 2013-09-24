@@ -18,7 +18,7 @@ module.exports = function(grunt) {
 
     clean: {
         build:  ["build"],
-        gzip:  ["build-gzip"],
+        gzip:  ["build-gzip", "pacman-gzip"],
         },
     
     shell: {
@@ -29,7 +29,7 @@ module.exports = function(grunt) {
             command: "node s3publish './build-gzip/build'"
         },
         pacmandeploy: {
-            command: "node s3publish './pacman' pacman"
+            command: "node s3publish './pacman-gzip'"
         },
     },
     
@@ -54,6 +54,7 @@ module.exports = function(grunt) {
       togzip: {
           files: [
               {expand: false, flatten: false, src: ['build/**'], dest: 'build-gzip/', filter: 'isFile'}, // includes files in path
+              {expand: false, flatten: false, src: ['pacman/**'], dest: 'pacman-gzip/', filter: 'isFile'}, // includes files in path
               ]
       }
     },

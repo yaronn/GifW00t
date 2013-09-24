@@ -16,7 +16,7 @@
                 frameInterval: 500,
                 selector: "#main",
                 cores: 8,
-                ratio: 0.5,
+                ratio: 0.8,
                 quality: "Medium",
                 base_url: ""
             };
@@ -250,7 +250,7 @@
                 cba(null)
             }
             
-            self.progress("compose 0/" + self.frames.length)
+            self.progress("composed 0/" + self.frames.length)
             encoder.finish_async({singleComplete: singleComplete, done: done});
             
         }

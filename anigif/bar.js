@@ -8,6 +8,8 @@ window.anigif_bar = {
         
         base_url: typeof(anigif_base_url)=="undefined"?getAbsoluteUrlPrefix() + "anigif/":anigif_base_url,
         
+        record_delay: 3,
+        
         buttons: ["record", "stop", "play", "config"],
         
         install: function() {
@@ -106,7 +108,7 @@ window.anigif_bar = {
         record: function(el) {
             var self = this;
             this.setEnabled({record: false, stop: true, play: false, config: false})
-            this.count(1, function() {
+            this.count(self.record_delay, function() {
                 el.className = "blink"
                 self.status("recording...")
                 window.anigif.startRecord();

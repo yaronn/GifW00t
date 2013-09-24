@@ -1,3 +1,4 @@
 .c9revisions
 node_modules/*
 build-gzip/*
+pacman-gzip/*
