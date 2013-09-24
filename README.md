@@ -53,21 +53,28 @@ Copy /anigif from thsi project to your web site root. Then in your html add this
 
 Compatibility
 ---------------------
-Verified on Chrome 29 and Firefox . Will probably not work on some other browsers since some very new browser feaures are required.
-
-
-Optimization
----------------------
-
+Verified on Chrome 29 and Firefox 24. Will probably not work on some other browsers since some very new browser feaures are required.
 
 
 Options
 ---------------------
+Click the GifW00t! panel bar settings button in order to change record settings. Important settings are:
+
+  Element to record: What element in your page should GifW00t! capture (including sub elements). The value is a CSS selector. For example if you want to capture '<div id="main">' set the value to '#main'. Please always choose a Div element as the root for record.
+  
+  Frames per second: How many frames should GifW00t! capture each second. This heavily affects performance
 
 
-How GifW00t works?
+Optimization
 ---------------------
+Here are the top ways to make GifW00t! render images faster:
+
+* Choose the minimal "element to record" as you can, with the least DOM child elements as possible.
+* Choose a small number of frames per second. For low-grpahic you will probably be ok with 2 per seconds. For high graphics (games, canvas) use 10 or 20 (or try with lower values first).
+* Dont's record for too long... Unless you like 100GB animated GIFs. A resord should probably be from a few seconds to a minute.
+* Set the "ratio" attribute to a low value. This attribute determines how result gif is scaled down compared to actuall size. 0.5 means 50%.
 
 
 More information
 ---------------------
+Check out [my twitter](http://twitter.com/#!/YaronNaveh), the project [sample site](s3-us-west-2.amazonaws.com/anigif100/pacman/index.html), or [my blog](http://webservices20.blogspot.com/).
