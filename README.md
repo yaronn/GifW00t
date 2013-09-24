@@ -2,7 +2,7 @@ GifW00t!
 ====================
 
 ![GifW00t!](https://c9.io/yaronn01/anigif/workspace/pacman/img/demo11.gif "GifW00t!")
-<img src="https://c9.io/yaronn01/anigif/workspace/pacman/img/demo10.gif"  width="150px" />
+<img src="https://c9.io/yaronn01/anigif/workspace/pacman/img/demo10.gif"  width="250px" />
 
 
 What is GifW00t!?
