@@ -43,7 +43,7 @@ wait a few seconds and the GifW00t! panel bar will appear.
 ### 3. You develop a website and want to embedd GifW00t!
 
 *Option 1 - refer directly to GifW00t! server*
-Just add this code inside your <head>:
+Just add this code inside your \<head\>:
 
     <script>
         var anigif_base_url = "https://s3-us-west-2.amazonaws.com/anigif100/anigif/"
@@ -65,7 +65,7 @@ Options
 ---------------------
 Click the GifW00t! panel bar settings button in order to change record settings. Important settings are:
 
-    Element to record: What element in your page should GifW00t! capture (including sub elements). The value is a CSS selector. For example if you want to capture '<div id="main">' set the value to '#main'. Please always choose a Div element as the root for record.
+    Element to record: What element in your page should GifW00t! capture (including sub elements). The value is a CSS selector. For example if you want to capture '\<div id="main"\>' set the value to '#main'. Please always choose a Div element as the root for record.
 
     Frames per second: How many frames should GifW00t! capture each second. This heavily affects performance
 
