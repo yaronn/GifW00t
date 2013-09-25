@@ -236,19 +236,22 @@ WorkCrew.prototype.clean = function() {
     window.anigif = {
         
         initOnce: function() {
-            this.init()    
+            
             this.progressSink = null;
             
             this.options = {
                 onlyLastFrames: 150,
-                framesPerSecond: 2,
+                framesPerSecond: 5,
                 selector: "#main",
                 cores: 8,
                 ratio: 0.8,
                 quality: "Medium",
                 base_url: "",
-                fixedWidth: ""
+                fixedWidth: "",
+                period: "Online"
             };
+            
+            this.init()    
             
         },
         
@@ -257,6 +260,7 @@ WorkCrew.prototype.clean = function() {
             this.totalFrames = 0;
             this.renderedFrames = 0;
             this.composedFrames = 0;
+            this.canvasOnly = false;
             this.images = [];
             this.el = null;
             //this._log = "";
@@ -277,19 +281,36 @@ WorkCrew.prototype.clean = function() {
             this.init();
             
             this.el = document.querySelectorAll(this.options.selector)[0];
-            
+            this.canvasOnly = this.el.tagName=="CANVAS"
+            console.log("canvas only: " + this.canvasOnly)
             this.recordFrame();
         },
         
         recordFrame: function() {
             var self = this;
             if (!this.continue) return;
-            this.frames.push(this.cloneDom(this.el));
-            if (this.frames.length>this.options.onlyLastFrames) {
-                this.frames.shift()
+            
+            
+            if (this.options.period=="Offline") {
+                this.frames.push(this.cloneDom(this.el));
+            
+                if (this.frames.length>this.options.onlyLastFrames) {
+                    this.frames.shift()
+                }
+                this.progress(++this.totalFrames + " frames")
             }
-            this.progress(++this.totalFrames + " frames")
-            //console.log("took snapshot");
+            else if (this.options.period=="Online") {
+                self.getCurrentImage(function(err, img) {
+                    if (!self.continue) return;
+                    self.images.push(img)
+                    if (self.images.length>self.options.onlyLastFrames) {
+                        self.images.shift()
+                    }
+                    
+                    self.progress(++self.totalFrames + " frames")
+                });
+            }
+            
             
             window.setTimeout(function() {
                 self.recordFrame(this.options);
@@ -297,23 +318,48 @@ WorkCrew.prototype.clean = function() {
         
         },
         
+        getCurrentImage: function(cba) {
+           var self = this
+           
+           if (this.canvasOnly) {
+               self.resizeImage(self.cloneCanvas(self.el), self.options.ratio, function(err, canvas_small) {
+                            cba(null, canvas_small);    
+                        })
+           }
+           else
+            window.html2canvas( [ self.el ], {
+                    onrendered: function(canvas) {
+                        self.resizeImage(canvas, self.options.ratio, function(err, canvas_small) {
+                            cba(null, canvas_small);    
+                        })
+                    }
+            });
+           },
+        
         cloneDom: function(el) {
-            var clone = el.cloneNode(true);
             
-            var sourceCanvas = el.getElementsByTagName("canvas");
-            var cloneCanvas = clone.getElementsByTagName("canvas");
-            for (var i=0; i< sourceCanvas.length; i++) {
-                var newCanvas = this.cloneCanvas(sourceCanvas[i])
-                cloneCanvas[i].parentElement.replaceChild(newCanvas, cloneCanvas[i])
-            }
+            var clone;
             
-            var sourceVideos = el.getElementsByTagName("video");
-            var cloneVideos = clone.getElementsByTagName("video");
-            for (var i=0; i< sourceVideos.length; i++) {
-                var videoCanvas = this.getVideoCanvas(sourceVideos[i])
-                cloneVideos[i].parentElement.replaceChild(videoCanvas, cloneVideos[i])
-                //document.body.appendChild(videoCanvas);
+            if (this.canvasOnly) {
+                clone = this.cloneCanvas(el);
             }
+            else {
+                clone = el.cloneNode(true);
+                var sourceCanvas = el.getElementsByTagName("canvas");
+                var cloneCanvas = clone.getElementsByTagName("canvas");
+                for (var i=0; i< sourceCanvas.length; i++) {
+                    var newCanvas = this.cloneCanvas(sourceCanvas[i])
+                    cloneCanvas[i].parentElement.replaceChild(newCanvas, cloneCanvas[i])
+                }
+                
+                var sourceVideos = el.getElementsByTagName("video");
+                var cloneVideos = clone.getElementsByTagName("video");
+                for (var i=0; i< sourceVideos.length; i++) {
+                    var videoCanvas = this.getVideoCanvas(sourceVideos[i])
+                    cloneVideos[i].parentElement.replaceChild(videoCanvas, cloneVideos[i])
+                    //document.body.appendChild(videoCanvas);
+                }
+            }   
             
             clone.id="unique___"+el.id;
             
@@ -354,11 +400,19 @@ WorkCrew.prototype.clean = function() {
         stopRecord: function(cba) {
             var self = this;
             this.continue = false;
-            async.timesSeries(this.frames.length, self.renderImage.bind(self), function(err){
-                self.composeAnimatedGif(function(err) {
-                   cba(); 
+            
+            if (this.options.period=="Offline") {
+                async.timesSeries(this.frames.length, self.renderImage.bind(self), function(err){
+                    self.composeAnimatedGif(function(err) {
+                       cba(); 
+                    });
                 });
-            });
+            }
+            else if (this.options.period=="Online") {
+                self.composeAnimatedGif(function(err) {
+                      cba(); 
+                });
+            }
         },
         
         renderImage: function(i, cbx) {
@@ -367,27 +421,32 @@ WorkCrew.prototype.clean = function() {
             if (this.options.fixedWidth!="") {
                 this.frames[i].style.width=this.options.fixedWidth + "px";
             }
-            
+
+            var handleImage = function(canvas) {
+                self.resizeImage(canvas, self.options.ratio, function(err, canvas_small) {
+                            self.progress("rendered " + ++self.renderedFrames + "/" + self.frames.length)
+                            self.images.push(canvas_small);
+                            cbx()
+                        })
+            }
+           
+           
+          if (self.canvasOnly) {
+            handleImage(self.frames[i])
+          }
+          else {
             document.body.appendChild(this.frames[i]);
             this.replaceSvgWithCanvas(this.frames[i]);
-
-            window.setTimeout(function() {
-           
-                window.html2canvas( [ self.frames[i] ], {
-                    onrendered: function(canvas) {
-                        //var img = canvas.toDataURL("image/png");
-                        //self.log(img);
-                        self.progress("rendered " + ++self.renderedFrames + "/" + self.frames.length)
-                        //console.log("rendered image" + i)
-                        self.resizeImage(canvas, self.options.ratio, function(err, canvas_small) {
-                            self.images.push(canvas_small);
-                            self.frames[i].parentElement.removeChild(self.frames[i]);
-                            cbx();    
-                        })
-                    }
+        
+            window.html2canvas( [ self.frames[i] ], {
+                onrendered: function(canvas) {
+                    handleImage(canvas);
+                    self.frames[i].parentElement.removeChild(self.frames[i]);
+                }
                 });    
-                
-            }, 0);
+          }
+            
+            
             
         },
         
@@ -461,16 +520,8 @@ WorkCrew.prototype.clean = function() {
                 encoder.addFrame(context);
             }
             
-            
-            /*
-            encoder.finish()
-            this.img = 'data:image/gif;base64,' + window.encode64(encoder.stream().getData())
-            this.log(this.img);
-            cba(null)
-            */
-            
             var singleComplete = function() {
-                self.progress("composed " + ++self.composedFrames + "/" + self.frames.length)
+                self.progress("composed " + ++self.composedFrames + "/" + self.images.length)
             }
             
             var done = function(err, data){
@@ -483,7 +534,7 @@ WorkCrew.prototype.clean = function() {
                 cba(null)
             }
             
-            self.progress("composed 0/" + self.frames.length)
+            self.progress("composed 0/" + self.images.length)
             encoder.finish_async({singleComplete: singleComplete, done: done});
             
         }
@@ -623,6 +674,7 @@ window.anigif_bar = {
             this.el.querySelectorAll("#rootNode")[0].value = window.anigif.options.selector;
             this.el.querySelectorAll("#ratio")[0].value = window.anigif.options.ratio;
             this.el.querySelectorAll("#quality")[0].value = window.anigif.options.quality;
+            this.el.querySelectorAll("#period")[0].value = window.anigif.options.period;
             this.el.querySelectorAll("#fixedWidth")[0].value = window.anigif.options.fixedWidth;
         },
         
@@ -633,6 +685,7 @@ window.anigif_bar = {
             window.anigif.options.selector = this.el.querySelectorAll("#rootNode")[0].value;
             window.anigif.options.ratio = this.el.querySelectorAll("#ratio")[0].value;
             window.anigif.options.quality = this.el.querySelectorAll("#quality")[0].value;
+            window.anigif.options.period = this.el.querySelectorAll("#period")[0].value;
             window.anigif.options.fixedWidth = this.el.querySelectorAll("#fixedWidth")[0].value;
         },
         
@@ -4532,10 +4585,10 @@ _html2canvas.Renderer.Canvas = function(options) {
         next();
     };
 
+//*** Yaron: added since when using on paged that use requriejs this does not get registered (maybe since we do it aftermath)
+root.async = async;
 
-    //******
-    root.async = async;
-    /*
+/*
     // AMD / RequireJS
     if (typeof define !== 'undefined' && define.amd) {
         define([], function () {
@@ -4549,8 +4602,8 @@ _html2canvas.Renderer.Canvas = function(options) {
     // included directly via <script> tag
     else {
         root.async = async;
-    }*/
-
+    }
+*/
 }());
 
 /* bower_components/fabric/dist/all.js */

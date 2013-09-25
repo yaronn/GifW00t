@@ -84,6 +84,7 @@ window.anigif_bar = {
             this.el.querySelectorAll("#rootNode")[0].value = window.anigif.options.selector;
             this.el.querySelectorAll("#ratio")[0].value = window.anigif.options.ratio;
             this.el.querySelectorAll("#quality")[0].value = window.anigif.options.quality;
+            this.el.querySelectorAll("#period")[0].value = window.anigif.options.period;
             this.el.querySelectorAll("#fixedWidth")[0].value = window.anigif.options.fixedWidth;
         },
         
@@ -94,6 +95,7 @@ window.anigif_bar = {
             window.anigif.options.selector = this.el.querySelectorAll("#rootNode")[0].value;
             window.anigif.options.ratio = this.el.querySelectorAll("#ratio")[0].value;
             window.anigif.options.quality = this.el.querySelectorAll("#quality")[0].value;
+            window.anigif.options.period = this.el.querySelectorAll("#period")[0].value;
             window.anigif.options.fixedWidth = this.el.querySelectorAll("#fixedWidth")[0].value;
         },
         
