@@ -12,11 +12,11 @@
             this.progressSink = null;
             
             this.options = {
-                onlyLastFrames: 150,
-                framesPerSecond: 5,
+                onlyLastFrames: 300,
+                framesPerSecond: 10,
                 selector: "#main",
                 cores: 8,
-                ratio: 0.8,
+                ratio: 1,
                 quality: "Medium",
                 base_url: "",
                 fixedWidth: "",
