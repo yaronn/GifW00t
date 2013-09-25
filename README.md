@@ -83,7 +83,7 @@ Here are the top ways to make GifW00t! render images faster:
 * Dont's record for too long... Unless you like 100GB animated GIFs. A resord should probably be from a few seconds to a minute.
 * When using offline period mode, set the "ratio" attribute to a low value. This attribute determines how result gif is scaled down compared to actuall size. 0.5 means 50%. When using online period mode set this attribute to 1.
 
-Examples:
+**Examples:**
 * You want to record a game which happens on canvas. In this case you want to choose "element to record" directly to your canvas, set frames-per-second for something between 10-20, and try online mode. If you need a ratio that is different than 1, or if online is slowing your game, then use offline mode and consider reducing ratio to 0.5-0.8.
 * You want to record a web site interaction. Use online (offline may not always work here) and set frames per second to something between 0.5-2. Make sure to choose "element to record" to the DOM node with least possible items inside it (based on your record needs of course).
 * You want to record a web site interaction. The site has a huge DOM tree and you need high request-per second. In general online is more accurate than offline when snapshoting HTML. However here onlne might slow your browser while recording, so you should try both.
