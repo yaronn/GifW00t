@@ -76,9 +76,15 @@ function writeSettings(done) {
                                      browser.elementById("quality", function(err, el) {
                                          el.elementById("high", function(err, el) {
                                            el.click(function() {
-                                                browser.clickElement(config, function() {
-                                                    doRecord(done)      
-                                                })
+                                               browser.elementById("period", function(err, el) {
+                                                     el.elementById("offline", function(err, el) {
+                                                       el.click(function() {
+                                                            browser.clickElement(config, function() {
+                                                                doRecord(done)      
+                                                            })
+                                                       })
+                                                     })
+                                               })
                                            })
                                          })
                                      })

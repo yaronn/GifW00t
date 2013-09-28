@@ -18,12 +18,14 @@ window.anigif_bar = {
             //document.querySelectorAll("[koo=zoo]")[0].src
             window.anigif.options.base_url = self.base_url
             this.downloadHtml(self.base_url + "bar.html", function(err, html) {
+                
                 var div = document.createElement("div");
                 div.id = "anigif_wrapper";
                 div.style.position = "fixed";
                 div.style.right = self.right || "5%";
                 div.style.top = self.top || "5%";
                 div.style.zIndex=99999
+                
                 var htmlworking = self.applyBaseUrl(html)
                 div.innerHTML = htmlworking;
                 document.body.appendChild(div)
@@ -32,10 +34,10 @@ window.anigif_bar = {
                 var preventBubble = function(e) {
                     e.stopPropagation();
                 }
-                div.addEventListener("keydown", preventBubble, true);
-                div.addEventListener("keypress", preventBubble, true); 
-                div.addEventListener("mousedown", preventBubble, true)
                 
+                div.addEventListener("keydown", preventBubble);
+                div.addEventListener("keypress", preventBubble); 
+                div.addEventListener("mousedown", preventBubble)
                 
                 self.init(div);
             })   
