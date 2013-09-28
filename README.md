@@ -5,10 +5,14 @@ GifW00t!
 <img src="https://c9.io/yaronn01/anigif/workspace/pacman/img/demo10.gif"  width="200px" />
 <img src="https://c9.io/yaronn01/anigif/workspace/pacman/img/demo11.gif"  width="230px" />
 
-[Live demo](http://s3-us-west-2.amazonaws.com/anigif100/pacman/index.html) of GifW00t!
+Examples Gallery
+---------------------
+* [Packman](http://s3-us-west-2.amazonaws.com/anigif100/pacman/index.html)
+* [Helicopter](http://s3-us-west-2.amazonaws.com/anigif100/examples/helicopter/index.html)
+* [Paint](http://s3-us-west-2.amazonaws.com/anigif100/examples/paint/paint.html)
+* [Editor](http://s3-us-west-2.amazonaws.com/anigif100/examples/editor/editor.html)
 
-More information in my twitter - [@YaronNaveh](http://twitter.com/#!/YaronNaveh)
-
+More in my twitter - [@YaronNaveh](http://twitter.com/#!/YaronNaveh)
 
 What is GifW00t!?
 ---------------------
