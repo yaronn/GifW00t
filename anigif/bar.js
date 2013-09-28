@@ -122,12 +122,33 @@ window.anigif_bar = {
         
         record: function(el) {
             var self = this;
+            this.checkBrowser();
             this.setEnabled({record: false, stop: true, play: false, config: false})
             this.count(self.record_delay, function() {
                 el.className = "blink"
                 self.status("recording...")
-                window.anigif.startRecord();
+                try {
+                    window.anigif.startRecord();
+                }
+                catch (e) {
+                    alert(e)
+                    self.init(self.el)
+                }
             })
+        },
+        
+        checkBrowser: function() {
+            var isOpera = !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+                // Opera 8.0+ (UA detection to detect Blink/v8-powered Opera)
+            var isFirefox = typeof InstallTrigger !== 'undefined';   // Firefox 1.0+
+            var isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
+                // At least Safari 3+: "[object HTMLElementConstructor]"
+            var isChrome = !!window.chrome && !isOpera;              // Chrome 1+
+            var isIE = /*@cc_on!@*/false || document.documentMode;   // At least IE6    
+            
+            if (!isChrome & !isFirefox) {
+                alert("Gifw00t! has been tested on Chrome and Firefox only and may not work on your browser")
+            }
         },
         
         count: function(seconds, cba) {

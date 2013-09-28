@@ -53,6 +53,9 @@
             this.init();
             
             this.el = document.querySelectorAll(this.options.selector)[0];
+            if (!this.el) {
+                throw new Error("Could not find an element with CSS selector '"+this.options.selector+"'. Please set 'element to record' setting to a selector of an existing element.")
+            }
             this.canvasOnly = this.el.tagName=="CANVAS"
             console.log("canvas only: " + this.canvasOnly)
             this.recordFrame();
