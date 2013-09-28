@@ -10,3 +10,9 @@
 [submodule "pacman"]
 	path = pacman
 	url = git@github.com:yaronn/pacman.git
+[submodule "helicopter"]
+	path = helicopter
+	url = git@github.com:yaronn/helicopter.git
+[submodule "examples/helicopter"]
+	path = examples/helicopter
+	url = git@github.com:yaronn/helicopter.git

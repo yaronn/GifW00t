@@ -18,7 +18,7 @@ module.exports = function(grunt) {
 
     clean: {
         build:  ["build"],
-        gzip:  ["build-gzip", "pacman-gzip"],
+        gzip:  ["build-gzip", "pacman-gzip", "examples-gzip"],
         },
     
     shell: {
@@ -30,6 +30,9 @@ module.exports = function(grunt) {
         },
         pacmandeploy: {
             command: "node ./utils/s3publish './pacman-gzip'"
+        },
+        examplesdeploy: {
+            command: "node ./utils/s3publish './examples-gzip'"
         },
     },
     
@@ -55,6 +58,7 @@ module.exports = function(grunt) {
           files: [
               {expand: false, flatten: false, src: ['build/**'], dest: 'build-gzip/', filter: 'isFile'}, // includes files in path
               {expand: false, flatten: false, src: ['pacman/**'], dest: 'pacman-gzip/', filter: 'isFile'}, // includes files in path
+              {expand: false, flatten: false, src: ['examples/**'], dest: 'examples-gzip/', filter: 'isFile'}, // includes files in path
               ]
       }
     },
@@ -155,7 +159,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-targethtml');
 
   grunt.registerTask('default', ['targethtml:dev']);
-  grunt.registerTask('deploy', ['clean:gzip', 'copy:togzip', 'shell:s3deploy', 'shell:pacmandeploy']);
+  grunt.registerTask('deploy', ['clean:gzip', 'copy:togzip', 'shell:s3deploy', 'shell:pacmandeploy', 'shell:examplesdeploy']);
   grunt.registerTask('full', ['clean', 'shell:buildHtml2canvas', 'jshint',  'targethtml:prod', 'targethtml:dev', 'concat', 'copy', 'uglify']);
   grunt.registerTask('build-prod', ['clean', 'targethtml:prod', 'targethtml:dev', 'concat', 'copy:resources', 'copy:javascript', 'copy:html', 'uglify']);
   grunt.registerTask('test', ['simplemocha']);
