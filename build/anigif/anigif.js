@@ -19,6 +19,10 @@ GIFEncoder_WebWorker = function(options) {
         this.delay = delay
     }
     
+    var setThreads = exports.setThreads = function setThreads(num_threads) {
+        this.num_threads = num_threads
+    }
+    
     var addFrame = exports.addFrame = function addFrame(im/*BitmapData*/, is_imageData)/*Boolean*/ {
         this.frames.push(im)
         return true;
@@ -43,7 +47,7 @@ GIFEncoder_WebWorker = function(options) {
     var finish_async_internal = exports.finish_async_internal = function finish_async_internal(url, singleCompleteEvent, cba) {
         var animation_parts = new Array(this.frames.length);
         
-        
+        console.log("threads: " + this.num_threads)
         var crew = new WorkCrew(url, this.num_threads);
         crew.oncomplete = function(result) {
             if (singleCompleteEvent) singleCompleteEvent()
@@ -516,6 +520,7 @@ WorkCrew.prototype.clean = function() {
             var encoder = new window.GIFEncoder_WebWorker({base_url: self.options.base_url+"jsgif/"});
             encoder.setRepeat(0); //auto-loop
             encoder.setDelay(1000/this.options.framesPerSecond);
+            encoder.setThreads(this.options.cores)
             encoder.start();
              for (var i=0; i<this.images.length; i++) {
                 var context = this.images[i].getContext('2d');
