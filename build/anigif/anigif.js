@@ -671,8 +671,9 @@ window.anigif_bar = {
             
             for (var i=0; i<self.buttons.length; i++) {
                 this.el.querySelectorAll("#"+self.buttons[i])[0].onclick = function(e) {
-                    if (e.srcElement.className=="disabled") return
-                    self.click(e)
+                    var target = e.target || e.srcElement;
+                    if (target.className=="disabled") return;
+                    self.click(e);
                 };
             }
             
@@ -749,8 +750,8 @@ window.anigif_bar = {
             var isChrome = !!window.chrome && !isOpera;              // Chrome 1+
             var isIE = /*@cc_on!@*/false || document.documentMode;   // At least IE6    
             
-            if (!isChrome & !isFirefox) {
-                alert("Gifw00t! has been tested on Chrome and Firefox only and may not work on your browser")
+            if (!isChrome & !isFirefox & !isSafari) {
+                alert("Gifw00t! has been tested on Chrome, Firefox and Safari only and may not work on your browser")
             }
         },
         
