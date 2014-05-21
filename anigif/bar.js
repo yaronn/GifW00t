@@ -72,7 +72,10 @@ window.anigif_bar = {
             this.status("ready")
             
             for (var i=0; i<self.buttons.length; i++) {
-                this.el.querySelectorAll("#"+self.buttons[i])[0].onclick = function(e) {self.click(e)};
+                this.el.querySelectorAll("#"+self.buttons[i])[0].onclick = function(e) {
+                    if (e.srcElement.className=="disabled") return
+                    self.click(e)
+                };
             }
             
             this.loadConfig();
