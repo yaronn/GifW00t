@@ -64,7 +64,7 @@ Copy /anigif from this project to your web site root. Then in your html add this
 
 Compatibility
 ---------------------
-Verified on Chrome 29 and Firefox 24. Will probably not work on some other browsers since some very new browser feaures are required.
+Should work on Chrome>29, and Firefox>24 and Safari 7. Will probably not work on some other browsers since some very new browser feaures are required.
 
 
 Settings
