@@ -3,3 +3,4 @@ node_modules/*
 build-gzip/*
 pacman-gzip/*
 examples-gzip/*
+build/*
