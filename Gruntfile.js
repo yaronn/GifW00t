@@ -160,7 +160,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['targethtml:dev']);
   grunt.registerTask('deploy', ['clean:gzip', 'copy:togzip', 'shell:s3deploy', 'shell:pacmandeploy', 'shell:examplesdeploy']);
-  grunt.registerTask('full', ['clean', 'shell:buildHtml2canvas', 'jshint',  'targethtml:prod', 'targethtml:dev', 'concat', 'copy', 'uglify']);
+  grunt.registerTask('full', ['clean', 'shell:buildHtml2canvas'/*, 'jshint'*/,  'targethtml:prod', 'targethtml:dev', 'concat', 'copy', 'uglify']);
   grunt.registerTask('build-prod', ['clean', 'targethtml:prod', 'targethtml:dev', 'concat', 'copy:resources', 'copy:javascript', 'copy:html', 'uglify']);
   grunt.registerTask('test', ['simplemocha']);
 };

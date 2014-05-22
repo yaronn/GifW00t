@@ -9,10 +9,4 @@
 	url = https://github.com/yaronn/jsgif.git
 [submodule "pacman"]
 	path = pacman
-	url = https://github.com/yaronn/pacman.git		  
-[submodule "helicopter"]
-	path = helicopter
-	url = https://github.com/yaronn/helicopter.git
-[submodule "examples/helicopter"]
-	path = examples/helicopter
-	url = https://github.com/yaronn/helicopter.git
+	url = https://github.com/yaronn/pacman.git
