@@ -22,7 +22,6 @@ GifW00t! is a pure-javascript web recorder. Just add one script tag to your page
 * Report site bugs
 * Usage instructions clip
 * Share amazing data visualizations, canvas animation
-* Share clips for fun and profit...
 
 Oh and did I mention that you can use GifW00t! on 3rd party sites as well?
 
@@ -38,9 +37,9 @@ In this case all you need is to work with the [GifW00t! panel bar](http://s3-us-
 ### 2. You surf in a site that does not embedd GifW00t!
 No problem. Open Chrome develoepr tools (CTRL+J) or Firefox Firebug and paste this code in the console:
 
-    var anigif_base_url = "http://s3-us-west-2.amazonaws.com/anigif100/anigif/"
+    var anigif_base_url = "https://s3-us-west-2.amazonaws.com/anigif100/anigif/"
     var ref=document.createElement('script')
-    ref.setAttribute("src", "http://s3-us-west-2.amazonaws.com/anigif100/anigif/anigif.min.js")
+    ref.setAttribute("src", "https://s3-us-west-2.amazonaws.com/anigif100/anigif/anigif.min.js")
     document.head.appendChild(ref)
 
 wait a few seconds and the GifW00t! panel bar will appear. You can also set both urls to https if you need ssl.
@@ -58,7 +57,7 @@ Just add this code inside your \<head\>:
   
 **Option 2 - serve GifW00t! yourself (it is just static files)**
 
-Copy /anigif from thsi project to your web site root. Then in your html add this:
+Copy /anigif from this project to your web site root. Then in your html add this:
 
     <script src="https://s3-us-west-2.amazonaws.com/anigif100/anigif/anigif.min.js"></script>
 
