@@ -64,7 +64,8 @@ Copy /anigif from this project to your web site root. Then in your html add this
     <script src="https://s3-us-west-2.amazonaws.com/anigif100/anigif/anigif.min.js"></script>
 
 **Option 4**
-[Start GifW00t!](javascript:(function()%7Bvar%20anigif_base_url%20%3D%20%22https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fanigif100%2Fanigif%2F%22%3B%20window%5B%22anigif_base_url%22%5D%20%3D%20anigif_base_url%3Bvar%20scr%20%3D%20document.createElement(%22script%22)%3Bscr.src%20%3D%20%22https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fanigif100%2Fanigif%2Fanigif.min.js%22%3Bdocument.head.appendChild(scr)%7D)())
+
+    javascript:(function()%7Bvar%20anigif_base_url%20%3D%20%22https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fanigif100%2Fanigif%2F%22%3B%20window%5B%22anigif_base_url%22%5D%20%3D%20anigif_base_url%3Bvar%20scr%20%3D%20document.createElement(%22script%22)%3Bscr.src%20%3D%20%22https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fanigif100%2Fanigif%2Fanigif.min.js%22%3Bdocument.head.appendChild(scr)%7D)()
 
 Compatibility
 ---------------------
