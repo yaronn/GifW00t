@@ -65,8 +65,8 @@ Copy /anigif from this project to your web site root. Then in your html add this
 
 ### 4. You want a bookmarklet, because you can. 
 
-<a href="javascript:(function()%7B!function(i)%7Bwindow.anigif_base_url%3Di%3Bvar%20n%3Ddocument.createElement(%22script%22)%3Bn.src%3Di%2B%22anigif.min.js%22%2Cdocument.head.appendChild(n)%7D(%22https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fanigif100%2Fanigif%2F%22)%7D)()">GifWoot!</a>
-
+    <a href="javascript:(function()%7B!function(i)%7Bwindow.anigif_base_url%3Di%3Bvar%20n%3Ddocument.createElement(%22script%22)%3Bn.src%3Di%2B%22anigif.min.js%22%2Cdocument.head.appendChild(n)%7D(%22https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fanigif100%2Fanigif%2F%22)%7D)()">GifWoot!</a>
+    
     javascript:(function()%7B!function(i)%7Bwindow.anigif_base_url%3Di%3Bvar%20n%3Ddocument.createElement(%22script%22)%3Bn.src%3Di%2B%22anigif.min.js%22%2Cdocument.head.appendChild(n)%7D(%22https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fanigif100%2Fanigif%2F%22)%7D)()
 
 Compatibility
