@@ -29,7 +29,7 @@ For more information check out [@YaronNaveh](http://twitter.com/#!/YaronNaveh), 
 
 How to use GifW00t!?
 ---------------------
-There are 3 options:
+There are 4 options:
 
 ### 1. You surf in a site that already embeds GifW00t!
 In this case all you need is to work with the [GifW00t! panel bar](http://s3-us-west-2.amazonaws.com/anigif100/pacman/index.html).
@@ -61,6 +61,14 @@ Copy /anigif from this project to your web site root. Then in your html add this
 
     <script src="https://s3-us-west-2.amazonaws.com/anigif100/anigif/anigif.min.js"></script>
 
+
+### 4. You want a bookmarklet, because you can.
+
+    javascript:(function(a)%7Bwindow.anigif_base_url%3Da%3Bvar%20b%3Ddocument.createElement(%22script%22)%3Bb.src%3Da%2B%22anigif.min.js%22%3Bdocument.head.appendChild(b)%7D)(%22https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fanigif100%2Fanigif%2F%22)%3B%0A
+
+* [utils/bookmarklet.js](utils/bookmarklet.js)
+
+* [Build your own here](http://festercluck.github.io/)    
 
 Compatibility
 ---------------------
