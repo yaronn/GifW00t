@@ -66,9 +66,9 @@ Copy /anigif from this project to your web site root. Then in your html add this
 
     javascript:(function(a)%7Bwindow.anigif_base_url%3Da%3Bvar%20b%3Ddocument.createElement(%22script%22)%3Bb.src%3Da%2B%22anigif.min.js%22%3Bdocument.head.appendChild(b)%7D)(%22https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fanigif100%2Fanigif%2F%22)%3B%0A
 
-    [utils/bookmarklet.js](utils/bookmarklet.js)
+* [utils/bookmarklet.js](utils/bookmarklet.js)
 
-    [Build your own here](http://festercluck.github.io/)    
+* [Build your own here](http://festercluck.github.io/)    
 
 Compatibility
 ---------------------
