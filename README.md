@@ -14,6 +14,8 @@ Examples Gallery
 
 More in my twitter - [@YaronNaveh](http://twitter.com/#!/YaronNaveh)
 
+You may also like building [ascii dashboards](https://github.com/yaronn/blessed-contrib) in the terminal.
+
 What is GifW00t!?
 ---------------------
 GifW00t! is a pure-javascript web recorder. Just add one script tag to your page, and users will be able to record and replay their interaction with the site. Some of the possibilities:
